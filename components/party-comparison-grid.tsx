@@ -62,55 +62,17 @@ function PartyCard({ party, onClick }: {
   return (
     <button
       onClick={onClick}
-      className="group relative aspect-square rounded-2xl overflow-hidden hover:scale-[1.02] transition-all duration-300 shadow-md hover:shadow-xl"
-      style={{ 
-        background: `linear-gradient(145deg, ${party.color}15 0%, ${party.color}30 100%)`,
-      }}
+      className="aspect-square glass-card rounded-2xl flex flex-col items-center justify-center gap-3 hover:shadow-lg hover:scale-[1.02] transition-all duration-200"
     >
-      {/* Accent stripe */}
-      <div 
-        className="absolute top-0 left-0 right-0 h-1.5"
+      <div
+        className="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-lg"
         style={{ backgroundColor: party.color }}
-      />
-      
-      {/* Content */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-        {/* Party initial with gradient ring */}
-        <div className="relative mb-3">
-          <div 
-            className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg transform group-hover:scale-110 transition-transform duration-300"
-            style={{ 
-              background: `linear-gradient(135deg, ${party.color} 0%, ${party.color}cc 100%)`,
-            }}
-          >
-            {party.name.charAt(0)}
-          </div>
-        </div>
-        
-        {/* Party name */}
-        <h3 className="font-bold text-sm text-foreground text-center leading-tight">
-          {party.name}
-        </h3>
-        
-        {/* Leader name */}
-        <p className="text-xs text-muted-foreground mt-1 text-center">
-          {party.leader}
-        </p>
-        
-        {/* Mandates badge */}
-        {party.mandates && (
-          <div 
-            className="mt-2 px-2.5 py-0.5 rounded-full text-xs font-semibold text-white"
-            style={{ backgroundColor: party.color }}
-          >
-            {party.mandates} מנדטים
-          </div>
-        )}
+      >
+        {party.name.charAt(0)}
       </div>
-      
-      {/* Hover indicator */}
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <div className="text-xs text-muted-foreground">לחץ לפרטים</div>
+      <div className="text-center px-3">
+        <h3 className="font-semibold text-sm text-foreground">{party.name}</h3>
+        <p className="text-xs text-muted-foreground mt-0.5">{party.leader}</p>
       </div>
     </button>
   )
