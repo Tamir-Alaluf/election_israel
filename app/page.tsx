@@ -3,21 +3,21 @@ import { ArrowLeft, Users, UserCircle, MessageCircle } from "lucide-react"
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
-      {/* Background effects */}
+    <main className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden">
+      {/* Subtle background effects */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-accent/20 rounded-full blur-3xl animate-pulse [animation-delay:1s]" />
+        <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/3 left-1/4 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
       </div>
 
-      {/* Logo / Title */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-6xl font-bold mb-4 text-balance">
-          <span className="bg-gradient-to-l from-primary via-accent to-primary bg-clip-text text-transparent">
+      {/* Title */}
+      <div className="text-center mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold mb-2 text-balance">
+          <span className="bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent">
             בחירות ישראל 2026
           </span>
         </h1>
-        <p className="text-muted-foreground text-lg md:text-xl max-w-md mx-auto text-pretty">
+        <p className="text-muted-foreground text-sm max-w-xs mx-auto">
           המדריך החכם לבחירות הקרובות
         </p>
       </div>
@@ -25,26 +25,26 @@ export default function HomePage() {
       {/* Main CTA Button */}
       <Link
         href="/advisor"
-        className="group relative mb-16"
+        className="group relative mb-10"
       >
-        <div className="absolute inset-0 bg-gradient-to-l from-primary to-accent rounded-2xl blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
-        <div className="relative flex items-center gap-3 bg-gradient-to-l from-primary to-accent text-primary-foreground px-8 py-4 rounded-2xl text-xl font-semibold transition-transform group-hover:scale-105">
-          <MessageCircle className="w-6 h-6" />
+        <div className="absolute inset-0 bg-gradient-to-l from-primary to-accent rounded-xl blur opacity-30 group-hover:opacity-50 transition-opacity" />
+        <div className="relative flex items-center gap-2 bg-gradient-to-l from-primary to-accent text-primary-foreground px-5 py-2.5 rounded-xl text-sm font-medium transition-transform group-hover:scale-105">
+          <MessageCircle className="w-4 h-4" />
           מעבר לפסיכולוג הפוליטי שלך
-          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
         </div>
       </Link>
 
       {/* Secondary Navigation Cards */}
-      <div className="flex flex-col sm:flex-row gap-4 w-full max-w-lg">
+      <div className="flex flex-col sm:flex-row gap-3 w-full max-w-sm">
         <Link
           href="/parties"
           className="flex-1 group"
         >
-          <div className="relative p-6 rounded-xl border border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/50 hover:bg-card/80 transition-all">
-            <div className="flex items-center gap-3 justify-center">
-              <Users className="w-6 h-6 text-primary" />
-              <span className="text-lg font-medium">השוואת מפלגות</span>
+          <div className="p-4 rounded-lg border border-border bg-card hover:border-primary/40 hover:shadow-sm transition-all">
+            <div className="flex items-center gap-2 justify-center">
+              <Users className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium">השוואת מפלגות</span>
             </div>
           </div>
         </Link>
@@ -53,17 +53,17 @@ export default function HomePage() {
           href="/leaders"
           className="flex-1 group"
         >
-          <div className="relative p-6 rounded-xl border border-border/50 bg-card/50 backdrop-blur-sm hover:border-accent/50 hover:bg-card/80 transition-all">
-            <div className="flex items-center gap-3 justify-center">
-              <UserCircle className="w-6 h-6 text-accent" />
-              <span className="text-lg font-medium">השוואת מנהיגים</span>
+          <div className="p-4 rounded-lg border border-border bg-card hover:border-accent/40 hover:shadow-sm transition-all">
+            <div className="flex items-center gap-2 justify-center">
+              <UserCircle className="w-4 h-4 text-accent" />
+              <span className="text-sm font-medium">השוואת מנהיגים</span>
             </div>
           </div>
         </Link>
       </div>
 
       {/* Footer note */}
-      <p className="mt-16 text-sm text-muted-foreground/60 text-center">
+      <p className="mt-10 text-xs text-muted-foreground/70 text-center">
         כלי עזר אובייקטיבי להבנת המפה הפוליטית
       </p>
     </main>

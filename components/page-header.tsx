@@ -16,13 +16,13 @@ export function PageHeader({ title }: { title?: string }) {
   const pathname = usePathname()
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-md">
-      <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-        <Link href="/" className="text-lg font-bold text-primary">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm">
+      <div className="max-w-4xl mx-auto px-3 py-2 flex items-center justify-between">
+        <Link href="/" className="text-sm font-bold text-primary">
           בחירות 2026
         </Link>
 
-        <nav className="flex items-center gap-1">
+        <nav className="flex items-center gap-0.5">
           {navItems.map((item) => {
             const Icon = item.icon
             const isActive = pathname === item.href
@@ -31,13 +31,13 @@ export function PageHeader({ title }: { title?: string }) {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                  "flex items-center gap-1.5 px-2 py-1.5 rounded-md text-xs font-medium transition-colors",
                   isActive
                     ? "bg-primary/10 text-primary"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 )}
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">{item.label}</span>
               </Link>
             )
@@ -46,8 +46,8 @@ export function PageHeader({ title }: { title?: string }) {
       </div>
 
       {title && (
-        <div className="max-w-5xl mx-auto px-4 pb-4">
-          <h1 className="text-2xl md:text-3xl font-bold">{title}</h1>
+        <div className="max-w-4xl mx-auto px-3 pb-3">
+          <h1 className="text-lg font-semibold">{title}</h1>
         </div>
       )}
     </header>
