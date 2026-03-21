@@ -4,26 +4,26 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Soft Light Vibecoding Theme */
-  --background: oklch(0.97 0.005 240);
-  --foreground: oklch(0.25 0.02 240);
-  --card: oklch(0.995 0.002 240);
-  --card-foreground: oklch(0.25 0.02 240);
-  --popover: oklch(0.995 0.002 240);
-  --popover-foreground: oklch(0.25 0.02 240);
-  --primary: oklch(0.55 0.12 240);
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.94 0.01 240);
-  --secondary-foreground: oklch(0.35 0.02 240);
-  --muted: oklch(0.93 0.008 240);
-  --muted-foreground: oklch(0.5 0.02 240);
-  --accent: oklch(0.6 0.1 240);
-  --accent-foreground: oklch(0.99 0 0);
-  --destructive: oklch(0.55 0.2 25);
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.9 0.01 240);
-  --input: oklch(0.98 0.005 240);
-  --ring: oklch(0.55 0.12 240);
+  /* Soft Light Vibecoding Theme with #9BB6C6 and #F7F8F8 */
+  --background: #F7F8F8;
+  --foreground: #2d3748;
+  --card: rgba(255, 255, 255, 0.85);
+  --card-foreground: #2d3748;
+  --popover: rgba(255, 255, 255, 0.95);
+  --popover-foreground: #2d3748;
+  --primary: #7a9bb0;
+  --primary-foreground: #ffffff;
+  --secondary: #e8eef2;
+  --secondary-foreground: #4a5568;
+  --muted: #e2e8ed;
+  --muted-foreground: #718096;
+  --accent: #9BB6C6;
+  --accent-foreground: #ffffff;
+  --destructive: #e53e3e;
+  --destructive-foreground: #ffffff;
+  --border: rgba(155, 182, 198, 0.3);
+  --input: rgba(255, 255, 255, 0.9);
+  --ring: #9BB6C6;
   --radius: 1rem;
 }
 
@@ -60,67 +60,94 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground text-xs;
+    @apply bg-background text-foreground text-sm;
   }
 }
 
-/* Soft blob background */
+/* Animated blob background */
 .blob-bg {
   position: fixed;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
   z-index: -1;
+  background: #F7F8F8;
 }
 
 .blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.5;
+  filter: blur(100px);
+  opacity: 0.7;
 }
 
 .blob-1 {
-  width: 400px;
-  height: 400px;
-  background: oklch(0.75 0.08 220);
-  top: -100px;
+  width: 500px;
+  height: 500px;
+  background: #9BB6C6;
+  top: -150px;
   right: -100px;
+  animation: float1 20s ease-in-out infinite;
 }
 
 .blob-2 {
-  width: 350px;
-  height: 350px;
-  background: oklch(0.8 0.06 240);
-  bottom: 10%;
-  left: -80px;
+  width: 450px;
+  height: 450px;
+  background: #b5ccd9;
+  bottom: -100px;
+  left: -120px;
+  animation: float2 25s ease-in-out infinite;
 }
 
 .blob-3 {
-  width: 300px;
-  height: 300px;
-  background: oklch(0.78 0.05 200);
-  top: 40%;
-  right: 10%;
+  width: 350px;
+  height: 350px;
+  background: #9BB6C6;
+  top: 50%;
+  right: 20%;
+  animation: float3 18s ease-in-out infinite;
 }
 
-/* Gradient text */
-.gradient-text {
-  background: linear-gradient(135deg, oklch(0.5 0.15 240), oklch(0.55 0.1 200));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.blob-4 {
+  width: 300px;
+  height: 300px;
+  background: #c8dbe5;
+  top: 30%;
+  left: 10%;
+  animation: float4 22s ease-in-out infinite;
+}
+
+@keyframes float1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, 50px) scale(1.05); }
+  66% { transform: translate(-20px, 30px) scale(0.95); }
+}
+
+@keyframes float2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-40px, -30px) scale(1.1); }
+  66% { transform: translate(20px, -50px) scale(0.9); }
+}
+
+@keyframes float3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-30px, 40px) scale(1.08); }
+}
+
+@keyframes float4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, -30px) scale(0.92); }
 }
 
 /* Glass card */
 .glass-card {
-  background: oklch(0.995 0.002 240 / 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid oklch(0.92 0.01 240);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(155, 182, 198, 0.25);
 }
 
 /* Hebrew text styling */
 .hebrew-text {
   font-feature-settings: "liga" 1;
-  line-height: 1.4;
+  line-height: 1.5;
 }

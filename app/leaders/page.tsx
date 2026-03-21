@@ -14,13 +14,14 @@ export default function LeadersPage() {
         <div className="blob blob-1" />
         <div className="blob blob-2" />
         <div className="blob blob-3" />
+        <div className="blob blob-4" />
       </div>
 
       <PageHeader />
-      <main className="max-w-md mx-auto px-4 py-6">
-        <div className="text-center mb-4">
-          <h1 className="text-sm font-semibold text-foreground mb-1">השוואת מנהיגים</h1>
-          <p className="text-[11px] text-muted-foreground">לחצו על מנהיג לצפייה בפרטים</p>
+      <main className="max-w-md mx-auto px-5 py-8">
+        <div className="text-center mb-6">
+          <h1 className="text-lg font-bold text-foreground mb-1">השוואת מנהיגים</h1>
+          <p className="text-sm text-muted-foreground">לחצו על מנהיג לצפייה בפרטים</p>
         </div>
         <LeaderComparisonGrid />
       </main>
