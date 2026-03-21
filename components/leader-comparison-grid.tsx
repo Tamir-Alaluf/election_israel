@@ -59,17 +59,54 @@ function LeaderCard({ leader, onClick }: {
   return (
     <button
       onClick={onClick}
-      className="aspect-square glass-card rounded-2xl flex flex-col items-center justify-center gap-3 hover:shadow-lg hover:scale-[1.02] transition-all duration-200"
+      className="group relative aspect-square rounded-2xl overflow-hidden hover:scale-[1.02] transition-all duration-300 shadow-md hover:shadow-xl"
+      style={{ 
+        background: `linear-gradient(145deg, ${leader.color}15 0%, ${leader.color}30 100%)`,
+      }}
     >
-      <div
-        className="w-14 h-14 rounded-full flex items-center justify-center text-white"
+      {/* Accent stripe */}
+      <div 
+        className="absolute top-0 left-0 right-0 h-1.5"
         style={{ backgroundColor: leader.color }}
-      >
-        <User className="w-7 h-7" />
+      />
+      
+      {/* Content */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
+        {/* Leader icon with gradient */}
+        <div className="relative mb-3">
+          <div 
+            className="w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-lg transform group-hover:scale-110 transition-transform duration-300"
+            style={{ 
+              background: `linear-gradient(135deg, ${leader.color} 0%, ${leader.color}cc 100%)`,
+            }}
+          >
+            <User className="w-6 h-6" />
+          </div>
+        </div>
+        
+        {/* Leader name */}
+        <h3 className="font-bold text-sm text-foreground text-center leading-tight">
+          {leader.name}
+        </h3>
+        
+        {/* Party name */}
+        <p className="text-xs text-muted-foreground mt-1 text-center">
+          {leader.party}
+        </p>
+        
+        {/* Security rating badge */}
+        <div 
+          className="mt-2 px-2.5 py-0.5 rounded-full text-xs font-semibold text-white flex items-center gap-1"
+          style={{ backgroundColor: leader.color }}
+        >
+          <span>ביטחון</span>
+          <span>{leader.values.securityBg}/5</span>
+        </div>
       </div>
-      <div className="text-center px-3">
-        <h3 className="font-semibold text-sm text-foreground">{leader.name}</h3>
-        <p className="text-xs text-muted-foreground mt-0.5">{leader.party}</p>
+      
+      {/* Hover indicator */}
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="text-xs text-muted-foreground">לחץ לפרטים</div>
       </div>
     </button>
   )
