@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Bar, BarChart, XAxis, YAxis, Cell, ResponsiveContainer } from "recharts"
+import { Bar, BarChart, XAxis, YAxis, Cell, ResponsiveContainer, LabelList } from "recharts"
 import { parties } from "@/lib/election-data"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 
@@ -24,7 +24,7 @@ export function MandatesChart() {
             4,
             Math.min(35, item.mandates + Math.floor(Math.random() * 3) - 1)
           ),
-        }))
+        })).sort((a, b) => b.mandates - a.mandates)
       )
     }, 3000)
 
@@ -44,17 +44,31 @@ export function MandatesChart() {
       <p className="text-xs text-muted-foreground mb-4 text-center">
         מתעדכן בזמן אמת
       </p>
-      <ChartContainer config={chartConfig} className="h-[200px] w-full">
+      <ChartContainer config={chartConfig} className="h-[280px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} layout="vertical" margin={{ left: 0, right: 30 }}>
-            <XAxis type="number" domain={[0, 35]} hide />
-            <YAxis
+          <BarChart 
+            data={data} 
+            layout="horizontal" 
+            margin={{ left: 10, right: 10, top: 20, bottom: 60 }}
+          >
+            <XAxis 
               type="category"
               dataKey="name"
-              width={80}
-              tick={{ fontSize: 11, fill: "hsl(var(--foreground))" }}
+              tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
               tickLine={false}
               axisLine={false}
+              angle={-45}
+              textAnchor="end"
+              height={60}
+              interval={0}
+            />
+            <YAxis 
+              type="number" 
+              domain={[0, 35]} 
+              tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
+              tickLine={false}
+              axisLine={false}
+              width={25}
             />
             <ChartTooltip
               content={<ChartTooltipContent />}
@@ -62,12 +76,18 @@ export function MandatesChart() {
             />
             <Bar
               dataKey="mandates"
-              radius={[0, 6, 6, 0]}
+              radius={[4, 4, 0, 0]}
               animationDuration={500}
             >
               {data.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
+              <LabelList 
+                dataKey="mandates" 
+                position="top" 
+                fontSize={10}
+                fill="hsl(var(--foreground))"
+              />
             </Bar>
           </BarChart>
         </ResponsiveContainer>
