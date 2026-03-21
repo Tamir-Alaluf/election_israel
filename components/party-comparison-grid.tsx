@@ -83,7 +83,7 @@ function PartyDialog({ party, open, onClose }: {
   open: boolean
   onClose: () => void
 }) {
-  const [paramsOpen, setParamsOpen] = useState(true)
+  const [paramsOpen, setParamsOpen] = useState(false)
   const [bottomLineOpen, setBottomLineOpen] = useState(true)
 
   if (!party) return null
@@ -98,9 +98,9 @@ function PartyDialog({ party, open, onClose }: {
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto glass-card border-0" dir="rtl">
         <DialogHeader>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col items-center gap-3 text-center">
             <div
-              className="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-lg"
+              className="w-16 h-16 rounded-full flex items-center justify-center text-white font-bold text-xl"
               style={{ backgroundColor: party.color }}
             >
               {party.name.charAt(0)}
@@ -113,7 +113,24 @@ function PartyDialog({ party, open, onClose }: {
         </DialogHeader>
 
         <div className="space-y-4 mt-4">
-          {/* Parameters for Comparison */}
+          {/* Bottom Line - First and Open by Default */}
+          <Collapsible open={bottomLineOpen} onOpenChange={setBottomLineOpen}>
+            <CollapsibleTrigger className="flex items-center justify-between w-full py-2 px-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
+              <span className="font-semibold text-sm text-foreground">שורה תחתונה</span>
+              <ChevronDown className={cn("w-5 h-5 text-muted-foreground transition-transform", bottomLineOpen && "rotate-180")} />
+            </CollapsibleTrigger>
+            <CollapsibleContent className="pt-3">
+              <div className="p-3 rounded-lg bg-muted/30">
+                <p className="text-sm text-foreground leading-relaxed">
+                  {party.name} היא מפלגת {party.values.type} עם עמדה {party.values.security} בביטחון ו{party.values.economy} בכלכלה. 
+                  המפלגה {party.values.harediGov === "כן" ? "תומכת" : party.values.harediGov === "לא" ? "מתנגדת" : "תומכת באופן חלקי"} בשילוב חרדים בממשלה 
+                  ו{party.values.arabGov === "כן" ? "תומכת" : party.values.arabGov === "לא" ? "מתנגדת" : "תומכת באופן חלקי"} בשילוב ערבים.
+                </p>
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
+
+          {/* Parameters for Comparison - Second and Closed by Default */}
           <Collapsible open={paramsOpen} onOpenChange={setParamsOpen}>
             <CollapsibleTrigger className="flex items-center justify-between w-full py-2 px-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
               <span className="font-semibold text-sm text-foreground">פרמטרים להשוואה</span>
@@ -130,23 +147,6 @@ function PartyDialog({ party, open, onClose }: {
               </div>
             </CollapsibleContent>
           </Collapsible>
-
-          {/* Bottom Line */}
-          <Collapsible open={bottomLineOpen} onOpenChange={setBottomLineOpen}>
-            <CollapsibleTrigger className="flex items-center justify-between w-full py-2 px-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
-              <span className="font-semibold text-sm text-foreground">שורה תחתונה</span>
-              <ChevronDown className={cn("w-5 h-5 text-muted-foreground transition-transform", bottomLineOpen && "rotate-180")} />
-            </CollapsibleTrigger>
-            <CollapsibleContent className="pt-3">
-              <div className="p-3 rounded-lg bg-muted/30">
-                <p className="text-sm text-foreground leading-relaxed">
-                  {party.name} היא מפלגת {party.values.type} עם עמדה {party.values.security} בביטחון ו{party.values.economy} בכלכלה. 
-                  המפלגה {party.values.harediGov === "כן" ? "תומכת" : party.values.harediGov === "לא" ? "מתנגדת" : "תומכת באופן חלקי"} בשילוב חרדים בממשלה 
-                  ו{party.values.arabGov === "כן" ? "תומכת" : party.values.arabGov === "לא" ? "מתנגדת" : "תומכת באופן חלקי"} בשילוב ערבים.
-                </p>
-              </div>
-            </CollapsibleContent>
-          </Collapsible>
         </div>
       </DialogContent>
     </Dialog>
@@ -158,7 +158,7 @@ export function PartyComparisonGrid() {
 
   return (
     <>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {parties.map((party) => (
           <PartyCard
             key={party.id}
