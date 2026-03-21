@@ -1,8 +1,8 @@
 import Link from "next/link"
-import Image from "next/image"
 import { ArrowLeft, MessageCircle } from "lucide-react"
 import { PageHeader } from "@/components/page-header"
 import { MandatesChart } from "@/components/mandates-chart"
+import { CountdownTimer } from "@/components/countdown-timer"
 
 export default function HomePage() {
   return (
@@ -42,39 +42,8 @@ export default function HomePage() {
           </div>
         </Link>
 
-        {/* Square Cards */}
-        <div className="grid grid-cols-2 gap-5">
-          <Link href="/parties" className="group">
-            <div className="aspect-square glass-card rounded-2xl flex flex-col items-center justify-center gap-4 hover:shadow-lg hover:scale-[1.02] transition-all duration-200">
-              <div className="w-20 h-20 rounded-xl overflow-hidden">
-                <Image
-                  src="/parties-icon.jpg"
-                  alt="מפלגות"
-                  width={80}
-                  height={80}
-                  priority
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <span className="text-sm font-semibold text-foreground">השוואת מפלגות</span>
-            </div>
-          </Link>
-
-          <Link href="/leaders" className="group">
-            <div className="aspect-square glass-card rounded-2xl flex flex-col items-center justify-center gap-4 hover:shadow-lg hover:scale-[1.02] transition-all duration-200">
-              <div className="w-20 h-20 rounded-xl overflow-hidden">
-                <Image
-                  src="/leaders-icon.jpg"
-                  alt="מנהיגים"
-                  width={80}
-                  height={80}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <span className="text-sm font-semibold text-foreground">השוואת מנהיגים</span>
-            </div>
-          </Link>
-        </div>
+        {/* Countdown Timer */}
+        <CountdownTimer />
 
         {/* Mandates Chart */}
         <div className="mt-10">
