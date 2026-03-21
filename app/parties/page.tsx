@@ -8,14 +8,22 @@ export const metadata = {
 
 export default function PartiesPage() {
   return (
-    <main className="min-h-screen">
-      <PageHeader title="השוואת מפלגות" />
-      <div className="max-w-3xl mx-auto px-3 py-4">
-        <p className="text-muted-foreground text-xs mb-4 text-center">
-          לחצו על מפלגה לצפייה בעמדות
-        </p>
-        <PartyComparisonGrid />
+    <div className="min-h-screen relative">
+      {/* Soft blob background */}
+      <div className="blob-bg">
+        <div className="blob blob-1" />
+        <div className="blob blob-2" />
+        <div className="blob blob-3" />
       </div>
-    </main>
+
+      <PageHeader />
+      <main className="max-w-md mx-auto px-4 py-6">
+        <div className="text-center mb-4">
+          <h1 className="text-sm font-semibold text-foreground mb-1">השוואת מפלגות</h1>
+          <p className="text-[11px] text-muted-foreground">לחצו על מפלגה לצפייה בעמדות</p>
+        </div>
+        <PartyComparisonGrid />
+      </main>
+    </div>
   )
 }

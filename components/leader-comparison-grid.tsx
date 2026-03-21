@@ -7,6 +7,7 @@ import { User } from "lucide-react"
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
@@ -18,7 +19,7 @@ function RatingBar({ value, max = 5 }: { value: number; max?: number }) {
         <div
           key={i}
           className={cn(
-            "w-3 h-1.5 rounded-full",
+            "w-2.5 h-1.5 rounded-full",
             i < value ? "bg-primary" : "bg-muted"
           )}
         />
@@ -29,15 +30,15 @@ function RatingBar({ value, max = 5 }: { value: number; max?: number }) {
 
 function StatusBadge({ value }: { value: string }) {
   const colorMap: Record<string, string> = {
-    "ללא": "bg-emerald-100 text-emerald-700",
-    "כתבי אישום פעילים": "bg-rose-100 text-rose-700",
-    "הרשעות קודמות": "bg-amber-100 text-amber-700",
+    "ללא": "bg-emerald-50 text-emerald-600",
+    "כתבי אישום פעילים": "bg-rose-50 text-rose-600",
+    "הרשעות קודמות": "bg-amber-50 text-amber-600",
   }
 
   return (
     <span
       className={cn(
-        "inline-block px-1.5 py-0.5 text-[10px] font-medium rounded",
+        "inline-block px-2 py-0.5 text-[10px] font-medium rounded-full",
         colorMap[value] || "bg-muted text-muted-foreground"
       )}
     >
@@ -53,19 +54,17 @@ function LeaderCard({ leader, onClick }: {
   return (
     <button
       onClick={onClick}
-      className="w-full p-3 rounded-lg border border-border bg-card hover:border-accent/30 hover:shadow-sm transition-all text-right"
+      className="aspect-square glass-card rounded-2xl flex flex-col items-center justify-center gap-2 hover:shadow-md transition-all"
     >
-      <div className="flex items-center gap-2">
-        <div
-          className="w-8 h-8 rounded-full flex items-center justify-center text-white"
-          style={{ backgroundColor: leader.color }}
-        >
-          <User className="w-4 h-4" />
-        </div>
-        <div className="flex-1 min-w-0">
-          <h3 className="font-medium text-sm truncate">{leader.name}</h3>
-          <p className="text-xs text-muted-foreground truncate">{leader.party}</p>
-        </div>
+      <div
+        className="w-10 h-10 rounded-full flex items-center justify-center text-white"
+        style={{ backgroundColor: leader.color }}
+      >
+        <User className="w-5 h-5" />
+      </div>
+      <div className="text-center px-2">
+        <h3 className="font-medium text-[11px] text-foreground truncate w-full">{leader.name}</h3>
+        <p className="text-[10px] text-muted-foreground truncate w-full">{leader.party}</p>
       </div>
     </button>
   )
@@ -80,29 +79,29 @@ function LeaderDialog({ leader, open, onClose }: {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-sm max-h-[85vh] overflow-y-auto" dir="rtl">
+      <DialogContent className="max-w-xs max-h-[85vh] overflow-y-auto glass-card border-0" dir="rtl">
         <DialogHeader>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <div
-              className="w-8 h-8 rounded-full flex items-center justify-center text-white"
+              className="w-10 h-10 rounded-full flex items-center justify-center text-white"
               style={{ backgroundColor: leader.color }}
             >
-              <User className="w-4 h-4" />
+              <User className="w-5 h-5" />
             </div>
             <div>
-              <DialogTitle className="text-base">{leader.name}</DialogTitle>
-              <p className="text-xs text-muted-foreground">{leader.party}</p>
+              <DialogTitle className="text-sm text-foreground">{leader.name}</DialogTitle>
+              <DialogDescription className="text-[11px] text-muted-foreground">{leader.party}</DialogDescription>
             </div>
           </div>
         </DialogHeader>
 
-        <div className="space-y-2 mt-2">
+        <div className="space-y-2 mt-3">
           {leaderParameters.map((param) => {
             const value = leader.values[param.id as keyof typeof leader.values]
             
             return (
-              <div key={param.id} className="flex items-center justify-between gap-3 py-1.5 border-b border-border/50 last:border-0">
-                <span className="text-xs text-muted-foreground">
+              <div key={param.id} className="flex items-center justify-between gap-3 py-2 border-b border-border/30 last:border-0">
+                <span className="text-[11px] text-muted-foreground">
                   {param.label}
                 </span>
                 <div className="flex-shrink-0">
@@ -116,7 +115,7 @@ function LeaderDialog({ leader, open, onClose }: {
                     <StatusBadge value={value} />
                   )}
                   {param.type === "text" && typeof value === "string" && (
-                    <span className="text-xs font-medium">{value}</span>
+                    <span className="text-[11px] font-medium text-foreground">{value}</span>
                   )}
                 </div>
               </div>
@@ -133,7 +132,7 @@ export function LeaderComparisonGrid() {
 
   return (
     <>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-3">
         {leaders.map((leader) => (
           <LeaderCard
             key={leader.id}

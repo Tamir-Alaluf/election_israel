@@ -28,33 +28,42 @@ export default function AdvisorPage() {
     setInput("")
   }
 
-  return (
-    <main className="min-h-screen flex flex-col">
-      <PageHeader title="הפסיכולוג הפוליטי שלך" />
+  const suggestions = [
+    "מה חשוב לי בנושא ביטחון?",
+    "איזו מפלגה תומכת בנישואין אזרחיים?",
+    "מי נגד גיוס חרדים?",
+  ]
 
-      <div className="flex-1 max-w-2xl mx-auto w-full px-3 pb-24">
-        {/* Welcome message */}
+  return (
+    <div className="min-h-screen relative flex flex-col">
+      {/* Soft blob background */}
+      <div className="blob-bg">
+        <div className="blob blob-1" />
+        <div className="blob blob-2" />
+        <div className="blob blob-3" />
+      </div>
+
+      <PageHeader />
+
+      <main className="flex-1 flex flex-col max-w-lg mx-auto w-full px-4 pb-24">
+        {/* Welcome state */}
         {messages.length === 0 && (
-          <div className="flex flex-col items-center justify-center h-[50vh] text-center">
-            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mb-3">
-              <Bot className="w-5 h-5 text-primary" />
+          <div className="flex-1 flex flex-col items-center justify-center text-center">
+            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+              <Bot className="w-6 h-6 text-primary" />
             </div>
-            <h2 className="text-sm font-semibold mb-1">שלום! אני היועץ הפוליטי שלך</h2>
-            <p className="text-xs text-muted-foreground max-w-xs">
+            <h2 className="text-sm font-medium mb-1 text-foreground">שלום! אני היועץ הפוליטי שלך</h2>
+            <p className="text-[11px] text-muted-foreground max-w-xs mb-6">
               ספרו לי על הערכים שחשובים לכם, ואעזור לכם למצוא התאמה.
             </p>
-            <div className="flex flex-wrap gap-1.5 mt-4 justify-center">
-              {[
-                "מה חשוב לי בנושא ביטחון?",
-                "איזו מפלגה תומכת בנישואין אזרחיים?",
-                "מי נגד גיוס חרדים?",
-              ].map((suggestion) => (
+            
+            {/* Suggestion chips */}
+            <div className="flex flex-wrap gap-2 justify-center max-w-sm">
+              {suggestions.map((suggestion) => (
                 <button
                   key={suggestion}
-                  onClick={() => {
-                    sendMessage({ text: suggestion })
-                  }}
-                  className="px-2.5 py-1.5 rounded-full border border-border bg-card text-xs hover:border-primary/30 transition-colors"
+                  onClick={() => sendMessage({ text: suggestion })}
+                  className="px-3 py-1.5 glass-card rounded-full text-[11px] text-muted-foreground hover:text-foreground hover:shadow-sm transition-all"
                 >
                   {suggestion}
                 </button>
@@ -64,90 +73,92 @@ export default function AdvisorPage() {
         )}
 
         {/* Messages */}
-        <div className="space-y-3 py-3">
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={cn(
-                "flex gap-2",
-                message.role === "user" ? "flex-row-reverse" : "flex-row"
-              )}
-            >
+        {messages.length > 0 && (
+          <div className="flex-1 space-y-3 py-4">
+            {messages.map((message) => (
               <div
+                key={message.id}
                 className={cn(
-                  "w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0",
-                  message.role === "user" ? "bg-primary" : "bg-accent"
+                  "flex gap-2",
+                  message.role === "user" ? "flex-row-reverse" : "flex-row"
                 )}
               >
-                {message.role === "user" ? (
-                  <User className="w-3 h-3 text-primary-foreground" />
-                ) : (
-                  <Bot className="w-3 h-3 text-accent-foreground" />
-                )}
-              </div>
-              <div
-                className={cn(
-                  "rounded-xl px-3 py-2 max-w-[85%]",
-                  message.role === "user"
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-card border border-border"
-                )}
-              >
-                {message.parts.map((part, index) => {
-                  if (part.type === "text") {
-                    return (
-                      <p key={index} className="whitespace-pre-wrap text-xs leading-relaxed">
-                        {part.text}
-                      </p>
-                    )
-                  }
-                  return null
-                })}
-              </div>
-            </div>
-          ))}
-
-          {isLoading && messages[messages.length - 1]?.role === "user" && (
-            <div className="flex gap-2">
-              <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center">
-                <Bot className="w-3 h-3 text-accent-foreground" />
-              </div>
-              <div className="rounded-xl px-3 py-2 bg-card border border-border">
-                <div className="flex gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground animate-bounce" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground animate-bounce [animation-delay:0.1s]" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground animate-bounce [animation-delay:0.2s]" />
+                <div
+                  className={cn(
+                    "w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0",
+                    message.role === "user" ? "bg-primary" : "bg-muted"
+                  )}
+                >
+                  {message.role === "user" ? (
+                    <User className="w-3 h-3 text-primary-foreground" />
+                  ) : (
+                    <Bot className="w-3 h-3 text-muted-foreground" />
+                  )}
+                </div>
+                <div
+                  className={cn(
+                    "rounded-2xl px-3 py-2 max-w-[80%]",
+                    message.role === "user"
+                      ? "bg-primary text-primary-foreground"
+                      : "glass-card"
+                  )}
+                >
+                  {message.parts.map((part, index) => {
+                    if (part.type === "text") {
+                      return (
+                        <p key={index} className="whitespace-pre-wrap text-[11px] leading-relaxed">
+                          {part.text}
+                        </p>
+                      )
+                    }
+                    return null
+                  })}
                 </div>
               </div>
-            </div>
-          )}
+            ))}
 
-          <div ref={messagesEndRef} />
-        </div>
-      </div>
+            {isLoading && messages[messages.length - 1]?.role === "user" && (
+              <div className="flex gap-2">
+                <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center">
+                  <Bot className="w-3 h-3 text-muted-foreground" />
+                </div>
+                <div className="rounded-2xl px-3 py-2 glass-card">
+                  <div className="flex gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/50 animate-bounce" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/50 animate-bounce [animation-delay:0.1s]" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/50 animate-bounce [animation-delay:0.2s]" />
+                  </div>
+                </div>
+              </div>
+            )}
 
-      {/* Input */}
-      <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t border-border p-3">
+            <div ref={messagesEndRef} />
+          </div>
+        )}
+      </main>
+
+      {/* Input bar */}
+      <div className="fixed bottom-0 left-0 right-0 p-4">
         <form
           onSubmit={handleSubmit}
-          className="max-w-2xl mx-auto flex gap-2"
+          className="max-w-lg mx-auto glass-card rounded-2xl p-1.5 flex items-center gap-2"
         >
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="שאלו אותי על מפלגות, מנהיגים או נושאים..."
+            placeholder="שאלו על מפלגות, מנהיגים או נושאים..."
             disabled={isLoading}
-            className="flex-1 px-3 py-2 rounded-lg border border-border bg-card text-sm focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 disabled:opacity-50"
+            className="flex-1 px-3 py-2 bg-transparent text-[11px] text-foreground placeholder:text-muted-foreground focus:outline-none disabled:opacity-50"
           />
           <button
             type="submit"
             disabled={!input.trim() || isLoading}
-            className="px-3 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="p-2.5 rounded-xl bg-primary/10 text-primary hover:bg-primary/20 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             <Send className="w-4 h-4" />
           </button>
         </form>
       </div>
-    </main>
+    </div>
   )
 }

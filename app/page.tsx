@@ -1,71 +1,83 @@
 import Link from "next/link"
-import { ArrowLeft, Users, UserCircle, MessageCircle } from "lucide-react"
+import Image from "next/image"
+import { ArrowLeft, MessageCircle } from "lucide-react"
+import { PageHeader } from "@/components/page-header"
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden">
-      {/* Subtle background effects */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/3 left-1/4 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
+    <div className="min-h-screen relative">
+      {/* Soft blob background */}
+      <div className="blob-bg">
+        <div className="blob blob-1" />
+        <div className="blob blob-2" />
+        <div className="blob blob-3" />
       </div>
 
-      {/* Title */}
-      <div className="text-center mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold mb-2 text-balance">
-          <span className="bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent">
+      <PageHeader />
+      
+      <main className="max-w-sm mx-auto px-4 pt-16 pb-8">
+        {/* Title */}
+        <div className="text-center mb-8">
+          <h1 className="text-base font-semibold mb-1 text-foreground">
             בחירות ישראל 2026
-          </span>
-        </h1>
-        <p className="text-muted-foreground text-sm max-w-xs mx-auto">
-          המדריך החכם לבחירות הקרובות
-        </p>
-      </div>
-
-      {/* Main CTA Button */}
-      <Link
-        href="/advisor"
-        className="group relative mb-10"
-      >
-        <div className="absolute inset-0 bg-gradient-to-l from-primary to-accent rounded-xl blur opacity-30 group-hover:opacity-50 transition-opacity" />
-        <div className="relative flex items-center gap-2 bg-gradient-to-l from-primary to-accent text-primary-foreground px-5 py-2.5 rounded-xl text-sm font-medium transition-transform group-hover:scale-105">
-          <MessageCircle className="w-4 h-4" />
-          מעבר לפסיכולוג הפוליטי שלך
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
+          </h1>
+          <p className="text-muted-foreground text-[11px]">
+            המדריך החכם לבחירות הקרובות
+          </p>
         </div>
-      </Link>
 
-      {/* Secondary Navigation Cards */}
-      <div className="flex flex-col sm:flex-row gap-3 w-full max-w-sm">
+        {/* Main CTA Button */}
         <Link
-          href="/parties"
-          className="flex-1 group"
+          href="/advisor"
+          className="group block mb-8"
         >
-          <div className="p-4 rounded-lg border border-border bg-card hover:border-primary/40 hover:shadow-sm transition-all">
-            <div className="flex items-center gap-2 justify-center">
-              <Users className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium">השוואת מפלגות</span>
+          <div className="glass-card p-3 rounded-2xl hover:shadow-md transition-all">
+            <div className="flex items-center justify-center gap-2 text-foreground">
+              <MessageCircle className="w-4 h-4 text-primary" />
+              <span className="text-xs font-medium">מעבר לפסיכולוג הפוליטי שלך</span>
+              <ArrowLeft className="w-4 h-4 text-muted-foreground group-hover:-translate-x-0.5 transition-transform" />
             </div>
           </div>
         </Link>
 
-        <Link
-          href="/leaders"
-          className="flex-1 group"
-        >
-          <div className="p-4 rounded-lg border border-border bg-card hover:border-accent/40 hover:shadow-sm transition-all">
-            <div className="flex items-center gap-2 justify-center">
-              <UserCircle className="w-4 h-4 text-accent" />
-              <span className="text-sm font-medium">השוואת מנהיגים</span>
+        {/* Square Cards */}
+        <div className="grid grid-cols-2 gap-4">
+          <Link href="/parties" className="group">
+            <div className="aspect-square glass-card rounded-2xl flex flex-col items-center justify-center gap-3 hover:shadow-md transition-all">
+              <div className="w-16 h-16 rounded-xl overflow-hidden">
+                <Image
+                  src="/parties-icon.jpg"
+                  alt="מפלגות"
+                  width={64}
+                  height={64}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <span className="text-xs font-medium text-foreground">השוואת מפלגות</span>
             </div>
-          </div>
-        </Link>
-      </div>
+          </Link>
 
-      {/* Footer note */}
-      <p className="mt-10 text-xs text-muted-foreground/70 text-center">
-        כלי עזר אובייקטיבי להבנת המפה הפוליטית
-      </p>
-    </main>
+          <Link href="/leaders" className="group">
+            <div className="aspect-square glass-card rounded-2xl flex flex-col items-center justify-center gap-3 hover:shadow-md transition-all">
+              <div className="w-16 h-16 rounded-xl overflow-hidden">
+                <Image
+                  src="/leaders-icon.jpg"
+                  alt="מנהיגים"
+                  width={64}
+                  height={64}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <span className="text-xs font-medium text-foreground">השוואת מנהיגים</span>
+            </div>
+          </Link>
+        </div>
+
+        {/* Footer note */}
+        <p className="mt-8 text-[10px] text-muted-foreground text-center">
+          כלי עזר אובייקטיבי להבנת המפה הפוליטית
+        </p>
+      </main>
+    </div>
   )
 }
