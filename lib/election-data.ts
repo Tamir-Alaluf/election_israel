@@ -46,6 +46,7 @@ export const parties = [
     name: "הליכוד",
     leader: "בנימין נתניהו",
     color: "#0066cc",
+    mandates: 26,
     values: {
       type: "מעורב",
       security: "ימין",
@@ -69,6 +70,7 @@ export const parties = [
     name: "יש עתיד",
     leader: "יאיר לפיד",
     color: "#00a0dc",
+    mandates: 24,
     values: {
       type: "חילוניים",
       security: "מרכז",
@@ -92,6 +94,7 @@ export const parties = [
     name: "המחנה הממלכתי",
     leader: "בני גנץ",
     color: "#1e3a5f",
+    mandates: 20,
     values: {
       type: "מעורב",
       security: "מרכז",
@@ -115,6 +118,7 @@ export const parties = [
     name: "ש״ס",
     leader: "אריה דרעי",
     color: "#006400",
+    mandates: 11,
     values: {
       type: "חרדים",
       security: "ימין",
@@ -138,6 +142,7 @@ export const parties = [
     name: "העבודה",
     leader: "יאיר גולן",
     color: "#e30613",
+    mandates: 18,
     values: {
       type: "חילוניים",
       security: "שמאל",
@@ -161,6 +166,7 @@ export const parties = [
     name: "יהדות התורה",
     leader: "יצחק גולדקנופף",
     color: "#000080",
+    mandates: 8,
     values: {
       type: "חרדים",
       security: "ימין",

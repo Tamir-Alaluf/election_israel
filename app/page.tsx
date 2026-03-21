@@ -2,6 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { ArrowLeft, MessageCircle } from "lucide-react"
 import { PageHeader } from "@/components/page-header"
+import { MandatesChart } from "@/components/mandates-chart"
 
 export default function HomePage() {
   return (
@@ -75,8 +76,13 @@ export default function HomePage() {
           </Link>
         </div>
 
+        {/* Mandates Chart */}
+        <div className="mt-10">
+          <MandatesChart />
+        </div>
+
         {/* Footer note */}
-        <p className="mt-10 text-xs text-muted-foreground text-center">
+        <p className="mt-8 text-xs text-muted-foreground text-center">
           כלי עזר אובייקטיבי להבנת המפה הפוליטית
         </p>
       </main>
