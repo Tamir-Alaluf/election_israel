@@ -44,31 +44,28 @@ export function MandatesChart() {
       <p className="text-xs text-muted-foreground mb-4 text-center">
         מתעדכן בזמן אמת
       </p>
-      <ChartContainer config={chartConfig} className="h-[280px] w-full">
+      <ChartContainer config={chartConfig} className="h-[320px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart 
             data={data} 
-            layout="horizontal" 
-            margin={{ left: 10, right: 10, top: 20, bottom: 60 }}
+            margin={{ left: 10, right: 10, top: 20, bottom: 80 }}
           >
             <XAxis 
-              type="category"
               dataKey="name"
-              tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
+              tick={{ fontSize: 11, fill: "hsl(var(--foreground))" }}
               tickLine={false}
               axisLine={false}
               angle={-45}
               textAnchor="end"
-              height={60}
+              dy={10}
               interval={0}
             />
             <YAxis 
-              type="number" 
               domain={[0, 35]} 
               tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }}
               tickLine={false}
               axisLine={false}
-              width={25}
+              width={30}
             />
             <ChartTooltip
               content={<ChartTooltipContent />}
