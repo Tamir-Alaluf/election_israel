@@ -1,9 +1,10 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { leaders, leaderParameters } from "@/lib/election-data"
 import { cn } from "@/lib/utils"
-import { User, ChevronDown } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -62,10 +63,15 @@ function LeaderCard({ leader, onClick }: {
       className="aspect-square glass-card rounded-2xl flex flex-col items-center justify-center gap-3 hover:shadow-lg hover:scale-[1.02] transition-all duration-200"
     >
       <div
-        className="w-14 h-14 rounded-full flex items-center justify-center text-white"
-        style={{ backgroundColor: leader.color }}
+        className="relative w-14 h-14 rounded-full overflow-hidden flex items-center justify-center"
       >
-        <User className="w-7 h-7" />
+        <Image
+          src={leader.image}
+          alt={`${leader.name} icon`}
+          fill
+          sizes="56px"
+          className="object-cover"
+        />
       </div>
       <div className="text-center px-3">
         <h3 className="font-semibold text-sm text-foreground">{leader.name}</h3>
@@ -91,10 +97,15 @@ function LeaderDialog({ leader, open, onClose }: {
         <DialogHeader>
           <div className="flex flex-col items-center gap-3 text-center">
             <div
-              className="w-16 h-16 rounded-full flex items-center justify-center text-white"
-              style={{ backgroundColor: leader.color }}
+              className="relative w-16 h-16 rounded-full overflow-hidden flex items-center justify-center"
             >
-              <User className="w-8 h-8" />
+              <Image
+                src={leader.image}
+                alt={`${leader.name} icon`}
+                fill
+                sizes="64px"
+                className="object-cover"
+              />
             </div>
             <div>
               <DialogTitle className="text-lg text-foreground">{leader.name}</DialogTitle>

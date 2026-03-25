@@ -2,29 +2,85 @@ export const partyCategories = {
   core: {
     title: "ליבה",
     parameters: [
-      { id: "type", label: "סוג מפלגה", options: ["חרדים", "ערבים", "חילוניים", "מעורב"] },
+      {
+        id: "type",
+        label: "סוג מפלגה",
+        options: ["חרדים", "ערבים", "חילוניים", "מעורב"],
+      },
       { id: "security", label: "ביטחון", options: ["ימין", "מרכז", "שמאל"] },
-      { id: "economy", label: "יוקר המחיה / דיור", options: ["קפיטליסט", "סוציאליסט", "מעורב"] },
-      { id: "harediGov", label: "שילוב חרדים בממשלה", options: ["כן", "לא", "חלקי"] },
-      { id: "arabGov", label: "שילוב ערבים בממשלה", options: ["כן", "לא", "חלקי"] },
-      { id: "governance", label: "משילות או דמוקרטיה", options: ["משילות", "דמוקרטיה", "איזון"] },
+      {
+        id: "economy",
+        label: "יוקר המחיה / דיור",
+        options: ["קפיטליסט", "סוציאליסט", "מעורב"],
+      },
+      {
+        id: "harediGov",
+        label: "שילוב חרדים בממשלה",
+        options: ["כן", "לא", "חלקי"],
+      },
+      {
+        id: "arabGov",
+        label: "שילוב ערבים בממשלה",
+        options: ["כן", "לא", "חלקי"],
+      },
+      {
+        id: "governance",
+        label: "משילות או דמוקרטיה",
+        options: ["משילות", "דמוקרטיה", "איזון"],
+      },
     ],
   },
   daily: {
     title: "יומיום",
     parameters: [
-      { id: "shabbatTransport", label: "תחבורה בשבת", options: ["בעד", "נגד", "מקומי"] },
-      { id: "civilMarriage", label: "נישואין אזרחיים", options: ["בעד", "נגד", "חלקי"] },
-      { id: "equalBurden", label: "שוויון בנטל", options: ["בעד", "נגד", "חלקי"] },
-      { id: "eduSubsidy", label: "סבסוד השכלה גבוהה", options: ["בעד", "נגד", "חלקי"] },
-      { id: "eduFrom0", label: "חינוך מגיל 0", options: ["בעד", "נגד", "חלקי"] },
-      { id: "climate", label: "משבר אקלים", options: ["עדיפות גבוהה", "עדיפות נמוכה", "לא בסדר יום"] },
-      { id: "eduChoice", label: "חופש בחירה בחינוך", options: ["בעד", "נגד", "חלקי"] },
-      { id: "reservists", label: "הטבות למילואימניקים", options: ["בעד", "נגד", "חלקי"] },
-      { id: "legalization", label: "לגליזציה", options: ["בעד", "נגד", "דקרימינליזציה"] },
+      {
+        id: "shabbatTransport",
+        label: "תחבורה בשבת",
+        options: ["בעד", "נגד", "מקומי"],
+      },
+      {
+        id: "civilMarriage",
+        label: "נישואין אזרחיים",
+        options: ["בעד", "נגד", "חלקי"],
+      },
+      {
+        id: "equalBurden",
+        label: "שוויון בנטל",
+        options: ["בעד", "נגד", "חלקי"],
+      },
+      {
+        id: "eduSubsidy",
+        label: "סבסוד השכלה גבוהה",
+        options: ["בעד", "נגד", "חלקי"],
+      },
+      {
+        id: "eduFrom0",
+        label: "חינוך מגיל 0",
+        options: ["בעד", "נגד", "חלקי"],
+      },
+      {
+        id: "climate",
+        label: "משבר אקלים",
+        options: ["עדיפות גבוהה", "עדיפות נמוכה", "לא בסדר יום"],
+      },
+      {
+        id: "eduChoice",
+        label: "חופש בחירה בחינוך",
+        options: ["בעד", "נגד", "חלקי"],
+      },
+      {
+        id: "reservists",
+        label: "הטבות למילואימניקים",
+        options: ["בעד", "נגד", "חלקי"],
+      },
+      {
+        id: "legalization",
+        label: "לגליזציה",
+        options: ["בעד", "נגד", "דקרימינליזציה"],
+      },
     ],
   },
-}
+};
 
 export const leaderParameters = [
   { id: "securityBg", label: "רקע ביטחוני", type: "rating" },
@@ -37,7 +93,7 @@ export const leaderParameters = [
   { id: "worldRelations", label: "יחסים עם מנהיגי עולם", type: "rating" },
   { id: "criminal", label: "חשדות ופלילים", type: "status" },
   { id: "lifestyle", label: "סגנון חיים", type: "text" },
-]
+];
 
 // Sample party data - can be expanded
 export const parties = [
@@ -47,6 +103,7 @@ export const parties = [
     leader: "בנימין נתניהו",
     color: "#0066cc",
     mandates: 26,
+    image: "/parties/likud.png",
     values: {
       type: "מעורב",
       security: "ימין",
@@ -71,6 +128,7 @@ export const parties = [
     leader: "יאיר לפיד",
     color: "#00a0dc",
     mandates: 24,
+    image: "/parties/yeshAtid.png",
     values: {
       type: "חילוניים",
       security: "מרכז",
@@ -95,6 +153,7 @@ export const parties = [
     leader: "בני גנץ",
     color: "#1e3a5f",
     mandates: 20,
+    image: "/parties/mahaneLevi.png",
     values: {
       type: "מעורב",
       security: "מרכז",
@@ -119,6 +178,7 @@ export const parties = [
     leader: "אריה דרעי",
     color: "#006400",
     mandates: 11,
+    image: "/parties/shas.png",
     values: {
       type: "חרדים",
       security: "ימין",
@@ -143,6 +203,7 @@ export const parties = [
     leader: "יאיר גולן",
     color: "#e30613",
     mandates: 18,
+    image: "/parties/avoda.png",
     values: {
       type: "חילוניים",
       security: "שמאל",
@@ -167,6 +228,7 @@ export const parties = [
     leader: "יצחק גולדקנופף",
     color: "#000080",
     mandates: 8,
+    image: "/parties/yahadut.png",
     values: {
       type: "חרדים",
       security: "ימין",
@@ -185,14 +247,14 @@ export const parties = [
       legalization: "נגד",
     },
   },
-]
+];
 
 export const leaders = [
   {
     id: "netanyahu",
     name: "בנימין נתניהו",
     party: "הליכוד",
-    image: "/leaders/netanyahu.jpg",
+    image: "/leaders/netanyahu.png",
     color: "#0066cc",
     values: {
       securityBg: 3,
@@ -208,10 +270,10 @@ export const leaders = [
     },
   },
   {
-    id: "lapid",
+    id: "yair",
     name: "יאיר לפיד",
     party: "יש עתיד",
-    image: "/leaders/lapid.jpg",
+    image: "/leaders/yair.png",
     color: "#00a0dc",
     values: {
       securityBg: 1,
@@ -227,10 +289,10 @@ export const leaders = [
     },
   },
   {
-    id: "gantz",
+    id: "beni",
     name: "בני גנץ",
     party: "המחנה הממלכתי",
-    image: "/leaders/gantz.jpg",
+    image: "/leaders/beni.png",
     color: "#1e3a5f",
     values: {
       securityBg: 5,
@@ -246,10 +308,10 @@ export const leaders = [
     },
   },
   {
-    id: "deri",
+    id: "arie",
     name: "אריה דרעי",
     party: "ש״ס",
-    image: "/leaders/deri.jpg",
+    image: "/leaders/arie.png",
     color: "#006400",
     values: {
       securityBg: 1,
@@ -268,7 +330,7 @@ export const leaders = [
     id: "golan",
     name: "יאיר גולן",
     party: "העבודה",
-    image: "/leaders/golan.jpg",
+    image: "/leaders/golan.png",
     color: "#e30613",
     values: {
       securityBg: 5,
@@ -284,10 +346,10 @@ export const leaders = [
     },
   },
   {
-    id: "goldknopf",
+    id: "itshak",
     name: "יצחק גולדקנופף",
     party: "יהדות התורה",
-    image: "/leaders/goldknopf.jpg",
+    image: "/leaders/itshak.png",
     color: "#000080",
     values: {
       securityBg: 1,
@@ -302,4 +364,4 @@ export const leaders = [
       lifestyle: "צנוע",
     },
   },
-]
+];
