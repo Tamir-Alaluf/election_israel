@@ -74,8 +74,8 @@ function PartyCard({
         <Image
           src={party.image}
           alt={`${party.name} icon`}
-          fill
-          sizes="56px"
+          width={56}
+          height={56}
           className="object-cover"
         />
       </div>
@@ -121,8 +121,8 @@ function PartyDialog({
               <Image
                 src={party.image}
                 alt={`${party.name} icon`}
-                fill
-                sizes="64px"
+              width={64}
+              height={64}
                 className="object-cover"
               />
             </div>

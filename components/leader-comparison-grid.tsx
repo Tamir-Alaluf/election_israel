@@ -68,8 +68,8 @@ function LeaderCard({ leader, onClick }: {
         <Image
           src={leader.image}
           alt={`${leader.name} icon`}
-          fill
-          sizes="56px"
+          width={56}
+          height={56}
           className="object-cover"
         />
       </div>
@@ -102,8 +102,8 @@ function LeaderDialog({ leader, open, onClose }: {
               <Image
                 src={leader.image}
                 alt={`${leader.name} icon`}
-                fill
-                sizes="64px"
+                width={64}
+                height={64}
                 className="object-cover"
               />
             </div>
