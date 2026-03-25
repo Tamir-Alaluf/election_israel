@@ -68,9 +68,7 @@ function PartyCard({
       onClick={onClick}
       className="aspect-square glass-card rounded-2xl flex flex-col items-center justify-center gap-3 hover:shadow-lg hover:scale-[1.02] transition-all duration-200"
     >
-      <div
-        className="relative w-14 h-14 rounded-full overflow-hidden flex items-center justify-center"
-      >
+      <div className="relative w-14 h-14 rounded-full overflow-hidden flex items-center justify-center">
         <Image
           src={party.image}
           alt={`${party.name} icon`}
@@ -115,14 +113,12 @@ function PartyDialog({
       >
         <DialogHeader>
           <div className="flex flex-col items-center gap-3 text-center">
-            <div
-              className="relative w-16 h-16 rounded-full overflow-hidden flex items-center justify-center"
-            >
+            <div className="relative w-16 h-16 rounded-full overflow-hidden flex items-center justify-center">
               <Image
                 src={party.image}
                 alt={`${party.name} icon`}
-              width={64}
-              height={64}
+                width={64}
+                height={64}
                 className="object-cover"
               />
             </div>
@@ -142,7 +138,7 @@ function PartyDialog({
           <Collapsible open={bottomLineOpen} onOpenChange={setBottomLineOpen}>
             <CollapsibleTrigger className="flex items-center justify-between w-full py-2 px-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
               <span className="font-semibold text-sm text-foreground">
-                שורה תחתונה
+                תיאור קצר
               </span>
               <ChevronDown
                 className={cn(

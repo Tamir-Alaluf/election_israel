@@ -118,7 +118,7 @@ function LeaderDialog({ leader, open, onClose }: {
           {/* Bottom Line - First and Open by Default */}
           <Collapsible open={bottomLineOpen} onOpenChange={setBottomLineOpen}>
             <CollapsibleTrigger className="flex items-center justify-between w-full py-2 px-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
-              <span className="font-semibold text-sm text-foreground">שורה תחתונה</span>
+              <span className="font-semibold text-sm text-foreground">תיאור קצר</span>
               <ChevronDown className={cn("w-5 h-5 text-muted-foreground transition-transform", bottomLineOpen && "rotate-180")} />
             </CollapsibleTrigger>
             <CollapsibleContent className="pt-3">
