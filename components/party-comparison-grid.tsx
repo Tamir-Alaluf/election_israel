@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import { parties, partyCategories } from "@/lib/election-data";
 import { cn } from "@/lib/utils";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Search } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -17,6 +17,14 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 function ValueBadge({ value }: { value: string }) {
   const colorMap: Record<string, string> = {
@@ -96,10 +104,10 @@ function PartyDialog({
 }) {
   const [paramsOpen, setParamsOpen] = useState(false);
   const [bottomLineOpen, setBottomLineOpen] = useState(true);
+  const [membersOpen, setMembersOpen] = useState(false);
 
   if (!party) return null;
 
-  // Combine all parameters for the comparison section
   const allParams = [
     ...partyCategories.core.parameters,
     ...partyCategories.daily.parameters,
@@ -134,7 +142,6 @@ function PartyDialog({
         </DialogHeader>
 
         <div className="space-y-4 mt-4">
-          {/* Bottom Line - First and Open by Default */}
           <Collapsible open={bottomLineOpen} onOpenChange={setBottomLineOpen}>
             <CollapsibleTrigger className="flex items-center justify-between w-full py-2 px-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
               <span className="font-semibold text-sm text-foreground">
@@ -170,7 +177,34 @@ function PartyDialog({
             </CollapsibleContent>
           </Collapsible>
 
-          {/* Parameters for Comparison - Second and Closed by Default */}
+          <Collapsible open={membersOpen} onOpenChange={setMembersOpen}>
+            <CollapsibleTrigger className="flex items-center justify-between w-full py-2 px-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
+              <span className="font-semibold text-sm text-foreground">
+                חברי מפלגה
+              </span>
+              <ChevronDown
+                className={cn(
+                  "w-5 h-5 text-muted-foreground transition-transform",
+                  membersOpen && "rotate-180",
+                )}
+              />
+            </CollapsibleTrigger>
+            <CollapsibleContent className="pt-3">
+              <div className="p-3 rounded-lg bg-muted/30">
+                <div className="flex flex-wrap gap-2">
+                  {party.members?.map((member, index) => (
+                    <span
+                      key={index}
+                      className="inline-block px-3 py-1.5 text-sm bg-background rounded-full border border-border/50"
+                    >
+                      {member}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
+
           <Collapsible open={paramsOpen} onOpenChange={setParamsOpen}>
             <CollapsibleTrigger className="flex items-center justify-between w-full py-2 px-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
               <span className="font-semibold text-sm text-foreground">
@@ -214,11 +248,120 @@ export function PartyComparisonGrid() {
   const [selectedParty, setSelectedParty] = useState<
     (typeof parties)[0] | null
   >(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [typeFilter, setTypeFilter] = useState<string>("all");
+  const [securityFilter, setSecurityFilter] = useState<string>("all");
+  const [economyFilter, setEconomyFilter] = useState<string>("all");
+  const [harediGovFilter, setHarediGovFilter] = useState<string>("all");
+
+  const filteredParties = useMemo(() => {
+    return parties.filter((party) => {
+      // Search filter
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        if (
+          !party.name.toLowerCase().includes(query) &&
+          !party.leader.toLowerCase().includes(query)
+        ) {
+          return false;
+        }
+      }
+      // Type filter
+      if (typeFilter !== "all" && party.values.type !== typeFilter) {
+        return false;
+      }
+      // Security filter
+      if (securityFilter !== "all" && party.values.security !== securityFilter) {
+        return false;
+      }
+      // Economy filter
+      if (economyFilter !== "all" && party.values.economy !== economyFilter) {
+        return false;
+      }
+      // Haredi Gov filter
+      if (harediGovFilter !== "all" && party.values.harediGov !== harediGovFilter) {
+        return false;
+      }
+      return true;
+    });
+  }, [searchQuery, typeFilter, securityFilter, economyFilter, harediGovFilter]);
 
   return (
     <>
+      {/* Filters */}
+      <div className="space-y-3 mb-6">
+        {/* Search */}
+        <div className="relative">
+          <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Input
+            placeholder="חיפוש לפי שם מפלגה או מנהיג..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pr-10 glass-card border-0"
+          />
+        </div>
+
+        {/* Filter dropdowns */}
+        <div className="grid grid-cols-2 gap-2">
+          <Select value={typeFilter} onValueChange={setTypeFilter}>
+            <SelectTrigger className="glass-card border-0 text-sm">
+              <SelectValue placeholder="סוג מפלגה" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">כל הסוגים</SelectItem>
+              <SelectItem value="חרדים">חרדים</SelectItem>
+              <SelectItem value="ערבים">ערבים</SelectItem>
+              <SelectItem value="חילוניים">חילוניים</SelectItem>
+              <SelectItem value="מעורב">מעורב</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select value={securityFilter} onValueChange={setSecurityFilter}>
+            <SelectTrigger className="glass-card border-0 text-sm">
+              <SelectValue placeholder="עמדה ביטחונית" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">כל העמדות</SelectItem>
+              <SelectItem value="ימין">ימין</SelectItem>
+              <SelectItem value="מרכז">מרכז</SelectItem>
+              <SelectItem value="שמאל">שמאל</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select value={economyFilter} onValueChange={setEconomyFilter}>
+            <SelectTrigger className="glass-card border-0 text-sm">
+              <SelectValue placeholder="עמדה כלכלית" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">כל העמדות</SelectItem>
+              <SelectItem value="קפיטליסט">קפיטליסט</SelectItem>
+              <SelectItem value="סוציאליסט">סוציאליסט</SelectItem>
+              <SelectItem value="מעורב">מעורב</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select value={harediGovFilter} onValueChange={setHarediGovFilter}>
+            <SelectTrigger className="glass-card border-0 text-sm">
+              <SelectValue placeholder="שילוב חרדים" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">הכל</SelectItem>
+              <SelectItem value="כן">כן</SelectItem>
+              <SelectItem value="לא">לא</SelectItem>
+              <SelectItem value="חלקי">חלקי</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Results count */}
+        <p className="text-xs text-muted-foreground">
+          {filteredParties.length} מפלגות
+        </p>
+      </div>
+
+      {/* Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {parties.map((party) => (
+        {filteredParties.map((party) => (
           <PartyCard
             key={party.id}
             party={party}
@@ -226,6 +369,12 @@ export function PartyComparisonGrid() {
           />
         ))}
       </div>
+
+      {filteredParties.length === 0 && (
+        <div className="text-center py-8 text-muted-foreground">
+          לא נמצאו מפלגות התואמות את הסינון
+        </div>
+      )}
 
       <PartyDialog
         party={selectedParty}

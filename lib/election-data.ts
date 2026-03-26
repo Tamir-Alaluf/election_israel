@@ -104,6 +104,7 @@ export const parties = [
     color: "#0066cc",
     mandates: 26,
     image: "/parties/likud.png",
+    members: ["ישראל כץ", "ניר ברקת", "יריב לוין", "מירי רגב", "יואב גלנט"],
     values: {
       type: "מעורב",
       security: "ימין",
@@ -129,6 +130,7 @@ export const parties = [
     color: "#00a0dc",
     mandates: 24,
     image: "/parties/yeshAtid.png",
+    members: ["מאיר כהן", "קארין אלהרר", "רם בן ברק", "בועז טופורובסקי", "נעמה לזימי"],
     values: {
       type: "חילוניים",
       security: "מרכז",
@@ -154,6 +156,7 @@ export const parties = [
     color: "#1e3a5f",
     mandates: 20,
     image: "/parties/mahaneLevi.png",
+    members: ["גדי איזנקוט", "חילי טרופר", "פנינה תמנו-שטה", "מיכאל בירנבאום", "עופר שלח"],
     values: {
       type: "מעורב",
       security: "מרכז",
@@ -179,6 +182,7 @@ export const parties = [
     color: "#006400",
     mandates: 11,
     image: "/parties/shas.png",
+    members: ["משה ארבל", "יצחק כהן", "מיכאל מלכיאלי", "חיים ביטון", "יעקב מרגי"],
     values: {
       type: "חרדים",
       security: "ימין",
@@ -204,6 +208,7 @@ export const parties = [
     color: "#e30613",
     mandates: 18,
     image: "/parties/avoda.png",
+    members: ["נעמה לזימי", "גלעד קריב", "אפרת רייטן", "עמירם לוין", "אורן חזן"],
     values: {
       type: "חילוניים",
       security: "שמאל",
@@ -229,6 +234,7 @@ export const parties = [
     color: "#000080",
     mandates: 8,
     image: "/parties/yahadut.png",
+    members: ["משה גפני", "מאיר פרוש", "יעקב אשר", "ישראל אייכלר", "אורי מקלב"],
     values: {
       type: "חרדים",
       security: "ימין",
