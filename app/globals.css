@@ -76,69 +76,69 @@
 
 .blob {
   position: absolute;
-  filter: blur(80px);
-  opacity: 0.6;
+  filter: blur(60px);
+  opacity: 0.75;
   will-change: transform, border-radius;
 }
 
 .blob-1 {
-  width: 55vmax;
-  height: 55vmax;
+  width: 50vmax;
+  height: 50vmax;
   background: radial-gradient(ellipse at 30% 30%, #9BB6C6 0%, #7a9eb5 50%, #6a8fa8 100%);
-  top: -20%;
-  right: -15%;
+  top: -15%;
+  right: -10%;
   animation: 
-    lavaMove1 20s cubic-bezier(0.4, 0, 0.2, 1) infinite,
-    lavaMorph1 15s ease-in-out infinite,
-    lavaPulse 8s ease-in-out infinite;
+    lavaMove1 8s cubic-bezier(0.4, 0, 0.2, 1) infinite,
+    lavaMorph1 6s ease-in-out infinite,
+    lavaPulse 4s ease-in-out infinite;
 }
 
 .blob-2 {
-  width: 50vmax;
-  height: 50vmax;
+  width: 45vmax;
+  height: 45vmax;
   background: radial-gradient(ellipse at 70% 70%, #b5ccd9 0%, #9BB6C6 50%, #8aadc0 100%);
-  bottom: -25%;
-  left: -20%;
+  bottom: -20%;
+  left: -15%;
   animation: 
-    lavaMove2 25s cubic-bezier(0.4, 0, 0.2, 1) infinite,
-    lavaMorph2 18s ease-in-out infinite,
-    lavaPulse 10s ease-in-out infinite 2s;
+    lavaMove2 10s cubic-bezier(0.4, 0, 0.2, 1) infinite,
+    lavaMorph2 7s ease-in-out infinite,
+    lavaPulse 5s ease-in-out infinite 1s;
 }
 
 .blob-3 {
-  width: 40vmax;
-  height: 40vmax;
+  width: 35vmax;
+  height: 35vmax;
   background: radial-gradient(ellipse at 50% 30%, #9BB6C6 0%, #8aadc0 60%, #7a9eb5 100%);
-  top: 25%;
-  right: -5%;
+  top: 20%;
+  right: 0%;
   animation: 
-    lavaMove3 22s cubic-bezier(0.4, 0, 0.2, 1) infinite,
-    lavaMorph3 12s ease-in-out infinite,
-    lavaPulse 7s ease-in-out infinite 1s;
+    lavaMove3 9s cubic-bezier(0.4, 0, 0.2, 1) infinite,
+    lavaMorph3 5s ease-in-out infinite,
+    lavaPulse 3s ease-in-out infinite 0.5s;
 }
 
 .blob-4 {
-  width: 45vmax;
-  height: 45vmax;
+  width: 40vmax;
+  height: 40vmax;
   background: radial-gradient(ellipse at 40% 60%, #c8dbe5 0%, #a8c4d4 50%, #9BB6C6 100%);
-  top: -10%;
-  left: -15%;
+  top: -5%;
+  left: -10%;
   animation: 
-    lavaMove4 28s cubic-bezier(0.4, 0, 0.2, 1) infinite,
-    lavaMorph4 20s ease-in-out infinite,
-    lavaPulse 9s ease-in-out infinite 3s;
+    lavaMove4 11s cubic-bezier(0.4, 0, 0.2, 1) infinite,
+    lavaMorph4 8s ease-in-out infinite,
+    lavaPulse 4s ease-in-out infinite 1.5s;
 }
 
 .blob-5 {
-  width: 35vmax;
-  height: 35vmax;
+  width: 30vmax;
+  height: 30vmax;
   background: radial-gradient(ellipse at 60% 40%, #9BB6C6 0%, #87afc4 40%, #7a9eb5 100%);
-  bottom: 10%;
-  right: 20%;
+  bottom: 15%;
+  right: 15%;
   animation: 
-    lavaMove5 18s cubic-bezier(0.4, 0, 0.2, 1) infinite,
-    lavaMorph5 14s ease-in-out infinite,
-    lavaPulse 6s ease-in-out infinite 0.5s;
+    lavaMove5 7s cubic-bezier(0.4, 0, 0.2, 1) infinite,
+    lavaMorph5 5s ease-in-out infinite,
+    lavaPulse 3s ease-in-out infinite 0.25s;
 }
 
 /* Smooth floating movement */
@@ -215,8 +215,8 @@
 
 /* Gentle pulsating effect */
 @keyframes lavaPulse {
-  0%, 100% { opacity: 0.55; filter: blur(80px); }
-  50% { opacity: 0.7; filter: blur(90px); }
+  0%, 100% { opacity: 0.7; filter: blur(60px); }
+  50% { opacity: 0.85; filter: blur(70px); }
 }
 
 /* Glass card */
