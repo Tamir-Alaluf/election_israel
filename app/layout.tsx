@@ -44,6 +44,14 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl">
       <body className={`${heebo.variable} font-sans antialiased`}>
+        {/* Animated blob background */}
+        <div className="blob-bg">
+          <div className="blob blob-1" />
+          <div className="blob blob-2" />
+          <div className="blob blob-3" />
+          <div className="blob blob-4" />
+          <div className="blob blob-5" />
+        </div>
         {children}
         <Analytics />
       </body>
