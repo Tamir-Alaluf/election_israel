@@ -1,10 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import Image from "next/image"
 import { leaders, leaderParameters } from "@/lib/election-data"
 import { cn } from "@/lib/utils"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, Search } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -17,6 +17,14 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Input } from "@/components/ui/input"
 
 function RatingBar({ value, max = 5 }: { value: number; max?: number }) {
   return (
@@ -115,7 +123,6 @@ function LeaderDialog({ leader, open, onClose }: {
         </DialogHeader>
 
         <div className="space-y-4 mt-4">
-          {/* Bottom Line - First and Open by Default */}
           <Collapsible open={bottomLineOpen} onOpenChange={setBottomLineOpen}>
             <CollapsibleTrigger className="flex items-center justify-between w-full py-2 px-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
               <span className="font-semibold text-sm text-foreground">תיאור קצר</span>
@@ -133,7 +140,6 @@ function LeaderDialog({ leader, open, onClose }: {
             </CollapsibleContent>
           </Collapsible>
 
-          {/* Parameters for Comparison - Second and Closed by Default */}
           <Collapsible open={paramsOpen} onOpenChange={setParamsOpen}>
             <CollapsibleTrigger className="flex items-center justify-between w-full py-2 px-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
               <span className="font-semibold text-sm text-foreground">פרמטרים להשוואה</span>
@@ -175,11 +181,127 @@ function LeaderDialog({ leader, open, onClose }: {
 
 export function LeaderComparisonGrid() {
   const [selectedLeader, setSelectedLeader] = useState<typeof leaders[0] | null>(null)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [partyFilter, setPartyFilter] = useState<string>("all")
+  const [criminalFilter, setCriminalFilter] = useState<string>("all")
+  const [lifestyleFilter, setLifestyleFilter] = useState<string>("all")
+  const [securityBgFilter, setSecurityBgFilter] = useState<string>("all")
+
+  // Get unique values for filters
+  const uniqueParties = useMemo(() => [...new Set(leaders.map(l => l.party))], [])
+  const uniqueLifestyles = useMemo(() => [...new Set(leaders.map(l => l.values.lifestyle))], [])
+  const uniqueCriminal = useMemo(() => [...new Set(leaders.map(l => l.values.criminal))], [])
+
+  const filteredLeaders = useMemo(() => {
+    return leaders.filter((leader) => {
+      // Search filter
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase()
+        if (
+          !leader.name.toLowerCase().includes(query) &&
+          !leader.party.toLowerCase().includes(query)
+        ) {
+          return false
+        }
+      }
+      // Party filter
+      if (partyFilter !== "all" && leader.party !== partyFilter) {
+        return false
+      }
+      // Criminal filter
+      if (criminalFilter !== "all" && leader.values.criminal !== criminalFilter) {
+        return false
+      }
+      // Lifestyle filter
+      if (lifestyleFilter !== "all" && leader.values.lifestyle !== lifestyleFilter) {
+        return false
+      }
+      // Security background filter (high = 4-5, medium = 2-3, low = 1)
+      if (securityBgFilter !== "all") {
+        const bg = leader.values.securityBg
+        if (securityBgFilter === "high" && bg < 4) return false
+        if (securityBgFilter === "medium" && (bg < 2 || bg > 3)) return false
+        if (securityBgFilter === "low" && bg > 1) return false
+      }
+      return true
+    })
+  }, [searchQuery, partyFilter, criminalFilter, lifestyleFilter, securityBgFilter])
 
   return (
     <>
+      {/* Filters */}
+      <div className="space-y-3 mb-6">
+        {/* Search */}
+        <div className="relative">
+          <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Input
+            placeholder="חיפוש לפי שם מנהיג או מפלגה..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pr-10 glass-card border-0"
+          />
+        </div>
+
+        {/* Filter dropdowns */}
+        <div className="grid grid-cols-2 gap-2">
+          <Select value={partyFilter} onValueChange={setPartyFilter}>
+            <SelectTrigger className="glass-card border-0 text-sm">
+              <SelectValue placeholder="מפלגה" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">כל המפלגות</SelectItem>
+              {uniqueParties.map((party) => (
+                <SelectItem key={party} value={party}>{party}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={securityBgFilter} onValueChange={setSecurityBgFilter}>
+            <SelectTrigger className="glass-card border-0 text-sm">
+              <SelectValue placeholder="רקע ביטחוני" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">כל הרמות</SelectItem>
+              <SelectItem value="high">גבוה (4-5)</SelectItem>
+              <SelectItem value="medium">בינוני (2-3)</SelectItem>
+              <SelectItem value="low">נמוך (1)</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select value={criminalFilter} onValueChange={setCriminalFilter}>
+            <SelectTrigger className="glass-card border-0 text-sm">
+              <SelectValue placeholder="מצב פלילי" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">הכל</SelectItem>
+              {uniqueCriminal.map((status) => (
+                <SelectItem key={status} value={status}>{status}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={lifestyleFilter} onValueChange={setLifestyleFilter}>
+            <SelectTrigger className="glass-card border-0 text-sm">
+              <SelectValue placeholder="סגנון חיים" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">הכל</SelectItem>
+              {uniqueLifestyles.map((lifestyle) => (
+                <SelectItem key={lifestyle} value={lifestyle}>{lifestyle}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Results count */}
+        <p className="text-xs text-muted-foreground">
+          {filteredLeaders.length} מנהיגים
+        </p>
+      </div>
+
+      {/* Grid */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {leaders.map((leader) => (
+        {filteredLeaders.map((leader) => (
           <LeaderCard
             key={leader.id}
             leader={leader}
@@ -187,6 +309,12 @@ export function LeaderComparisonGrid() {
           />
         ))}
       </div>
+
+      {filteredLeaders.length === 0 && (
+        <div className="text-center py-8 text-muted-foreground">
+          לא נמצאו מנהיגים התואמים את הסינון
+        </div>
+      )}
 
       <LeaderDialog
         leader={selectedLeader}
