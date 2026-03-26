@@ -64,105 +64,159 @@
   }
 }
 
-/* Animated blob background */
+/* Lava Lamp Animated Background */
 .blob-bg {
   position: fixed;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
   z-index: -1;
-  background: #F7F8F8;
+  background: linear-gradient(135deg, #F7F8F8 0%, #eef3f6 50%, #F7F8F8 100%);
 }
 
 .blob {
   position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.7;
+  filter: blur(80px);
+  opacity: 0.6;
+  will-change: transform, border-radius;
 }
 
 .blob-1 {
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, #9BB6C6 0%, #7a9eb5 100%);
-  top: -100px;
-  right: -100px;
-  animation: float1 12s ease-in-out infinite;
+  width: 55vmax;
+  height: 55vmax;
+  background: radial-gradient(ellipse at 30% 30%, #9BB6C6 0%, #7a9eb5 50%, #6a8fa8 100%);
+  top: -20%;
+  right: -15%;
+  animation: 
+    lavaMove1 20s cubic-bezier(0.4, 0, 0.2, 1) infinite,
+    lavaMorph1 15s ease-in-out infinite,
+    lavaPulse 8s ease-in-out infinite;
 }
 
 .blob-2 {
-  width: 550px;
-  height: 550px;
-  background: radial-gradient(circle, #b5ccd9 0%, #9BB6C6 100%);
-  bottom: -100px;
-  left: -150px;
-  animation: float2 15s ease-in-out infinite;
+  width: 50vmax;
+  height: 50vmax;
+  background: radial-gradient(ellipse at 70% 70%, #b5ccd9 0%, #9BB6C6 50%, #8aadc0 100%);
+  bottom: -25%;
+  left: -20%;
+  animation: 
+    lavaMove2 25s cubic-bezier(0.4, 0, 0.2, 1) infinite,
+    lavaMorph2 18s ease-in-out infinite,
+    lavaPulse 10s ease-in-out infinite 2s;
 }
 
 .blob-3 {
-  width: 450px;
-  height: 450px;
-  background: radial-gradient(circle, #9BB6C6 0%, #8aadc0 100%);
-  top: 30%;
-  right: 5%;
-  animation: float3 10s ease-in-out infinite;
+  width: 40vmax;
+  height: 40vmax;
+  background: radial-gradient(ellipse at 50% 30%, #9BB6C6 0%, #8aadc0 60%, #7a9eb5 100%);
+  top: 25%;
+  right: -5%;
+  animation: 
+    lavaMove3 22s cubic-bezier(0.4, 0, 0.2, 1) infinite,
+    lavaMorph3 12s ease-in-out infinite,
+    lavaPulse 7s ease-in-out infinite 1s;
 }
 
 .blob-4 {
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, #c8dbe5 0%, #a8c4d4 100%);
-  top: 10%;
-  left: 0%;
-  animation: float4 13s ease-in-out infinite;
+  width: 45vmax;
+  height: 45vmax;
+  background: radial-gradient(ellipse at 40% 60%, #c8dbe5 0%, #a8c4d4 50%, #9BB6C6 100%);
+  top: -10%;
+  left: -15%;
+  animation: 
+    lavaMove4 28s cubic-bezier(0.4, 0, 0.2, 1) infinite,
+    lavaMorph4 20s ease-in-out infinite,
+    lavaPulse 9s ease-in-out infinite 3s;
 }
 
 .blob-5 {
-  width: 350px;
-  height: 350px;
-  background: radial-gradient(circle, #9BB6C6 0%, #87afc4 100%);
-  bottom: 20%;
-  right: 25%;
-  animation: float5 11s ease-in-out infinite;
+  width: 35vmax;
+  height: 35vmax;
+  background: radial-gradient(ellipse at 60% 40%, #9BB6C6 0%, #87afc4 40%, #7a9eb5 100%);
+  bottom: 10%;
+  right: 20%;
+  animation: 
+    lavaMove5 18s cubic-bezier(0.4, 0, 0.2, 1) infinite,
+    lavaMorph5 14s ease-in-out infinite,
+    lavaPulse 6s ease-in-out infinite 0.5s;
 }
 
-@keyframes float1 {
-  0% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(150px, 100px) scale(1.15); }
-  50% { transform: translate(-80px, 200px) scale(0.9); }
-  75% { transform: translate(100px, 80px) scale(1.1); }
-  100% { transform: translate(0, 0) scale(1); }
+/* Smooth floating movement */
+@keyframes lavaMove1 {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(8vw, 12vh); }
+  40% { transform: translate(-5vw, 20vh); }
+  60% { transform: translate(12vw, 8vh); }
+  80% { transform: translate(-3vw, -5vh); }
 }
 
-@keyframes float2 {
-  0% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(180px, -150px) scale(1.2); }
-  66% { transform: translate(80px, -250px) scale(0.85); }
-  100% { transform: translate(0, 0) scale(1); }
+@keyframes lavaMove2 {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(15vw, -18vh); }
+  50% { transform: translate(8vw, -30vh); }
+  75% { transform: translate(-8vw, -12vh); }
 }
 
-@keyframes float3 {
-  0% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(-200px, 150px) scale(1.25); }
-  50% { transform: translate(-100px, -100px) scale(0.9); }
-  75% { transform: translate(150px, 50px) scale(1.1); }
-  100% { transform: translate(0, 0) scale(1); }
+@keyframes lavaMove3 {
+  0%, 100% { transform: translate(0, 0); }
+  30% { transform: translate(-18vw, 15vh); }
+  60% { transform: translate(-8vw, -12vh); }
+  80% { transform: translate(10vw, 5vh); }
 }
 
-@keyframes float4 {
-  0% { transform: translate(0, 0) scale(1); }
-  20% { transform: translate(120px, 180px) scale(1.15); }
-  40% { transform: translate(250px, 80px) scale(0.9); }
-  60% { transform: translate(150px, -120px) scale(1.2); }
-  80% { transform: translate(-80px, 50px) scale(0.95); }
-  100% { transform: translate(0, 0) scale(1); }
+@keyframes lavaMove4 {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(10vw, 18vh); }
+  40% { transform: translate(22vw, 8vh); }
+  60% { transform: translate(12vw, -15vh); }
+  80% { transform: translate(-6vw, 5vh); }
 }
 
-@keyframes float5 {
-  0% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(-150px, -180px) scale(1.15); }
-  66% { transform: translate(120px, -80px) scale(0.85); }
-  100% { transform: translate(0, 0) scale(1); }
+@keyframes lavaMove5 {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(-12vw, -20vh); }
+  66% { transform: translate(10vw, -8vh); }
+}
+
+/* Organic shape morphing */
+@keyframes lavaMorph1 {
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  50% { border-radius: 50% 60% 30% 60% / 30% 40% 70% 60%; }
+  75% { border-radius: 40% 60% 60% 40% / 70% 30% 50% 60%; }
+}
+
+@keyframes lavaMorph2 {
+  0%, 100% { border-radius: 40% 60% 60% 40% / 70% 30% 50% 60%; }
+  33% { border-radius: 60% 40% 30% 70% / 40% 60% 60% 40%; }
+  66% { border-radius: 30% 50% 70% 50% / 60% 40% 30% 70%; }
+}
+
+@keyframes lavaMorph3 {
+  0%, 100% { border-radius: 50% 50% 40% 60% / 40% 60% 50% 50%; }
+  25% { border-radius: 70% 30% 50% 50% / 30% 50% 70% 50%; }
+  50% { border-radius: 40% 60% 70% 30% / 60% 40% 30% 70%; }
+  75% { border-radius: 60% 40% 40% 60% / 50% 70% 40% 50%; }
+}
+
+@keyframes lavaMorph4 {
+  0%, 100% { border-radius: 70% 30% 30% 70% / 50% 50% 50% 50%; }
+  20% { border-radius: 40% 60% 50% 50% / 70% 30% 60% 40%; }
+  40% { border-radius: 50% 50% 70% 30% / 40% 60% 40% 60%; }
+  60% { border-radius: 30% 70% 40% 60% / 60% 40% 70% 30%; }
+  80% { border-radius: 60% 40% 60% 40% / 30% 70% 50% 50%; }
+}
+
+@keyframes lavaMorph5 {
+  0%, 100% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; }
+  33% { border-radius: 70% 30% 60% 40% / 40% 60% 30% 70%; }
+  66% { border-radius: 30% 70% 40% 60% / 60% 40% 70% 30%; }
+}
+
+/* Gentle pulsating effect */
+@keyframes lavaPulse {
+  0%, 100% { opacity: 0.55; filter: blur(80px); }
+  50% { opacity: 0.7; filter: blur(90px); }
 }
 
 /* Glass card */
