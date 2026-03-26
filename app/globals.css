@@ -85,86 +85,84 @@
   width: 600px;
   height: 600px;
   background: radial-gradient(circle, #9BB6C6 0%, #7a9eb5 100%);
-  top: -200px;
-  right: -150px;
-  animation: float1 30s ease-in-out infinite;
+  top: -100px;
+  right: -100px;
+  animation: float1 12s ease-in-out infinite;
 }
 
 .blob-2 {
   width: 550px;
   height: 550px;
   background: radial-gradient(circle, #b5ccd9 0%, #9BB6C6 100%);
-  bottom: -150px;
-  left: -200px;
-  animation: float2 35s ease-in-out infinite;
+  bottom: -100px;
+  left: -150px;
+  animation: float2 15s ease-in-out infinite;
 }
 
 .blob-3 {
-  width: 400px;
-  height: 400px;
+  width: 450px;
+  height: 450px;
   background: radial-gradient(circle, #9BB6C6 0%, #8aadc0 100%);
-  top: 40%;
-  right: 10%;
-  animation: float3 25s ease-in-out infinite;
+  top: 30%;
+  right: 5%;
+  animation: float3 10s ease-in-out infinite;
 }
 
 .blob-4 {
-  width: 350px;
-  height: 350px;
+  width: 400px;
+  height: 400px;
   background: radial-gradient(circle, #c8dbe5 0%, #a8c4d4 100%);
-  top: 20%;
-  left: 5%;
-  animation: float4 28s ease-in-out infinite;
+  top: 10%;
+  left: 0%;
+  animation: float4 13s ease-in-out infinite;
 }
 
 .blob-5 {
-  width: 300px;
-  height: 300px;
+  width: 350px;
+  height: 350px;
   background: radial-gradient(circle, #9BB6C6 0%, #87afc4 100%);
-  bottom: 30%;
-  right: 30%;
-  animation: float5 32s ease-in-out infinite;
+  bottom: 20%;
+  right: 25%;
+  animation: float5 11s ease-in-out infinite;
 }
 
 @keyframes float1 {
-  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-  20% { transform: translate(100px, 80px) scale(1.1) rotate(10deg); }
-  40% { transform: translate(-50px, 150px) scale(0.95) rotate(-5deg); }
-  60% { transform: translate(80px, 50px) scale(1.05) rotate(15deg); }
-  80% { transform: translate(-30px, -50px) scale(1) rotate(-10deg); }
-  100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  0% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(150px, 100px) scale(1.15); }
+  50% { transform: translate(-80px, 200px) scale(0.9); }
+  75% { transform: translate(100px, 80px) scale(1.1); }
+  100% { transform: translate(0, 0) scale(1); }
 }
 
 @keyframes float2 {
-  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-  25% { transform: translate(120px, -100px) scale(1.15) rotate(-15deg); }
-  50% { transform: translate(50px, -180px) scale(0.9) rotate(10deg); }
-  75% { transform: translate(-80px, -80px) scale(1.1) rotate(-5deg); }
-  100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(180px, -150px) scale(1.2); }
+  66% { transform: translate(80px, -250px) scale(0.85); }
+  100% { transform: translate(0, 0) scale(1); }
 }
 
 @keyframes float3 {
-  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-  33% { transform: translate(-150px, 100px) scale(1.2) rotate(20deg); }
-  66% { transform: translate(100px, -50px) scale(0.85) rotate(-15deg); }
-  100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  0% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(-200px, 150px) scale(1.25); }
+  50% { transform: translate(-100px, -100px) scale(0.9); }
+  75% { transform: translate(150px, 50px) scale(1.1); }
+  100% { transform: translate(0, 0) scale(1); }
 }
 
 @keyframes float4 {
-  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-  20% { transform: translate(80px, 120px) scale(1.1) rotate(-10deg); }
-  40% { transform: translate(180px, 50px) scale(0.95) rotate(15deg); }
-  60% { transform: translate(100px, -80px) scale(1.15) rotate(5deg); }
-  80% { transform: translate(-50px, 30px) scale(0.9) rotate(-20deg); }
-  100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  0% { transform: translate(0, 0) scale(1); }
+  20% { transform: translate(120px, 180px) scale(1.15); }
+  40% { transform: translate(250px, 80px) scale(0.9); }
+  60% { transform: translate(150px, -120px) scale(1.2); }
+  80% { transform: translate(-80px, 50px) scale(0.95); }
+  100% { transform: translate(0, 0) scale(1); }
 }
 
 @keyframes float5 {
-  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-  25% { transform: translate(-100px, -120px) scale(1.1) rotate(15deg); }
-  50% { transform: translate(80px, -60px) scale(0.9) rotate(-10deg); }
-  75% { transform: translate(-60px, 80px) scale(1.05) rotate(20deg); }
-  100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-150px, -180px) scale(1.15); }
+  66% { transform: translate(120px, -80px) scale(0.85); }
+  100% { transform: translate(0, 0) scale(1); }
 }
 
 /* Glass card */
