@@ -96,6 +96,7 @@ function PartyDialog({
 }) {
   const [paramsOpen, setParamsOpen] = useState(false);
   const [bottomLineOpen, setBottomLineOpen] = useState(true);
+  const [membersOpen, setMembersOpen] = useState(false);
 
   if (!party) return null;
 
@@ -170,7 +171,36 @@ function PartyDialog({
             </CollapsibleContent>
           </Collapsible>
 
-          {/* Parameters for Comparison - Second and Closed by Default */}
+          {/* Party Members - Closed by Default */}
+          <Collapsible open={membersOpen} onOpenChange={setMembersOpen}>
+            <CollapsibleTrigger className="flex items-center justify-between w-full py-2 px-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
+              <span className="font-semibold text-sm text-foreground">
+                חברי מפלגה
+              </span>
+              <ChevronDown
+                className={cn(
+                  "w-5 h-5 text-muted-foreground transition-transform",
+                  membersOpen && "rotate-180",
+                )}
+              />
+            </CollapsibleTrigger>
+            <CollapsibleContent className="pt-3">
+              <div className="p-3 rounded-lg bg-muted/30">
+                <div className="flex flex-wrap gap-2">
+                  {party.members?.map((member, index) => (
+                    <span
+                      key={index}
+                      className="inline-block px-3 py-1.5 text-sm bg-background rounded-full border border-border/50"
+                    >
+                      {member}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
+
+          {/* Parameters for Comparison - Closed by Default */}
           <Collapsible open={paramsOpen} onOpenChange={setParamsOpen}>
             <CollapsibleTrigger className="flex items-center justify-between w-full py-2 px-3 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
               <span className="font-semibold text-sm text-foreground">
