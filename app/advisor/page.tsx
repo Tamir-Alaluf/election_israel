@@ -1,49 +1,41 @@
-"use client"
+"use client";
 
-import { useState, useRef, useEffect } from "react"
-import { useChat } from "@ai-sdk/react"
-import { DefaultChatTransport } from "ai"
-import { PageHeader } from "@/components/page-header"
-import { Send, Bot, User } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { useState, useRef, useEffect } from "react";
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
+import { PageHeader } from "@/components/page-header";
+import { Send, Bot, User } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function AdvisorPage() {
-  const [input, setInput] = useState("")
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const [input, setInput] = useState("");
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const { messages, sendMessage, status } = useChat({
     transport: new DefaultChatTransport({ api: "/api/advisor" }),
-  })
+  });
 
-  const isLoading = status === "streaming" || status === "submitted"
+  const isLoading = status === "streaming" || status === "submitted";
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [messages])
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!input.trim() || isLoading) return
-    sendMessage({ text: input })
-    setInput("")
-  }
+    e.preventDefault();
+    if (!input.trim() || isLoading) return;
+    sendMessage({ text: input });
+    setInput("");
+  };
 
   const suggestions = [
     "מה חשוב לי בנושא ביטחון?",
     "איזו מפלגה תומכת בנישואין אזרחיים?",
     "מי נגד גיוס חרדים?",
-  ]
+  ];
 
   return (
     <div className="min-h-screen relative flex flex-col">
-      {/* Soft blob background */}
-      <div className="blob-bg">
-        <div className="blob blob-1" />
-        <div className="blob blob-2" />
-        <div className="blob blob-3" />
-        <div className="blob blob-4" />
-      </div>
-
       <PageHeader />
 
       <main className="flex-1 flex flex-col max-w-lg mx-auto w-full px-5 pb-28">
@@ -53,11 +45,13 @@ export default function AdvisorPage() {
             <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-5">
               <Bot className="w-8 h-8 text-primary" />
             </div>
-            <h2 className="text-lg font-semibold mb-2 text-foreground">שלום! אני היועץ הפוליטי שלך</h2>
+            <h2 className="text-lg font-semibold mb-2 text-foreground">
+              שלום! אני היועץ הפוליטי שלך
+            </h2>
             <p className="text-sm text-muted-foreground max-w-xs mb-8">
               ספרו לי על הערכים שחשובים לכם, ואעזור לכם למצוא התאמה.
             </p>
-            
+
             {/* Suggestion chips */}
             <div className="flex flex-wrap gap-3 justify-center max-w-sm">
               {suggestions.map((suggestion) => (
@@ -81,13 +75,13 @@ export default function AdvisorPage() {
                 key={message.id}
                 className={cn(
                   "flex gap-3",
-                  message.role === "user" ? "flex-row-reverse" : "flex-row"
+                  message.role === "user" ? "flex-row-reverse" : "flex-row",
                 )}
               >
                 <div
                   className={cn(
                     "w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0",
-                    message.role === "user" ? "bg-primary" : "bg-muted"
+                    message.role === "user" ? "bg-primary" : "bg-muted",
                   )}
                 >
                   {message.role === "user" ? (
@@ -101,18 +95,21 @@ export default function AdvisorPage() {
                     "rounded-2xl px-4 py-3 max-w-[80%]",
                     message.role === "user"
                       ? "bg-primary text-primary-foreground"
-                      : "glass-card"
+                      : "glass-card",
                   )}
                 >
                   {message.parts.map((part, index) => {
                     if (part.type === "text") {
                       return (
-                        <p key={index} className="whitespace-pre-wrap text-sm leading-relaxed">
+                        <p
+                          key={index}
+                          className="whitespace-pre-wrap text-sm leading-relaxed"
+                        >
                           {part.text}
                         </p>
-                      )
+                      );
                     }
-                    return null
+                    return null;
                   })}
                 </div>
               </div>
@@ -161,5 +158,5 @@ export default function AdvisorPage() {
         </form>
       </div>
     </div>
-  )
+  );
 }

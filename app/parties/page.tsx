@@ -9,14 +9,6 @@ export const metadata = {
 export default function PartiesPage() {
   return (
     <div className="min-h-screen relative">
-      {/* Soft blob background */}
-      <div className="blob-bg">
-        <div className="blob blob-1" />
-        <div className="blob blob-2" />
-        <div className="blob blob-3" />
-        <div className="blob blob-4" />
-      </div>
-
       <PageHeader />
       <main className="max-w-md mx-auto px-5 py-8">
         <div className="text-center mb-6">

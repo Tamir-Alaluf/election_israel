@@ -7,14 +7,6 @@ import { CountdownTimer } from "@/components/countdown-timer";
 export default function HomePage() {
   return (
     <div className="min-h-screen relative">
-      {/* Soft blob background */}
-      <div className="blob-bg">
-        <div className="blob blob-1" />
-        <div className="blob blob-2" />
-        <div className="blob blob-3" />
-        <div className="blob blob-4" />
-      </div>
-
       <PageHeader />
 
       <main className="max-w-md mx-auto px-5 pt-20 pb-10">

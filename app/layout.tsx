@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Heebo, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { BubbleBackground } from '@/components/bubble-background'
 import './globals.css'
 
 const heebo = Heebo({ 
@@ -44,6 +45,7 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl">
       <body className={`${heebo.variable} font-sans antialiased`}>
+        <BubbleBackground interactive />
         {children}
         <Analytics />
       </body>
