@@ -69,7 +69,6 @@ function ComparisonImage({
           isLoading && "opacity-0",
         )}
         onLoad={() => setIsLoading(false)}
-        onError={() => setIsLoading(false)}
       />
     </div>
   );
