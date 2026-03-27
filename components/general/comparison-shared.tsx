@@ -4,6 +4,7 @@ import { useState, type ReactNode } from "react";
 import Image from "next/image";
 import { ChevronDown, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Dialog,
   DialogContent,
@@ -38,6 +39,42 @@ type FilterConfig = {
   options: FilterOption[];
 };
 
+function ComparisonImage({
+  src,
+  alt,
+  sizeClassName,
+}: {
+  src: string;
+  alt: string;
+  sizeClassName: string;
+}) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  return (
+    <div
+      className={cn(
+        "relative rounded-full overflow-hidden flex items-center justify-center",
+        sizeClassName,
+      )}
+    >
+      {isLoading && <Skeleton className="absolute inset-0 rounded-full" />}
+      <Image
+        src={src}
+        alt={alt}
+        width={2048}
+        height={2048}
+        sizes="128px"
+        className={cn(
+          "object-cover transition-opacity duration-200",
+          isLoading && "opacity-0",
+        )}
+        onLoad={() => setIsLoading(false)}
+        onError={() => setIsLoading(false)}
+      />
+    </div>
+  );
+}
+
 export function ComparisonProfileCard({
   image,
   name,
@@ -54,16 +91,11 @@ export function ComparisonProfileCard({
       onClick={onClick}
       className="aspect-square glass-card rounded-2xl flex flex-col items-center justify-center gap-3 hover:shadow-lg hover:scale-[1.02] transition-all duration-200"
     >
-      <div className="relative w-14 h-14 rounded-full overflow-hidden flex items-center justify-center">
-        <Image
-          src={image}
-          alt={`${name} icon`}
-          width={2048}
-          height={2048}
-          sizes="128px"
-          className="object-cover"
-        />
-      </div>
+      <ComparisonImage
+        src={image}
+        alt={`${name} icon`}
+        sizeClassName="w-14 h-14"
+      />
       <div className="text-center px-3">
         <h3 className="font-semibold text-sm text-foreground">{name}</h3>
         <p className="text-xs text-muted-foreground mt-0.5">{subtitle}</p>
@@ -95,16 +127,11 @@ export function ComparisonDialogShell({
       >
         <DialogHeader>
           <div className="flex flex-col items-center gap-3 text-center">
-            <div className="relative w-16 h-16 rounded-full overflow-hidden flex items-center justify-center">
-              <Image
-                src={image}
-                alt={`${title} icon`}
-                width={2048}
-                height={2048}
-                sizes="128px"
-                className="object-cover"
-              />
-            </div>
+            <ComparisonImage
+              src={image}
+              alt={`${title} icon`}
+              sizeClassName="w-16 h-16"
+            />
             <div>
               <DialogTitle className="text-lg text-foreground">
                 {title}
