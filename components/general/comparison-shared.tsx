@@ -60,6 +60,7 @@ export function ComparisonProfileCard({
           alt={`${name} icon`}
           width={2048}
           height={2048}
+          sizes="128px"
           className="object-cover"
         />
       </div>
@@ -100,6 +101,7 @@ export function ComparisonDialogShell({
                 alt={`${title} icon`}
                 width={2048}
                 height={2048}
+                sizes="128px"
                 className="object-cover"
               />
             </div>
