@@ -58,8 +58,8 @@ export function ComparisonProfileCard({
         <Image
           src={image}
           alt={`${name} icon`}
-          width={56}
-          height={56}
+          width={2048}
+          height={2048}
           className="object-cover"
         />
       </div>
@@ -101,8 +101,6 @@ export function ComparisonDialogShell({
                 width={2048}
                 height={2048}
                 className="object-cover"
-                placeholder="blur"
-                blurDataURL={image}
               />
             </div>
             <div>
