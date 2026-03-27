@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import { PageHeader } from "@/components/page-header";
+import { PageHeader } from "@/components/home/page-header";
 import { Send, Bot, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 

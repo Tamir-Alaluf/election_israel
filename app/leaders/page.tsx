@@ -1,5 +1,5 @@
-import { PageHeader } from "@/components/page-header";
-import { LeaderComparisonGrid } from "@/components/leader-comparison-grid";
+import { PageHeader } from "@/components/home/page-header";
+import { LeaderComparisonGrid } from "@/components/leaders/leader-comparison-grid";
 
 export const metadata = {
   title: "השוואת מנהיגים | בחירות 2026",

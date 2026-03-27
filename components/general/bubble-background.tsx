@@ -41,7 +41,6 @@ export function BubbleBackground({
   const mouseY = useMotionValue(0);
   const springX = useSpring(mouseX, transition);
   const springY = useSpring(mouseY, transition);
-
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
       const centerX = window.innerWidth / 2;
@@ -62,6 +61,7 @@ export function BubbleBackground({
     `radial-gradient(circle at center, rgba(${color}, 0.8) 0%, rgba(${color}, 0) 50%)`;
 
   return (
+    //This div create the full screen background layer
     <div
       ref={containerRef}
       aria-hidden="true"
@@ -70,6 +70,7 @@ export function BubbleBackground({
         className,
       )}
     >
+      {/* This svg create the goo effect */}
       <svg className="hidden" aria-hidden="true">
         <defs>
           <filter id="bubble-goo">
@@ -89,22 +90,21 @@ export function BubbleBackground({
         </defs>
       </svg>
 
-      <div
-        className="absolute inset-0"
-        style={{ filter: "url(#bubble-goo) blur(10px)" }}
-      >
+      {/* This div create the bubbles */}
+      <div className="absolute inset-0" style={{ filter: "url(#bubble-goo) " }}>
+        {/* This motion.div create the first bubble */}
         <motion.div
           className="absolute rounded-full mix-blend-hard-light"
           style={{
             width: "86%",
             height: "86%",
-            top: "8%",
-            left: "14%",
+            top: "-10%",
+            left: "-10%",
             background: makeGradient(colors.first),
           }}
           animate={{
-            x: [-90, 60, -30, -90],
-            y: [-20, 70, 20, -20],
+            x: [-190, 160, -130, -190],
+            y: [-70, 120, -60, -70],
             scale: [1, 1.08, 0.95, 1],
           }}
           transition={{
@@ -114,6 +114,7 @@ export function BubbleBackground({
           }}
         />
 
+        {/* This motion.div create the second bubble */}
         <motion.div
           className="absolute rounded-full mix-blend-hard-light"
           style={{
@@ -124,8 +125,8 @@ export function BubbleBackground({
             background: makeGradient(colors.second),
           }}
           animate={{
-            x: [40, -70, 60, 40],
-            y: [70, -30, -70, 70],
+            x: [90, -120, 60, 90],
+            y: [100, -80, -120, 100],
             scale: [1, 0.92, 1.05, 1],
           }}
           transition={{
@@ -135,6 +136,7 @@ export function BubbleBackground({
           }}
         />
 
+        {/* This motion.div create the third bubble */}
         <motion.div
           className="absolute rounded-full mix-blend-hard-light"
           style={{
@@ -156,9 +158,10 @@ export function BubbleBackground({
           }}
         />
 
+        {/* This motion.div create the mouse bubble */}
         {interactive && (
           <motion.div
-            className="absolute rounded-full mix-blend-hard-light opacity-70"
+            className="absolute rounded-full mix-blend-hard-light "
             style={{
               width: "32%",
               height: "32%",

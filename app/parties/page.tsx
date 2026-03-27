@@ -1,5 +1,5 @@
-import { PageHeader } from "@/components/page-header";
-import { PartyComparisonGrid } from "@/components/party-comparison-grid";
+import { PageHeader } from "@/components/home/page-header";
+import { PartyComparisonGrid } from "@/components/parties/party-comparison-grid";
 
 export const metadata = {
   title: "השוואת מפלגות | בחירות 2026",
