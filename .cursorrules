@@ -1,0 +1,37 @@
+# election_israel — Cursor project rules
+
+## Project
+
+- **Stack**: Next.js App Router (app/), React 19, TypeScript, Tailwind CSS 4, shadcn/ui (Radix), Recharts, Framer Motion.
+- **Audience & UI**: Hebrew content, RTL (`dir="rtl"`), Heebo font — preserve RTL layout, logical spacing, and accessibility when adding UI.
+- **Data & copy**: Election/party/leader content lives in `lib/` and feature components — keep factual tone consistent; do not invent mandates or poll numbers without source data in code.
+
+## Code style
+
+- Match existing patterns: imports (`@/`), component structure, and naming in nearby files.
+- Prefer small, focused changes; avoid unrelated refactors or broad formatting-only edits.
+- Reuse shared pieces (`components/general/`, `components/ui/`) before adding new primitives.
+- Prefer shadcn/ui components wherever possible; avoid raw/native HTML elements when an equivalent shadcn component exists.
+- TypeScript: explicit types for public props and exported APIs; avoid `any` unless unavoidable.
+- Keep code highly modular: split large screens/features into small, focused components with clear responsibilities.
+
+## Next.js / React
+
+- Default to Server Components; add `"use client"` only when hooks, browser APIs, or interactivity require it.
+- Colocate route-specific UI under `app/`; feature UI under `components/<area>/`.
+- Use existing API route patterns in `app/api/` when adding server endpoints.
+- Maximize Next.js optimizations: use `next/image`, `next/font`, dynamic imports/code-splitting, caching/revalidation, and metadata best practices where appropriate.
+
+## Styling
+
+- Tailwind + existing CSS variables in `app/globals.css`; align with current spacing, typography, and color tokens.
+- Avoid inline styles that fight RTL or global theme unless the file already does so.
+
+## Assets
+
+- Static images under `public/` (e.g. `public/parties/`, `public/leaders/`); reference with paths that work in Next/Image or `<img>` as used elsewhere.
+
+## When answering in chat
+
+- Use fenced code citations with line numbers and paths when referencing this repo’s code.
+- Prefer concise, high-signal explanations; avoid unnecessary new markdown files unless asked.

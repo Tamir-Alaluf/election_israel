@@ -3,7 +3,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import { PageHeader } from "@/components/home/page-header";
 import { Send, Bot, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -36,8 +35,6 @@ export default function AdvisorPage() {
 
   return (
     <div className="min-h-screen relative flex flex-col">
-      <PageHeader />
-
       <main className="flex-1 flex flex-col max-w-lg mx-auto w-full px-5 pb-28">
         {/* Welcome state */}
         {messages.length === 0 && (

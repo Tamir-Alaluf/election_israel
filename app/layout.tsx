@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Heebo } from "next/font/google";
 import { BubbleBackground } from "@/components/general/bubble-background";
+import { PageHeader } from "@/components/home/page-header";
 import "./globals.css";
 
 const heebo = Heebo({
@@ -24,6 +25,7 @@ export default function RootLayout({
     <html lang="he" dir="rtl">
       <body className={`${heebo.variable} font-sans antialiased`}>
         {/* <BubbleBackground interactive /> */}
+        <PageHeader />
         {children}
       </body>
     </html>

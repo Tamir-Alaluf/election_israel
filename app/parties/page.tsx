@@ -1,4 +1,3 @@
-import { PageHeader } from "@/components/home/page-header";
 import { PartyComparisonGrid } from "@/components/parties/party-comparison-grid";
 
 export const metadata = {
@@ -9,7 +8,6 @@ export const metadata = {
 export default function PartiesPage() {
   return (
     <div className="min-h-screen relative">
-      <PageHeader />
       <main className="max-w-md mx-auto px-5 py-8">
         <div className="text-center mb-6">
           <h1 className="text-lg font-bold text-foreground mb-1">
