@@ -55,7 +55,13 @@ export function ComparisonProfileCard({
       className="aspect-square glass-card rounded-2xl flex flex-col items-center justify-center gap-3 hover:shadow-lg hover:scale-[1.02] transition-all duration-200"
     >
       <div className="relative w-14 h-14 rounded-full overflow-hidden flex items-center justify-center">
-        <Image src={image} alt={`${name} icon`} width={56} height={56} className="object-cover" />
+        <Image
+          src={image}
+          alt={`${name} icon`}
+          width={56}
+          height={56}
+          className="object-cover"
+        />
       </div>
       <div className="text-center px-3">
         <h3 className="font-semibold text-sm text-foreground">{name}</h3>
@@ -89,11 +95,23 @@ export function ComparisonDialogShell({
         <DialogHeader>
           <div className="flex flex-col items-center gap-3 text-center">
             <div className="relative w-16 h-16 rounded-full overflow-hidden flex items-center justify-center">
-              <Image src={image} alt={`${title} icon`} width={64} height={64} className="object-cover" />
+              <Image
+                src={image}
+                alt={`${title} icon`}
+                width={2048}
+                height={2048}
+                className="object-cover"
+                placeholder="blur"
+                blurDataURL={image}
+              />
             </div>
             <div>
-              <DialogTitle className="text-lg text-foreground">{title}</DialogTitle>
-              <DialogDescription className="text-sm text-muted-foreground">{subtitle}</DialogDescription>
+              <DialogTitle className="text-lg text-foreground">
+                {title}
+              </DialogTitle>
+              <DialogDescription className="text-sm text-muted-foreground">
+                {subtitle}
+              </DialogDescription>
             </div>
           </div>
         </DialogHeader>
@@ -158,7 +176,11 @@ export function ComparisonFilters({
 
       <div className="grid grid-cols-2 gap-2">
         {filters.map((filter) => (
-          <Select key={filter.key} value={filter.value} onValueChange={filter.onValueChange}>
+          <Select
+            key={filter.key}
+            value={filter.value}
+            onValueChange={filter.onValueChange}
+          >
             <SelectTrigger className="glass-card border-0 text-sm">
               <SelectValue placeholder={filter.placeholder} />
             </SelectTrigger>
@@ -179,9 +201,13 @@ export function ComparisonFilters({
 }
 
 export function ComparisonGrid({ children }: { children: ReactNode }) {
-  return <div className="grid grid-cols-2 md:grid-cols-3 gap-4">{children}</div>;
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">{children}</div>
+  );
 }
 
 export function ComparisonEmptyState({ message }: { message: string }) {
-  return <div className="text-center py-8 text-muted-foreground">{message}</div>;
+  return (
+    <div className="text-center py-8 text-muted-foreground">{message}</div>
+  );
 }
