@@ -4,7 +4,12 @@ import {
   streamText,
   UIMessage,
 } from "ai"
-import { parties, leaders, partyCategories, leaderParameters } from "@/lib/election-data"
+import {
+  parties,
+  leaders,
+  allPartyComparisonParameters,
+  leaderParameters,
+} from "@/lib/election-data"
 
 export const maxDuration = 30
 
@@ -24,10 +29,7 @@ function buildElectionContext() {
     return `${l.name} (${l.party}): ${values}`
   }).join("\n")
 
-  const partyParams = [
-    ...partyCategories.core.parameters.map(p => p.label),
-    ...partyCategories.daily.parameters.map(p => p.label),
-  ].join(", ")
+  const partyParams = allPartyComparisonParameters.map((p) => p.label).join(", ")
 
   const leaderParams = leaderParameters.map(p => p.label).join(", ")
 

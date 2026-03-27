@@ -18,10 +18,8 @@ export function PartyDialog({
 }) {
   if (!party) return null;
 
-  const allParams = [
-    ...partyCategories.core.parameters,
-    ...partyCategories.daily.parameters,
-  ];
+  const attributeParams = partyCategories.attributes.parameters;
+  const issueParams = partyCategories.issues.parameters;
 
   return (
     <ComparisonDialogShell
@@ -31,24 +29,10 @@ export function PartyDialog({
       title={party.name}
       subtitle={party.leader}
     >
-      <ComparisonCollapsibleSection title="תיאור קצר" defaultOpen>
+      <ComparisonCollapsibleSection title="חזון המפלגה">
         <div className="p-3 rounded-lg bg-muted/30">
-          <p className="text-sm text-foreground leading-relaxed">
-            {party.name} היא מפלגת {party.values.type} עם עמדה{" "}
-            {party.values.security} בביטחון ו{party.values.economy} בכלכלה.
-            המפלגה{" "}
-            {party.values.harediGov === "כן"
-              ? "תומכת"
-              : party.values.harediGov === "לא"
-                ? "מתנגדת"
-                : "תומכת באופן חלקי"}{" "}
-            בשילוב חרדים בממשלה ו
-            {party.values.arabGov === "כן"
-              ? "תומכת"
-              : party.values.arabGov === "לא"
-                ? "מתנגדת"
-                : "תומכת באופן חלקי"}{" "}
-            בשילוב ערבים.
+          <p className="text-sm text-foreground leading-relaxed whitespace-pre-line">
+            {party.vision}
           </p>
         </div>
       </ComparisonCollapsibleSection>
@@ -68,9 +52,28 @@ export function PartyDialog({
         </div>
       </ComparisonCollapsibleSection>
 
-      <ComparisonCollapsibleSection title="פרמטרים להשוואה">
+      <ComparisonCollapsibleSection title={partyCategories.attributes.title}>
         <div className="space-y-2">
-          {allParams.map((param) => (
+          {attributeParams.map((param) => (
+            <div
+              key={param.id}
+              className="flex items-center justify-between py-2 px-1 border-b border-border/30 last:border-0"
+            >
+              <span className="text-sm text-muted-foreground">
+                {param.label}
+              </span>
+              <ValueBadge
+                value={
+                  party.values[param.id as keyof typeof party.values] || "-"
+                }
+              />
+            </div>
+          ))}
+        </div>
+      </ComparisonCollapsibleSection>
+      <ComparisonCollapsibleSection title={partyCategories.issues.title}>
+        <div className="space-y-2">
+          {issueParams.map((param) => (
             <div
               key={param.id}
               className="flex items-center justify-between py-2 px-1 border-b border-border/30 last:border-0"
