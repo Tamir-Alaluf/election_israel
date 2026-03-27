@@ -13,9 +13,6 @@ export default function PartiesPage() {
           <h1 className="text-lg font-bold text-foreground mb-1">
             השוואת מפלגות
           </h1>
-          <p className="text-sm text-muted-foreground">
-            לחצו על מפלגה לצפייה בעמדות
-          </p>
         </div>
         <PartyComparisonGrid />
       </main>

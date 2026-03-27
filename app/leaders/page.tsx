@@ -13,9 +13,6 @@ export default function LeadersPage() {
           <h1 className="text-lg font-bold text-foreground mb-1">
             השוואת מנהיגים
           </h1>
-          <p className="text-sm text-muted-foreground">
-            לחצו על מנהיג לצפייה בפרטים
-          </p>
         </div>
         <LeaderComparisonGrid />
       </main>
