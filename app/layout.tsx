@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl">
       <body className={`${heebo.variable} font-sans antialiased`}>
-        <BubbleBackground interactive />
+        {/* <BubbleBackground interactive /> */}
         {children}
       </body>
     </html>
