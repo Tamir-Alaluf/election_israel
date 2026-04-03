@@ -352,6 +352,7 @@ export function PartyDialog({
                     const shouldRenderGroupTitle =
                       param.group && param.group !== prevGroup;
 
+                    // return null;
                     return (
                       <div key={param.id}>
                         {shouldRenderGroupTitle && (
@@ -359,7 +360,8 @@ export function PartyDialog({
                             {param.group}
                           </p>
                         )}
-                        <div className="flex items-center justify-between gap-2 py-2 px-1 border-b border-border/30 last:border-0">
+
+                        <div className="flex items-center justify-between py-2 px-1 border-b border-border/30 last:border-0">
                           <span className="min-w-0 flex-1 text-sm text-muted-foreground break-words">
                             {param.label}
                           </span>

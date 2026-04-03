@@ -10,8 +10,7 @@ import { cn } from "@/lib/utils";
 export const valueBadgeToneClasses = {
   positive:
     "border-violet-500/35 bg-violet-500/10 text-violet-950 dark:text-violet-100",
-  negative:
-    "border-sky-500/35 bg-sky-500/10 text-sky-950 dark:text-sky-100",
+  negative: "border-sky-500/35 bg-sky-500/10 text-sky-950 dark:text-sky-100",
   neutral:
     "border-amber-500/40 bg-amber-500/10 text-amber-950 dark:text-amber-100",
 } as const;
@@ -54,7 +53,7 @@ const valueToTone: Record<string, keyof typeof badgeTone> = {
 
 /** מחלקות בסיס משותפות לתגיות השוואה (מפלגה / עמדות) */
 export const comparisonBadgeClassName =
-  "text-xs font-semibold leading-tight px-2 py-0.5 h-auto min-h-0 w-fit max-w-[min(100%,14rem)] whitespace-normal text-center";
+  "text-xs font-semibold leading-tight px-2 py-0.5 h-auto min-h-0 max-w-[min(100%,14rem)] whitespace-normal text-center";
 
 export function ValueBadge({ value }: { value: string }) {
   const tone = valueToTone[value] ?? "neutral";
