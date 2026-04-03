@@ -144,6 +144,7 @@ export function ComparisonDialogShell({
   title,
   subtitle,
   children,
+  contentClassName,
 }: {
   open: boolean;
   onClose: () => void;
@@ -151,11 +152,16 @@ export function ComparisonDialogShell({
   title: string;
   subtitle: string;
   children: ReactNode;
+  /** Merged into DialogContent (e.g. scrollbar-hide for party dialog) */
+  contentClassName?: string;
 }) {
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent
-        className="max-w-md max-h-[85vh] overflow-y-auto glass-card border-0"
+        className={cn(
+          "max-w-md max-h-[85vh] overflow-y-auto glass-card border-0",
+          contentClassName,
+        )}
         dir="rtl"
       >
         <DialogHeader>

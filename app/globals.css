@@ -76,3 +76,14 @@
   font-feature-settings: "liga" 1;
   line-height: 1.5;
 }
+
+/* Hide scrollbar but keep scroll (accessibility: content still scrollable) */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}

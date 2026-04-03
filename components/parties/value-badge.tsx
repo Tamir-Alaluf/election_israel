@@ -1,13 +1,22 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
-/** שלושה צבעים קבועים לכל התגיות: חיובי (ירוק), שלילי (אדום), ניטרלי/קטגוריה (צהוב) */
-const badgeTone = {
-  positive: "bg-emerald-100 text-emerald-800",
-  negative: "bg-rose-100 text-rose-800",
-  neutral: "bg-amber-100 text-amber-800",
+/**
+ * צבעי תג ערך: לשעבר אדום → כחול, לשעבר ירוק → סגול, צהוב נשאר צהוב.
+ * סגנון תואם לתגיות קטגוריה בדיאלוג המפלגה (מסגרת + רקע שקוף חלקית).
+ */
+export const valueBadgeToneClasses = {
+  positive:
+    "border-violet-500/35 bg-violet-500/10 text-violet-950 dark:text-violet-100",
+  negative:
+    "border-sky-500/35 bg-sky-500/10 text-sky-950 dark:text-sky-100",
+  neutral:
+    "border-amber-500/40 bg-amber-500/10 text-amber-950 dark:text-amber-100",
 } as const;
+
+const badgeTone = valueBadgeToneClasses;
 
 const valueToTone: Record<string, keyof typeof badgeTone> = {
   // חיובי / תמיכה / עדיפות גבוהה
@@ -28,7 +37,7 @@ const valueToTone: Record<string, keyof typeof badgeTone> = {
   איזון: "neutral",
   מעורב: "neutral",
 
-  // צירים אידיאולוגיים לפי כלל צבעים: ימין=אדום, שמאל=ירוק, מרכז=צהוב
+  // צירים אידיאולוגיים לפי כלל צבעים: ימין=כחול, שמאל=סגול, מרכז=צהוב
   ימין: "negative",
   "מרכז ימין": "neutral",
   מרכז: "neutral",
@@ -43,17 +52,19 @@ const valueToTone: Record<string, keyof typeof badgeTone> = {
   חילונית: "neutral",
 };
 
+/** מחלקות בסיס משותפות לתגיות השוואה (מפלגה / עמדות) */
+export const comparisonBadgeClassName =
+  "text-xs font-semibold leading-tight px-2 py-0.5 h-auto min-h-0 w-fit max-w-[min(100%,14rem)] whitespace-normal text-center";
+
 export function ValueBadge({ value }: { value: string }) {
   const tone = valueToTone[value] ?? "neutral";
 
   return (
-    <span
-      className={cn(
-        "inline-block px-2.5 py-1 text-xs font-medium rounded-full",
-        badgeTone[tone],
-      )}
+    <Badge
+      variant="outline"
+      className={cn(comparisonBadgeClassName, badgeTone[tone])}
     >
       {value}
-    </span>
+    </Badge>
   );
 }
