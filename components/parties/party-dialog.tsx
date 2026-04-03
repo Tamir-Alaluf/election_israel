@@ -227,7 +227,7 @@ export function PartyDialog({
         </div>
       </ComparisonCollapsibleSection>
 
-      {party.id === "likud" && party.promisesVsResultsLikud && (
+      {/* {party.id === "likud" && party.promisesVsResultsLikud && (
         <ComparisonCollapsibleSection title="הבטחות מול מעשים">
           <div className="p-3 rounded-lg bg-muted/30">
             <p className="text-sm text-foreground leading-relaxed whitespace-pre-line">
@@ -235,7 +235,7 @@ export function PartyDialog({
             </p>
           </div>
         </ComparisonCollapsibleSection>
-      )}
+      )} */}
       <ComparisonCollapsibleSection title="הבטחות לשנים הקרובות">
         <div className="p-3 rounded-lg bg-muted/30">
           {promiseItems.length > 0 ? (
