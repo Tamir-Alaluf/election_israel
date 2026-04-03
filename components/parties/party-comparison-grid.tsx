@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { parties } from "@/lib/election-data";
+import { parties, partyCategories } from "@/lib/election-data";
 import {
   ComparisonEmptyState,
   ComparisonFilters,
@@ -16,10 +16,10 @@ export function PartyComparisonGrid() {
     (typeof parties)[0] | null
   >(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [typeFilter, setTypeFilter] = useState<string>("all");
-  const [securityFilter, setSecurityFilter] = useState<string>("all");
-  const [economyFilter, setEconomyFilter] = useState<string>("all");
-  const [harediGovFilter, setHarediGovFilter] = useState<string>("all");
+  const [typeFilter, setTypeFilter] = useState<string[]>([]);
+  const [securityFilter, setSecurityFilter] = useState<string[]>([]);
+  const [economyFilter, setEconomyFilter] = useState<string[]>([]);
+  const [lawFilters, setLawFilters] = useState<Record<string, string>>({});
 
   const filteredParties = useMemo(() => {
     return parties.filter((party) => {
@@ -34,30 +34,36 @@ export function PartyComparisonGrid() {
         }
       }
       // Type filter
-      if (typeFilter !== "all" && party.values.type !== typeFilter) {
+      if (typeFilter.length > 0 && !typeFilter.includes(party.values.type)) {
         return false;
       }
       // Security filter
       if (
-        securityFilter !== "all" &&
-        party.values.security !== securityFilter
+        securityFilter.length > 0 &&
+        !securityFilter.includes(party.values.security)
       ) {
         return false;
       }
       // Economy filter
-      if (economyFilter !== "all" && party.values.economy !== economyFilter) {
-        return false;
-      }
-      // Haredi Gov filter
       if (
-        harediGovFilter !== "all" &&
-        party.values.harediGov !== harediGovFilter
+        economyFilter.length > 0 &&
+        !economyFilter.includes(party.values.economy)
       ) {
         return false;
       }
+
+      // Law filters intersection: party must match every selected law stance.
+      for (const issue of partyCategories.issues.parameters) {
+        const selectedStance = lawFilters[issue.id];
+        if (!selectedStance) continue;
+        if (party.values[issue.id as keyof typeof party.values] !== selectedStance) {
+          return false;
+        }
+      }
+
       return true;
     });
-  }, [searchQuery, typeFilter, securityFilter, economyFilter, harediGovFilter]);
+  }, [searchQuery, typeFilter, securityFilter, economyFilter, lawFilters]);
 
   return (
     <>
@@ -72,8 +78,8 @@ export function PartyComparisonGrid() {
           setSecurityFilter,
           economyFilter,
           setEconomyFilter,
-          harediGovFilter,
-          setHarediGovFilter,
+          lawFilters,
+          setLawFilters,
         })}
         resultsText={`${filteredParties.length} מפלגות`}
       />

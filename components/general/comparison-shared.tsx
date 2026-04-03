@@ -25,19 +25,53 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type FilterOption = {
   value: string;
   label: string;
 };
 
-type FilterConfig = {
+type SingleFilterConfig = {
   key: string;
   value: string;
   onValueChange: (value: string) => void;
   placeholder: string;
   options: FilterOption[];
+  multiSelect?: false;
 };
+
+type MultiSelectFilterConfig = {
+  key: string;
+  values: string[];
+  onValuesChange: (values: string[]) => void;
+  placeholder: string;
+  options: FilterOption[];
+  multiSelect: true;
+  allLabel?: string;
+};
+
+type LawStanceFilterConfig = {
+  key: string;
+  placeholder: string;
+  lawStances: Record<string, string>;
+  lawOptions: Array<{ id: string; label: string }>;
+  onLawStanceChange: (lawId: string, stance: string) => void;
+  onClearAll: () => void;
+  lawFilter: true;
+};
+
+type FilterConfig =
+  | SingleFilterConfig
+  | MultiSelectFilterConfig
+  | LawStanceFilterConfig;
 
 function ComparisonImage({
   src,
@@ -201,24 +235,150 @@ export function ComparisonFilters({
       </div>
 
       <div className="grid grid-cols-2 gap-2">
-        {filters.map((filter) => (
-          <Select
-            key={filter.key}
-            value={filter.value}
-            onValueChange={filter.onValueChange}
-          >
-            <SelectTrigger className="glass-card border-0 text-sm">
-              <SelectValue placeholder={filter.placeholder} />
-            </SelectTrigger>
-            <SelectContent>
-              {filter.options.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        ))}
+        {filters.map((filter) => {
+          if ("lawFilter" in filter && filter.lawFilter) {
+            const selectedCount = Object.values(filter.lawStances).filter(
+              (value) => value === "בעד" || value === "נגד",
+            ).length;
+
+            return (
+              <DropdownMenu key={filter.key}>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="glass-card border-0 text-sm justify-between w-full text-foreground hover:text-foreground"
+                  >
+                    <span>
+                      {filter.placeholder}
+                      {selectedCount > 0 ? ` (${selectedCount})` : ""}
+                    </span>
+                    <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  className="w-[var(--radix-dropdown-menu-trigger-width)] max-h-96 overflow-y-auto"
+                  align="start"
+                >
+                  <div dir="rtl">
+                    <DropdownMenuItem onClick={filter.onClearAll}>
+                      נקה חוקים
+                    </DropdownMenuItem>
+                    {filter.lawOptions.map((law) => {
+                      const selectedStance = filter.lawStances[law.id] ?? "";
+
+                      return (
+                        <div
+                          key={law.id}
+                          className="px-2 py-2 border-t border-border/30 first:border-t-0 text-right"
+                        >
+                          <p className="text-xs text-foreground mb-2 leading-relaxed">
+                            {law.label}
+                          </p>
+                          <div className="flex flex-row-reverse justify-end gap-2">
+                            <Button
+                              type="button"
+                              variant={
+                                selectedStance === "בעד" ? "default" : "outline"
+                              }
+                              size="sm"
+                              className="h-8"
+                              onClick={() => filter.onLawStanceChange(law.id, "בעד")}
+                            >
+                              בעד
+                            </Button>
+                            <Button
+                              type="button"
+                              variant={
+                                selectedStance === "נגד" ? "default" : "outline"
+                              }
+                              size="sm"
+                              className="h-8"
+                              onClick={() => filter.onLawStanceChange(law.id, "נגד")}
+                            >
+                              נגד
+                            </Button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            );
+          }
+
+          if ("multiSelect" in filter && filter.multiSelect) {
+            return (
+            <DropdownMenu key={filter.key}>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="glass-card border-0 text-sm justify-between w-full text-foreground hover:text-foreground"
+                >
+                  <span>
+                    {filter.placeholder}
+                    {filter.values.length > 0 ? ` (${filter.values.length})` : ""}
+                  </span>
+                  <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                className="w-[var(--radix-dropdown-menu-trigger-width)]"
+              >
+                <div dir="rtl">
+                  {filter.allLabel ? (
+                    <DropdownMenuItem onClick={() => filter.onValuesChange([])}>
+                      {filter.allLabel}
+                    </DropdownMenuItem>
+                  ) : null}
+                  {filter.options.map((option) => (
+                    <DropdownMenuCheckboxItem
+                      key={option.value}
+                      checked={filter.values.includes(option.value)}
+                      onSelect={(event) => event.preventDefault()}
+                      onCheckedChange={(checked) => {
+                        const isChecked = checked === true;
+                        if (isChecked) {
+                          filter.onValuesChange([...filter.values, option.value]);
+                          return;
+                        }
+                        filter.onValuesChange(
+                          filter.values.filter((value) => value !== option.value),
+                        );
+                      }}
+                    >
+                      {option.label}
+                    </DropdownMenuCheckboxItem>
+                  ))}
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            );
+          }
+
+          if ("value" in filter && "onValueChange" in filter) {
+            return (
+              <Select
+                key={filter.key}
+                value={filter.value}
+                onValueChange={filter.onValueChange}
+              >
+                <SelectTrigger className="glass-card border-0 text-sm">
+                  <SelectValue placeholder={filter.placeholder} />
+                </SelectTrigger>
+                <SelectContent dir="rtl">
+                  {filter.options.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            );
+          }
+
+          return null;
+        })}
       </div>
 
       <p className="text-xs text-muted-foreground">{resultsText}</p>

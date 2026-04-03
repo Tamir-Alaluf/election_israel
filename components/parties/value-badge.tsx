@@ -2,12 +2,11 @@
 
 import { cn } from "@/lib/utils";
 
-/** ארבעה צבעים קבועים לכל התגיות: חיובי, שלילי, ביניים, ציר/קטגוריה */
+/** שלושה צבעים קבועים לכל התגיות: חיובי (ירוק), שלילי (אדום), ניטרלי/קטגוריה (צהוב) */
 const badgeTone = {
   positive: "bg-emerald-100 text-emerald-800",
   negative: "bg-rose-100 text-rose-800",
-  partial: "bg-amber-100 text-amber-800",
-  categorical: "bg-blue-100 text-blue-800",
+  neutral: "bg-amber-100 text-amber-800",
 } as const;
 
 const valueToTone: Record<string, keyof typeof badgeTone> = {
@@ -21,29 +20,31 @@ const valueToTone: Record<string, keyof typeof badgeTone> = {
   לא: "negative",
   "לא בסדר יום": "negative",
 
-  // ביניים / חלקי / מקומי / דקרימינליזציה / עדיפות נמוכה / איזון / מעורב
-  חלקי: "partial",
-  מקומי: "partial",
-  דקרימינליזציה: "partial",
-  "עדיפות נמוכה": "partial",
-  איזון: "partial",
-  מעורב: "partial",
+  // ביניים / קטגורי
+  חלקי: "neutral",
+  מקומי: "neutral",
+  דקרימינליזציה: "neutral",
+  "עדיפות נמוכה": "neutral",
+  איזון: "neutral",
+  מעורב: "neutral",
 
-  // צירים וקטגוריות זהות (לא "טוב/רע")
-  ימין: "categorical",
-  מרכז: "categorical",
-  שמאל: "categorical",
-  קפיטליסט: "categorical",
-  סוציאליסט: "categorical",
-  משילות: "categorical",
-  דמוקרטיה: "categorical",
-  חרדים: "categorical",
-  ערבים: "categorical",
-  חילוניים: "categorical",
+  // צירים אידיאולוגיים לפי כלל צבעים: ימין=אדום, שמאל=ירוק, מרכז=צהוב
+  ימין: "negative",
+  "מרכז ימין": "neutral",
+  מרכז: "neutral",
+  "מרכז שמאל": "neutral",
+  שמאל: "positive",
+  "ימין כלכלי": "negative",
+  "שמאל כלכלי": "positive",
+  משילות: "neutral",
+  דמוקרטיה: "neutral",
+  חרדית: "neutral",
+  ערבית: "neutral",
+  חילונית: "neutral",
 };
 
 export function ValueBadge({ value }: { value: string }) {
-  const tone = valueToTone[value] ?? "categorical";
+  const tone = valueToTone[value] ?? "neutral";
 
   return (
     <span

@@ -6,17 +6,17 @@ export const partyCategories = {
       {
         id: "type",
         label: "סוג מפלגה",
-        options: ["חרדים", "ערבים", "חילוניים", "מעורב"],
+        options: ["חרדית", "ערבית", "חילונית"],
       },
       {
         id: "security",
         label: "גישה ביטחונית",
-        options: ["ימין", "מרכז", "שמאל"],
+        options: ["ימין", "מרכז ימין", "מרכז שמאל", "שמאל"],
       },
       {
         id: "economy",
         label: "גישה כלכלית",
-        options: ["קפיטליסט", "סוציאליסט", "מעורב"],
+        options: ["ימין כלכלי", "שמאל כלכלי", "מרכז"],
       },
       {
         id: "harediGov",
@@ -34,54 +34,100 @@ export const partyCategories = {
     title: "עמדות בנושאים ספציפיים",
     parameters: [
       {
-        id: "governance",
-        label: "הרפורמה המשפטית",
+        id: "draftLaw",
+        label: "חוק הגיוס",
+        group: "דת ומדינה",
         options: ["בעד", "נגד", "חלקי"],
       },
       {
-        id: "shabbatTransport",
-        label: "תחבורה בשבת",
-        options: ["בעד", "נגד", "מקומי"],
-      },
-      {
-        id: "civilMarriage",
-        label: "נישואין אזרחיים",
+        id: "shabbatTransportPolicy",
+        label: "תחבורה ציבורית בשבת",
+        group: "דת ומדינה",
         options: ["בעד", "נגד", "חלקי"],
       },
       {
-        id: "equalBurden",
-        label: "שוויון בנטל",
+        id: "civilMarriageLaw",
+        label: "חוק נישואין אזרחיים / ברית הזוגיות",
+        group: "דת ומדינה",
         options: ["בעד", "נגד", "חלקי"],
       },
       {
-        id: "eduSubsidy",
-        label: "סבסוד השכלה גבוהה",
+        id: "chametzLaw",
+        label: "חוק החמץ בבתי חולים",
+        group: "דת ומדינה",
         options: ["בעד", "נגד", "חלקי"],
       },
       {
-        id: "eduFrom0",
-        label: "חינוך מגיל 0",
+        id: "overrideClause",
+        label: "פסקת ההתגברות",
+        group: "משפט וממשל",
         options: ["בעד", "נגד", "חלקי"],
       },
       {
-        id: "climate",
-        label: "משבר אקלים",
-        options: ["עדיפות גבוהה", "עדיפות נמוכה", "לא בסדר יום"],
-      },
-      {
-        id: "eduChoice",
-        label: "חופש בחירה בחינוך",
+        id: "agSplitLaw",
+        label: 'חוק פיצול תפקיד היועמ"ש',
+        group: "משפט וממשל",
         options: ["בעד", "נגד", "חלקי"],
       },
       {
-        id: "reservists",
-        label: "הטבות למילואימניקים",
+        id: "broadcastingLaw",
+        label: "חוק השידורים",
+        group: "משפט וממשל",
         options: ["בעד", "נגד", "חלקי"],
       },
       {
-        id: "legalization",
-        label: "לגליזציה",
-        options: ["בעד", "נגד", "דקרימינליזציה"],
+        id: "reasonablenessCancellation",
+        label: "ביטול עילת הסבירות",
+        group: "משפט וממשל",
+        options: ["בעד", "נגד", "חלקי"],
+      },
+      {
+        id: "freeEdu0to3",
+        label: "חוק חינוך חינם מגיל 0-3",
+        group: "חברה וכלכלה",
+        options: ["בעד", "נגד", "חלקי"],
+      },
+      {
+        id: "higherEduSubsidyLaw",
+        label: "חוק סבסוד השכלה גבוהה / תואר ראשון חינם",
+        group: "חברה וכלכלה",
+        options: ["בעד", "נגד", "חלקי"],
+      },
+      {
+        id: "rentControlLaw",
+        label: "חוק פיקוח על שכר הדירה",
+        group: "חברה וכלכלה",
+        options: ["בעד", "נגד", "חלקי"],
+      },
+      {
+        id: "minWage7000",
+        label: 'העלאת שכר המינימום ל-7,000 ש"ח',
+        group: "חברה וכלכלה",
+        options: ["בעד", "נגד", "חלקי"],
+      },
+      {
+        id: "deathPenaltyTerror",
+        label: "חוק עונש מוות למחבלים",
+        group: "ביטחון ומדיניות",
+        options: ["בעד", "נגד", "חלקי"],
+      },
+      {
+        id: "terrorFamiliesDeportation",
+        label: "חוק גירוש משפחות מחבלים",
+        group: "ביטחון ומדיניות",
+        options: ["בעד", "נגד", "חלקי"],
+      },
+      {
+        id: "sovereigntyJudeaSamaria",
+        label: 'החלת ריבונות ביו"ש (סיפוח)',
+        group: "ביטחון ומדיניות",
+        options: ["בעד", "נגד", "חלקי"],
+      },
+      {
+        id: "ngoForeignFundingLaw",
+        label: "חוק העמותות",
+        group: "ביטחון ומדיניות",
+        options: ["בעד", "נגד", "חלקי"],
       },
     ],
   },
@@ -94,15 +140,6 @@ export const allPartyComparisonParameters = [
 
 export const leaderParameters = [
   { id: "securityBg", label: "רקע ביטחוני", type: "rating" },
-  { id: "economicBg", label: "רקע כלכלי", type: "rating" },
-  { id: "pressure", label: "יכולת עמידה בלחצים", type: "rating" },
-  { id: "brokenPromises", label: "הפרת הבטחות ליבה", type: "rating" },
-  { id: "consistency", label: "עקביות", type: "rating" },
-  { id: "authority", label: "סמכותיות", type: "scale" },
-  { id: "communication", label: "אנגלית ותקשורת", type: "rating" },
-  { id: "worldRelations", label: "יחסים עם מנהיגי עולם", type: "rating" },
-  { id: "criminal", label: "חשדות ופלילים", type: "status" },
-  { id: "lifestyle", label: "סגנון חיים", type: "text" },
 ];
 
 // Sample party data - can be expanded
@@ -118,22 +155,34 @@ export const parties = [
     vision:
       "החזון: ישראל כמעצמה חזקה, חופשית ובטוחה.\n\n" +
       "המפלגה שואפת שבעוד 10 שנים ישראל תהיה המדינה הכי חזקה במזרח התיכון בזכות צבא חזק וכלכלה של שוק חופשי (פחות התערבות של הממשלה, יותר תחרות). הליכוד דוגל בשמירה על ארץ ישראל ועל ריבונות יהודית, בלי להקים מדינה פלסטינית, מתוך אמונה שרק כוח והרתעה יביאו שלום אמת וביטחון.",
+    recentActions:
+      "מה עשו בשנים האחרונות: הובילו ממשלות ימין ברצף, קידמו רפורמות במערכת המשפט והחקיקה, ניהלו סבבי לחימה מול ארגוני טרור, וכן טיפלו במשברים כלכליים ובחוסן האזרחי-ביטחוני.",
+    futurePromises:
+      "הבטחות לשנים הקרובות: חיזוק המשילות והביטחון, צמצום הבירוקרטיה, השקעה בתשתיות לאומיות והמשך חיזוק מעמד ישראל בזירה הבינלאומית.",
+    promisesVsResultsLikud:
+      "הבטחות מול תוצאות (הליכוד): חלק מההבטחות בנושאי ביטחון, הסכמי נורמליזציה ושוק חופשי תורגמו למדיניות בפועל, בעוד תחומים כמו יוקר מחיה, משבר הדיור והפחתת עומס ביורוקרטי נותרו שנויים במחלוקת מבחינת מימוש מלא.",
     values: {
-      type: "מעורב",
+      type: "חילונית",
       security: "ימין",
-      economy: "קפיטליסט",
+      economy: "ימין כלכלי",
       harediGov: "כן",
       arabGov: "לא",
-      governance: "בעד",
-      shabbatTransport: "נגד",
-      civilMarriage: "נגד",
-      equalBurden: "נגד",
-      eduSubsidy: "חלקי",
-      eduFrom0: "חלקי",
-      climate: "עדיפות נמוכה",
-      eduChoice: "בעד",
-      reservists: "בעד",
-      legalization: "נגד",
+      draftLaw: "נגד",
+      shabbatTransportPolicy: "נגד",
+      civilMarriageLaw: "נגד",
+      chametzLaw: "בעד",
+      overrideClause: "בעד",
+      agSplitLaw: "בעד",
+      broadcastingLaw: "בעד",
+      reasonablenessCancellation: "בעד",
+      freeEdu0to3: "נגד",
+      higherEduSubsidyLaw: "נגד",
+      rentControlLaw: "נגד",
+      minWage7000: "נגד",
+      deathPenaltyTerror: "בעד",
+      terrorFamiliesDeportation: "בעד",
+      sovereigntyJudeaSamaria: "בעד",
+      ngoForeignFundingLaw: "בעד",
     },
   },
   {
@@ -153,22 +202,32 @@ export const parties = [
     vision:
       "החזון: ישראל כדמוקרטיה ליברלית, חילונית ומתקדמת.\n\n" +
       'המפלגה רוצה שבעוד עשור ישראל תהיה מדינה "נורמלית" ומודרנית, שבה יש שוויון בנטל (כולם מתגייסים או משרתים), הפרדה בין דת לפוליטיקה, ומערכת חינוך שמכינה את הצעירים לשוק העבודה העולמי. המטרה היא לשמור על ישראל יהודית ודמוקרטית דרך היפרדות מהפלסטינים וחיזוק המעמד של ישראל בעולם.',
+    recentActions:
+      "מה עשו בשנים האחרונות: לקחו חלק בממשלות אחדות קצרות, הובילו מאבק נגד שינויי משטר, ודחפו לקידום שוויון בנטל ושיפור השירותים האזרחיים.",
+    futurePromises:
+      "הבטחות לשנים הקרובות: קידום חוקה אזרחית, עיגון הפרדת דת ומדינה, השקעה במערכת החינוך והבריאות, והעמקת הקשר עם המערב.",
     values: {
-      type: "חילוניים",
-      security: "מרכז",
-      economy: "מעורב",
+      type: "חילונית",
+      security: "מרכז שמאל",
+      economy: "מרכז",
       harediGov: "לא",
       arabGov: "חלקי",
-      governance: "נגד",
-      shabbatTransport: "בעד",
-      civilMarriage: "בעד",
-      equalBurden: "בעד",
-      eduSubsidy: "בעד",
-      eduFrom0: "בעד",
-      climate: "עדיפות גבוהה",
-      eduChoice: "בעד",
-      reservists: "בעד",
-      legalization: "דקרימינליזציה",
+      draftLaw: "בעד",
+      shabbatTransportPolicy: "בעד",
+      civilMarriageLaw: "בעד",
+      chametzLaw: "נגד",
+      overrideClause: "נגד",
+      agSplitLaw: "נגד",
+      broadcastingLaw: "נגד",
+      reasonablenessCancellation: "נגד",
+      freeEdu0to3: "בעד",
+      higherEduSubsidyLaw: "בעד",
+      rentControlLaw: "בעד",
+      minWage7000: "בעד",
+      deathPenaltyTerror: "נגד",
+      terrorFamiliesDeportation: "נגד",
+      sovereigntyJudeaSamaria: "נגד",
+      ngoForeignFundingLaw: "נגד",
     },
   },
   {
@@ -188,22 +247,32 @@ export const parties = [
     vision:
       "החזון: ישראל מאוחדת, יציבה וממלכתית.\n\n" +
       'המפלגה שמה דגש על ה"ביחד" הישראלי. החזון שלה לעשור הקרוב הוא לבנות מחדש את המוסדות של המדינה (המשטרה, בתי המשפט, הכנסת) כך שכולם יבטחו בהם שוב. הם שואפים לביטחון שמבוסס על הסכמות רחבות, חיזוק ההתיישבות בנקודות אסטרטגיות, וניהול המדינה בצורה רגועה שמרכזת את הרוב המתון בעם.',
+    recentActions:
+      "מה עשו בשנים האחרונות: נכנסו לממשלות אחדות בזמני חירום, השתתפו בקבלת החלטות ביטחוניות משמעותיות, וניסו למצב את עצמם ככוח מאזן בין המחנות.",
+    futurePromises:
+      "הבטחות לשנים הקרובות: חיזוק הממלכתיות והאחדות, שיקום האמון במוסדות, ומדיניות ביטחונית אחראית על בסיס קונצנזוס רחב.",
     values: {
-      type: "מעורב",
-      security: "מרכז",
-      economy: "מעורב",
+      type: "חילונית",
+      security: "מרכז ימין",
+      economy: "מרכז",
       harediGov: "חלקי",
       arabGov: "חלקי",
-      governance: "נגד",
-      shabbatTransport: "מקומי",
-      civilMarriage: "חלקי",
-      equalBurden: "בעד",
-      eduSubsidy: "בעד",
-      eduFrom0: "בעד",
-      climate: "עדיפות גבוהה",
-      eduChoice: "בעד",
-      reservists: "בעד",
-      legalization: "דקרימינליזציה",
+      draftLaw: "בעד",
+      shabbatTransportPolicy: "בעד",
+      civilMarriageLaw: "בעד",
+      chametzLaw: "נגד",
+      overrideClause: "נגד",
+      agSplitLaw: "נגד",
+      broadcastingLaw: "נגד",
+      reasonablenessCancellation: "נגד",
+      freeEdu0to3: "בעד",
+      higherEduSubsidyLaw: "בעד",
+      rentControlLaw: "בעד",
+      minWage7000: "בעד",
+      deathPenaltyTerror: "בעד",
+      terrorFamiliesDeportation: "בעד",
+      sovereigntyJudeaSamaria: "נגד",
+      ngoForeignFundingLaw: "בעד",
     },
   },
   {
@@ -223,22 +292,32 @@ export const parties = [
     vision:
       "החזון: ישראל חברתית עם נשמה יהודית-ספרדית.\n\n" +
       "המפלגה רוצה שבעוד 10 שנים ישראל תהיה מדינה שדואגת קודם כל למי שאין לו – צדק חלוקתי שבו המשאבים הולכים לפריפריה ולשכבות החלשות. במקביל, המטרה היא לחזק את הזהות היהודית-מסורתית של המדינה ולתת מקום של כבוד למורשת של יהדות המזרח בכל תחומי החיים.",
+    recentActions:
+      "מה עשו בשנים האחרונות: השתתפו בממשלות ימין, קידמו תקציבים למערכות רווחה, חינוך חרדי והפחתת יוקר המחיה במוקדים חברתיים מסוימים.",
+    futurePromises:
+      "הבטחות לשנים הקרובות: הגדלת התמיכה בשכבות החלשות, שמירה על צביון יהודי-מסורתי בחקיקה ובמרחב הציבורי, והמשך הרחבת השירותים החברתיים.",
     values: {
-      type: "חרדים",
+      type: "חרדית",
       security: "ימין",
-      economy: "סוציאליסט",
+      economy: "שמאל כלכלי",
       harediGov: "כן",
       arabGov: "לא",
-      governance: "בעד",
-      shabbatTransport: "נגד",
-      civilMarriage: "נגד",
-      equalBurden: "נגד",
-      eduSubsidy: "בעד",
-      eduFrom0: "חלקי",
-      climate: "לא בסדר יום",
-      eduChoice: "בעד",
-      reservists: "חלקי",
-      legalization: "נגד",
+      draftLaw: "נגד",
+      shabbatTransportPolicy: "נגד",
+      civilMarriageLaw: "נגד",
+      chametzLaw: "בעד",
+      overrideClause: "בעד",
+      agSplitLaw: "בעד",
+      broadcastingLaw: "בעד",
+      reasonablenessCancellation: "בעד",
+      freeEdu0to3: "בעד",
+      higherEduSubsidyLaw: "בעד",
+      rentControlLaw: "בעד",
+      minWage7000: "בעד",
+      deathPenaltyTerror: "בעד",
+      terrorFamiliesDeportation: "בעד",
+      sovereigntyJudeaSamaria: "בעד",
+      ngoForeignFundingLaw: "בעד",
     },
   },
   {
@@ -258,22 +337,32 @@ export const parties = [
     vision:
       "החזון: ישראל כמדינת רווחה דמוקרטית ורודפת שלום.\n\n" +
       "המפלגה שואפת לחזור לישראל של שוויון חברתי עמוק – שבה הממשלה דואגת לבריאות, דיור וחינוך איכותי לכולם. בעשור הקרוב הם רוצים לראות מהלך אקטיבי לסיום הסכסוך עם הפלסטינים (פתרון שתי המדינות) כדי להציל את הדמוקרטיה הישראלית, ולהפוך את ישראל למקום שבו זכויות אדם וזכויות עובדים הן הערך העליון.",
+    recentActions:
+      "מה עשו בשנים האחרונות: התמודדו עם אתגרי הישרדות פוליטיים, שמרו על ייצוג חברתי-שמאלי בכנסת, והיו שותפים למחאות ציבוריות רחבות על סוגיות דמוקרטיה ורווחה.",
+    futurePromises:
+      "הבטחות לשנים הקרובות: חיזוק מערכת הרווחה, קידום זכויות עובדים, והובלת מהלך מדיני לסיום הסכסוך.",
     values: {
-      type: "חילוניים",
+      type: "חילונית",
       security: "שמאל",
-      economy: "סוציאליסט",
+      economy: "שמאל כלכלי",
       harediGov: "חלקי",
       arabGov: "כן",
-      governance: "נגד",
-      shabbatTransport: "בעד",
-      civilMarriage: "בעד",
-      equalBurden: "בעד",
-      eduSubsidy: "בעד",
-      eduFrom0: "בעד",
-      climate: "עדיפות גבוהה",
-      eduChoice: "בעד",
-      reservists: "בעד",
-      legalization: "בעד",
+      draftLaw: "בעד",
+      shabbatTransportPolicy: "בעד",
+      civilMarriageLaw: "בעד",
+      chametzLaw: "נגד",
+      overrideClause: "נגד",
+      agSplitLaw: "נגד",
+      broadcastingLaw: "נגד",
+      reasonablenessCancellation: "נגד",
+      freeEdu0to3: "בעד",
+      higherEduSubsidyLaw: "בעד",
+      rentControlLaw: "בעד",
+      minWage7000: "בעד",
+      deathPenaltyTerror: "נגד",
+      terrorFamiliesDeportation: "נגד",
+      sovereigntyJudeaSamaria: "נגד",
+      ngoForeignFundingLaw: "נגד",
     },
   },
   {
@@ -287,22 +376,32 @@ export const parties = [
     vision:
       "החזון: ישראל שבה התורה היא מרכז החיים והקיום.\n\n" +
       "המפלגה רוצה להבטיח שבעוד 10 שנים עולם הישיבות ימשיך לגדול ללא הפרעה. המטרה היא לשמור על הסטטוס-קוו בענייני דת (שבת, כשרות, נישואין), להגן על החינוך החרדי העצמאי, ולדאוג שלציבור החרדי יהיו פתרונות למגורים ולתעסוקה שמתאימים לאורח החיים הדתי המחמיר.",
+    recentActions:
+      "מה עשו בשנים האחרונות: השתתפו בקואליציות ימין, קידמו תקציבים לחינוך החרדי ושמרו על מדיניות שמרנית בתחומי דת ומדינה.",
+    futurePromises:
+      "הבטחות לשנים הקרובות: הרחבת התמיכה בעולם הישיבות, שמירה על סטטוס-קוו דתי והגנה על אוטונומיית החינוך החרדי.",
     values: {
-      type: "חרדים",
+      type: "חרדית",
       security: "ימין",
-      economy: "סוציאליסט",
+      economy: "שמאל כלכלי",
       harediGov: "כן",
       arabGov: "לא",
-      governance: "בעד",
-      shabbatTransport: "נגד",
-      civilMarriage: "נגד",
-      equalBurden: "נגד",
-      eduSubsidy: "בעד",
-      eduFrom0: "נגד",
-      climate: "לא בסדר יום",
-      eduChoice: "בעד",
-      reservists: "חלקי",
-      legalization: "נגד",
+      draftLaw: "נגד",
+      shabbatTransportPolicy: "נגד",
+      civilMarriageLaw: "נגד",
+      chametzLaw: "בעד",
+      overrideClause: "בעד",
+      agSplitLaw: "בעד",
+      broadcastingLaw: "בעד",
+      reasonablenessCancellation: "בעד",
+      freeEdu0to3: "נגד",
+      higherEduSubsidyLaw: "בעד",
+      rentControlLaw: "בעד",
+      minWage7000: "בעד",
+      deathPenaltyTerror: "בעד",
+      terrorFamiliesDeportation: "בעד",
+      sovereigntyJudeaSamaria: "בעד",
+      ngoForeignFundingLaw: "בעד",
     },
   },
 ];
@@ -314,6 +413,14 @@ export const leaders = [
     party: "הליכוד",
     image: "/leaders/netanyahu.png",
     color: "#0066cc",
+    vision:
+      "חזון: שמירה על ישראל כמעצמה ביטחונית וכלכלית עם דגש על הרתעה, צמיחה וטיפוח בריתות אזוריות ובינלאומיות.",
+    professionalBackground:
+      'רקע מקצועי: שנים רבות בזירה המדינית והביטחונית, כולל כהונות רה"מ, שר אוצר, שגריר באו"ם ותפקידים בכירים בזירה הציבורית.',
+    recentActions:
+      "מה עשה בשנים האחרונות: הוביל ממשלות בתקופות של מתיחות ביטחונית, עימותים סביב מערכת המשפט, וניהול המשבר הכלכלי-חברתי שלאחר הקורונה והמלחמות האחרונות.",
+    likudPromisesComparison:
+      "הבטחות מול תוצאות (הליכוד): חלק מההבטחות התממשו (כמו הסכמי נורמליזציה וחיזוק יחסים בינלאומיים), אחרות נותרו במחלוקת ציבורית או לא יושמו במלואן, במיוחד בתחומי יוקר המחיה, משילות ומשבר הדיור.",
     values: {
       securityBg: 3,
       economicBg: 4,
@@ -333,6 +440,12 @@ export const leaders = [
     party: "יש עתיד",
     image: "/leaders/yair.png",
     color: "#00a0dc",
+    vision:
+      "חזון: ישראל כדמוקרטיה ליברלית, חזקה ונקייה משחיתות, עם דגש על שוויון בנטל, שירות אזרחי או צבאי לכולם והפרדה חדה יותר בין דת למדינה.",
+    professionalBackground:
+      'רקע מקצועי: קריירה תקשורתית ארוכה, כיהן כשר אוצר וראש ממשלה לזמן מוגבל, ושימש כח"כ ויו"ר סיעה לאורך שנים.',
+    recentActions:
+      "מה עשה בשנים האחרונות: הנהיג את יש עתיד כאופוזיציה לממשלות שונות, עמד במרכז מחאות אזרחיות נגד שינויי משטר, והוביל ממשלת רוטציה קצרה שהתמקדה בעיקר בייצוב המערכת הפוליטית.",
     values: {
       securityBg: 1,
       economicBg: 2,
@@ -352,6 +465,12 @@ export const leaders = [
     party: "המחנה הממלכתי",
     image: "/leaders/beni.png",
     color: "#1e3a5f",
+    vision:
+      "חזון: ישראל מאוחדת ובטוחה עם הנהגה ממלכתית, שקטה ואחראית, המדגישה שיקום אמון הציבור במוסדות המדינה.",
+    professionalBackground:
+      'רקע מקצועי: רמטכ"ל לשעבר, תפקידים רבים בפיקוד הצבאי הבכיר, ובהמשך שר ביטחון וחבר קבינט מדיני-ביטחוני.',
+    recentActions:
+      "מה עשה בשנים האחרונות: הצטרף לממשלות אחדות בזמן משברים ביטחוניים, הוביל קו ממלכתי שניסה לגשר בין מחנות פוליטיים, והיה שחקן מרכזי בהחלטות ביטחוניות רגישות.",
     values: {
       securityBg: 5,
       economicBg: 2,
@@ -371,6 +490,12 @@ export const leaders = [
     party: "ש״ס",
     image: "/leaders/arie.png",
     color: "#006400",
+    vision:
+      "חזון: חיזוק הזהות המסורתית-ספרדית בישראל, הרחבת ההגנה החברתית לשכבות החלשות ושמירה על כוחו של הציבור החרדי במרחב הציבורי.",
+    professionalBackground:
+      'רקע מקצועי: שנים רבות בפוליטיקה כמנהיג ש"ס, כיהן במספר תפקידי שר, בהם שר הפנים ושר הכלכלה, לצד מעורבות ציבורית ארוכת שנים.',
+    recentActions:
+      'מה עשה בשנים האחרונות: הנהיג את ש"ס בתוך קואליציות ימין, קידם תקציבים וחקיקה המיטיבים עם הציבור החרדי והפריפריה, ופעל לשימור הסטטוס-קוו בענייני דת ומדינה.',
     values: {
       securityBg: 1,
       economicBg: 3,
@@ -390,6 +515,12 @@ export const leaders = [
     party: "העבודה",
     image: "/leaders/golan.png",
     color: "#e30613",
+    vision:
+      "חזון: ישראל דמוקרטית ושוויונית המבקשת פתרון מדיני לסכסוך, תוך חיזוק מוסדות המדינה והגנה על זכויות אדם ואזרח.",
+    professionalBackground:
+      'רקע מקצועי: קצין בכיר לשעבר בצה"ל, כולל תפקידים בדרג הפיקודי הבכיר, ובהמשך ח"כ ושר במערכת הפוליטית.',
+    recentActions:
+      "מה עשה בשנים האחרונות: בלט כקול ביטחוני-שמאלי, לקח חלק במחאה האזרחית ובשיח הציבורי סביב דמוקרטיה, והוביל את מפלגת העבודה לניסיון התחדשות.",
     values: {
       securityBg: 5,
       economicBg: 2,
@@ -409,6 +540,12 @@ export const leaders = [
     party: "יהדות התורה",
     image: "/leaders/itshak.png",
     color: "#000080",
+    vision:
+      "חזון: שימור וחיזוק אורח החיים החרדי ומתן עדיפות לעולם התורה בתכנון מדיניות המדינה.",
+    professionalBackground:
+      "רקע מקצועי: הנהגה במוסדות חינוך ועמדות ניהול בציבור החרדי, ובהמשך כניסה לפוליטיקה הארצית והנהגת המפלגה.",
+    recentActions:
+      "מה עשה בשנים האחרונות: הוביל את יהדות התורה בשותפות לקואליציות ימין, קידם חקיקה ותקציבים למוסדות חרדיים ופעל לשמירה על הסטטוס-קוו בענייני דת.",
     values: {
       securityBg: 1,
       economicBg: 2,

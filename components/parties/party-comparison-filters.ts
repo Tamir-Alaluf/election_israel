@@ -1,8 +1,10 @@
 "use client";
 
 import type { Dispatch, SetStateAction } from "react";
+import { partyCategories } from "@/lib/election-data";
 
-type SetStringState = Dispatch<SetStateAction<string>>;
+type SetStringArrayState = Dispatch<SetStateAction<string[]>>;
+type SetLawFiltersState = Dispatch<SetStateAction<Record<string, string>>>;
 
 export function getPartyComparisonFilters({
   typeFilter,
@@ -11,67 +13,76 @@ export function getPartyComparisonFilters({
   setSecurityFilter,
   economyFilter,
   setEconomyFilter,
-  harediGovFilter,
-  setHarediGovFilter,
+  lawFilters,
+  setLawFilters,
 }: {
-  typeFilter: string;
-  setTypeFilter: SetStringState;
-  securityFilter: string;
-  setSecurityFilter: SetStringState;
-  economyFilter: string;
-  setEconomyFilter: SetStringState;
-  harediGovFilter: string;
-  setHarediGovFilter: SetStringState;
+  typeFilter: string[];
+  setTypeFilter: SetStringArrayState;
+  securityFilter: string[];
+  setSecurityFilter: SetStringArrayState;
+  economyFilter: string[];
+  setEconomyFilter: SetStringArrayState;
+  lawFilters: Record<string, string>;
+  setLawFilters: SetLawFiltersState;
 }) {
   return [
     {
       key: "type",
-      value: typeFilter,
-      onValueChange: setTypeFilter,
+      values: typeFilter,
+      onValuesChange: setTypeFilter,
       placeholder: "סוג מפלגה",
+      multiSelect: true as const,
       options: [
-        { value: "all", label: "כל הסוגים" },
-        { value: "חרדים", label: "חרדים" },
-        { value: "ערבים", label: "ערבים" },
-        { value: "חילוניים", label: "חילוניים" },
-        { value: "מעורב", label: "מעורב" },
+        { value: "חרדית", label: "חרדית" },
+        { value: "ערבית", label: "ערבית" },
+        { value: "חילונית", label: "חילונית" },
       ],
     },
     {
       key: "security",
-      value: securityFilter,
-      onValueChange: setSecurityFilter,
+      values: securityFilter,
+      onValuesChange: setSecurityFilter,
       placeholder: "עמדה ביטחונית",
+      multiSelect: true as const,
       options: [
-        { value: "all", label: "כל העמדות" },
         { value: "ימין", label: "ימין" },
-        { value: "מרכז", label: "מרכז" },
+        { value: "מרכז ימין", label: "מרכז ימין" },
+        { value: "מרכז שמאל", label: "מרכז שמאל" },
         { value: "שמאל", label: "שמאל" },
       ],
     },
     {
       key: "economy",
-      value: economyFilter,
-      onValueChange: setEconomyFilter,
+      values: economyFilter,
+      onValuesChange: setEconomyFilter,
       placeholder: "עמדה כלכלית",
+      multiSelect: true as const,
       options: [
-        { value: "all", label: "כל העמדות" },
-        { value: "קפיטליסט", label: "קפיטליסט" },
-        { value: "סוציאליסט", label: "סוציאליסט" },
-        { value: "מעורב", label: "מעורב" },
+        { value: "ימין כלכלי", label: "ימין כלכלי" },
+        { value: "שמאל כלכלי", label: "שמאל כלכלי" },
+        { value: "מרכז", label: "מרכז" },
       ],
     },
     {
-      key: "harediGov",
-      value: harediGovFilter,
-      onValueChange: setHarediGovFilter,
-      placeholder: "שילוב חרדים",
-      options: [
-        { value: "all", label: "הכל" },
-        { value: "כן", label: "כן" },
-        { value: "לא", label: "לא" },
-        { value: "חלקי", label: "חלקי" },
-      ],
+      key: "laws",
+      placeholder: "חוקים",
+      lawFilter: true as const,
+      lawStances: lawFilters,
+      lawOptions: partyCategories.issues.parameters.map((issue) => ({
+        id: issue.id,
+        label: issue.label,
+      })),
+      onLawStanceChange: (lawId: string, stance: string) => {
+        setLawFilters((prev) => {
+          if (prev[lawId] === stance) {
+            const { [lawId]: _removed, ...rest } = prev;
+            return rest;
+          }
+
+          return { ...prev, [lawId]: stance };
+        });
+      },
+      onClearAll: () => setLawFilters({}),
     },
   ];
 }

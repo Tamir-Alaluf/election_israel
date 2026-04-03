@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { leaders, leaderParameters } from "@/lib/election-data";
+import { leaders } from "@/lib/election-data";
 import { cn } from "@/lib/utils";
 import {
   ComparisonCollapsibleSection,
@@ -83,55 +83,39 @@ function LeaderDialog({
       title={leader.name}
       subtitle={leader.party}
     >
-      <ComparisonCollapsibleSection title="תיאור קצר" defaultOpen>
+      <ComparisonCollapsibleSection title="חזון" defaultOpen>
         <div className="p-3 rounded-lg bg-muted/30">
           <p className="text-sm text-foreground leading-relaxed">
-            {leader.name} הוא מנהיג מפלגת {leader.party} עם רקע ביטחוני ברמה{" "}
-            {leader.values.securityBg}/5 ורקע כלכלי ברמה{" "}
-            {leader.values.economicBg}/5. סגנון החיים שלו{" "}
-            {leader.values.lifestyle}
-            {leader.values.criminal !== "ללא"
-              ? ` ויש לו ${leader.values.criminal}`
-              : " וללא רקע פלילי"}
-            .
+            {leader.vision}
           </p>
         </div>
       </ComparisonCollapsibleSection>
 
-      <ComparisonCollapsibleSection title="פרמטרים להשוואה">
-        <div className="space-y-2">
-          {leaderParameters.map((param) => {
-            const value = leader.values[param.id as keyof typeof leader.values];
-
-            return (
-              <div
-                key={param.id}
-                className="flex items-center justify-between py-2 px-1 border-b border-border/30 last:border-0"
-              >
-                <span className="text-sm text-muted-foreground">
-                  {param.label}
-                </span>
-                <div className="flex-shrink-0">
-                  {param.type === "rating" && typeof value === "number" && (
-                    <RatingBar value={value} />
-                  )}
-                  {param.type === "scale" && typeof value === "number" && (
-                    <RatingBar value={value} />
-                  )}
-                  {param.type === "status" && typeof value === "string" && (
-                    <StatusBadge value={value} />
-                  )}
-                  {param.type === "text" && typeof value === "string" && (
-                    <span className="text-sm font-medium text-foreground">
-                      {value}
-                    </span>
-                  )}
-                </div>
-              </div>
-            );
-          })}
+      <ComparisonCollapsibleSection title="רקע מקצועי">
+        <div className="p-3 rounded-lg bg-muted/30">
+          <p className="text-sm text-foreground leading-relaxed">
+            {leader.professionalBackground}
+          </p>
         </div>
       </ComparisonCollapsibleSection>
+
+      <ComparisonCollapsibleSection title="מה עשה בשנים האחרונות">
+        <div className="p-3 rounded-lg bg-muted/30">
+          <p className="text-sm text-foreground leading-relaxed">
+            {leader.recentActions}
+          </p>
+        </div>
+      </ComparisonCollapsibleSection>
+
+      {leader.id === "netanyahu" && leader.likudPromisesComparison && (
+        <ComparisonCollapsibleSection title="הבטחות מול תוצאות - הליכוד">
+          <div className="p-3 rounded-lg bg-muted/30">
+            <p className="text-sm text-foreground leading-relaxed">
+              {leader.likudPromisesComparison}
+            </p>
+          </div>
+        </ComparisonCollapsibleSection>
+      )}
     </ComparisonDialogShell>
   );
 }
