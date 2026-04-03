@@ -183,6 +183,7 @@ export function PartyDialog({
                                   variant="outline"
                                   className={cn(
                                     comparisonBadgeClassName,
+                                    "max-w-none whitespace-nowrap",
                                     "absolute left-1/2 top-0 z-10 -translate-x-1/2 -translate-y-1/2 shadow-sm",
                                     classForRecentActionCategory(item.category),
                                   )}
