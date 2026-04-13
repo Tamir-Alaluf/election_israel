@@ -139,7 +139,22 @@ export const allPartyComparisonParameters = [
 ] as const;
 
 export const leaderParameters = [
-  { id: "securityBg", label: "רקע ביטחוני", type: "rating" },
+  { id: "vision", label: "חזון", type: "text" },
+  { id: "academicEducation", label: "השכלה אקדמאית", type: "text" },
+  { id: "professionalBackground", label: "רקע מקצועי", type: "text" },
+  { id: "careerAchievements", label: "הישגים במהלך הקריירה", type: "text" },
+  { id: "recentActions", label: "מה עשה מאז הבחירות האחרונות", type: "text" },
+  { id: "voicePattern", label: "דפוס קול", type: "text" },
+  { id: "securityApproach", label: "גישה ביטחונית", type: "stance" },
+  { id: "economicApproach", label: "גישה כלכלית", type: "stance" },
+  { id: "leadershipStyle", label: "סגנון מנהיגות", type: "stance" },
+  { id: "harediGov", label: "שילוב חרדים בממשלה", type: "stance" },
+  { id: "arabGov", label: "שילוב ערבים בממשלה", type: "stance" },
+  {
+    id: "lastElectionMandates",
+    label: "מספר מנדטים בבחירות האחרונות",
+    type: "number",
+  },
 ];
 
 /** קטגוריות לתגית בפריטי "מה עשו מאז הבחירות" — תואמות לקבוצות בעמדות בחוקים */
@@ -184,7 +199,7 @@ export const parties = [
         category: "ביטחון ומדיניות",
         title: "תקיפות באיראן",
         description:
-          "הובלת תקיפות ישירות וחסרות תקדים על אדמת איראן בתגובה למתקפות הכטב\"מים והטילים.",
+          'הובלת תקיפות ישירות וחסרות תקדים על אדמת איראן בתגובה למתקפות הכטב"מים והטילים.',
       },
       {
         category: "משפט וממשל",
@@ -728,152 +743,164 @@ export const leaders = [
     id: "netanyahu",
     name: "בנימין נתניהו",
     party: "הליכוד",
-    image: "/leaders/netanyahu.png",
+    image: "/candidates/netanyahu.png",
     color: "#0066cc",
     vision:
       "חזון: שמירה על ישראל כמעצמה ביטחונית וכלכלית עם דגש על הרתעה, צמיחה וטיפוח בריתות אזוריות ובינלאומיות.",
     professionalBackground:
       'רקע מקצועי: שנים רבות בזירה המדינית והביטחונית, כולל כהונות רה"מ, שר אוצר, שגריר באו"ם ותפקידים בכירים בזירה הציבורית.',
+    academicEducation:
+      "השכלה אקדמאית: תואר ראשון בארכיטקטורה ובמנהל עסקים (MIT), ותואר שני במנהל עסקים (MIT Sloan).",
+    careerAchievements:
+      'הישגים במהלך הקריירה: הובלת מהלכים מדיניים מרכזיים, הרחבת הסכמי הנורמליזציה ("הסכמי אברהם"), ושימור קואליציות לאורך כהונות ממושכות.',
+    voicePattern:
+      "דפוס קול: סמכותי, שקול וממוקד במסרי ביטחון והרתעה.",
     recentActions:
       "מה עשה בשנים האחרונות: הוביל ממשלות בתקופות של מתיחות ביטחונית, עימותים סביב מערכת המשפט, וניהול המשבר הכלכלי-חברתי שלאחר הקורונה והמלחמות האחרונות.",
     likudPromisesComparison:
       "הבטחות מול תוצאות (הליכוד): חלק מההבטחות התממשו (כמו הסכמי נורמליזציה וחיזוק יחסים בינלאומיים), אחרות נותרו במחלוקת ציבורית או לא יושמו במלואן, במיוחד בתחומי יוקר המחיה, משילות ומשבר הדיור.",
     values: {
-      securityBg: 3,
-      economicBg: 4,
-      pressure: 5,
-      brokenPromises: 4,
-      consistency: 2,
-      authority: 5,
-      communication: 5,
-      worldRelations: 4,
-      criminal: "כתבי אישום פעילים",
-      lifestyle: "יוקרתי",
+      securityApproach: "ימין",
+      economicApproach: "ימין כלכלי",
+      leadershipStyle: "סמכותית",
+      harediGov: "כן",
+      arabGov: "לא",
+      lastElectionMandates: 26,
     },
   },
   {
     id: "yair",
     name: "יאיר לפיד",
     party: "יש עתיד",
-    image: "/leaders/yair.png",
+    image: "/candidates/yair.png",
     color: "#00a0dc",
     vision:
       "חזון: ישראל כדמוקרטיה ליברלית, חזקה ונקייה משחיתות, עם דגש על שוויון בנטל, שירות אזרחי או צבאי לכולם והפרדה חדה יותר בין דת למדינה.",
     professionalBackground:
       'רקע מקצועי: קריירה תקשורתית ארוכה, כיהן כשר אוצר וראש ממשלה לזמן מוגבל, ושימש כח"כ ויו"ר סיעה לאורך שנים.',
+    academicEducation:
+      "השכלה אקדמאית: ללא תואר אקדמי מלא, עם הכשרות מקצועיות בתחומי תקשורת וניהול מערכות תוכן.",
+    careerAchievements:
+      "הישגים במהלך הקריירה: הקמת מפלגת מרכז מובילה, כהונה כראש ממשלה ברוטציה, וחיזוק מעמד האופוזיציה במאבקים פרלמנטריים.",
+    voicePattern:
+      "דפוס קול: ישיר, תקשורתי וחד, עם דגש על מסרים אזרחיים-ליברליים.",
     recentActions:
       "מה עשה בשנים האחרונות: הנהיג את יש עתיד כאופוזיציה לממשלות שונות, עמד במרכז מחאות אזרחיות נגד שינויי משטר, והוביל ממשלת רוטציה קצרה שהתמקדה בעיקר בייצוב המערכת הפוליטית.",
     values: {
-      securityBg: 1,
-      economicBg: 2,
-      pressure: 3,
-      brokenPromises: 3,
-      consistency: 3,
-      authority: 2,
-      communication: 5,
-      worldRelations: 4,
-      criminal: "ללא",
-      lifestyle: "בינוני-גבוה",
+      securityApproach: "מרכז שמאל",
+      economicApproach: "מרכז",
+      leadershipStyle: "תקשורתית",
+      harediGov: "לא",
+      arabGov: "חלקי",
+      lastElectionMandates: 24,
     },
   },
   {
     id: "beni",
     name: "בני גנץ",
     party: "המחנה הממלכתי",
-    image: "/leaders/beni.png",
+    image: "/candidates/beni.png",
     color: "#1e3a5f",
     vision:
       "חזון: ישראל מאוחדת ובטוחה עם הנהגה ממלכתית, שקטה ואחראית, המדגישה שיקום אמון הציבור במוסדות המדינה.",
     professionalBackground:
       'רקע מקצועי: רמטכ"ל לשעבר, תפקידים רבים בפיקוד הצבאי הבכיר, ובהמשך שר ביטחון וחבר קבינט מדיני-ביטחוני.',
+    academicEducation:
+      "השכלה אקדמאית: תואר ראשון בהיסטוריה מאוניברסיטת תל אביב ותואר שני במדעי המדינה מאוניברסיטת חיפה.",
+    careerAchievements:
+      "הישגים במהלך הקריירה: כהונה כרמטכ\"ל, הובלת מהלכי התעצמות בצה\"ל, וניהול תיקים ביטחוניים בכירים בממשלה.",
+    voicePattern:
+      "דפוס קול: ממלכתי, רגוע וענייני, עם העדפה לשפה מאחדת.",
     recentActions:
       "מה עשה בשנים האחרונות: הצטרף לממשלות אחדות בזמן משברים ביטחוניים, הוביל קו ממלכתי שניסה לגשר בין מחנות פוליטיים, והיה שחקן מרכזי בהחלטות ביטחוניות רגישות.",
     values: {
-      securityBg: 5,
-      economicBg: 2,
-      pressure: 4,
-      brokenPromises: 3,
-      consistency: 3,
-      authority: 3,
-      communication: 3,
-      worldRelations: 3,
-      criminal: "ללא",
-      lifestyle: "צנוע",
+      securityApproach: "מרכז ימין",
+      economicApproach: "מרכז",
+      leadershipStyle: "ממלכתית",
+      harediGov: "חלקי",
+      arabGov: "חלקי",
+      lastElectionMandates: 20,
     },
   },
   {
     id: "arie",
     name: "אריה דרעי",
     party: "ש״ס",
-    image: "/leaders/arie.png",
+    image: "/candidates/arie.png",
     color: "#006400",
     vision:
       "חזון: חיזוק הזהות המסורתית-ספרדית בישראל, הרחבת ההגנה החברתית לשכבות החלשות ושמירה על כוחו של הציבור החרדי במרחב הציבורי.",
     professionalBackground:
-      'רקע מקצועי: שנים רבות בפוליטיקה כמנהיג ש"ס, כיהן במספר תפקידי שר, בהם שר הפנים ושר הכלכלה, לצד מעורבות ציבורית ארוכת שנים.',
+      'רקע מקצועי: שנים רבות בפוליטיקה כמועמד ש"ס, כיהן במספר תפקידי שר, בהם שר הפנים ושר הכלכלה, לצד מעורבות ציבורית ארוכת שנים.',
+    academicEducation:
+      "השכלה אקדמאית: לימודים תורניים בישיבות; ללא מסלול אקדמי פורמלי.",
+    careerAchievements:
+      "הישגים במהלך הקריירה: בניית תשתית ארצית למפלגת ש\"ס, השפעה מתמשכת על תקציבי רווחה ודת, ויצירת כוח מיקוח קואליציוני יציב.",
+    voicePattern:
+      "דפוס קול: כריזמטי, עממי ובוטח, עם דגש על מסרים חברתיים-מסורתיים.",
     recentActions:
       'מה עשה בשנים האחרונות: הנהיג את ש"ס בתוך קואליציות ימין, קידם תקציבים וחקיקה המיטיבים עם הציבור החרדי והפריפריה, ופעל לשימור הסטטוס-קוו בענייני דת ומדינה.',
     values: {
-      securityBg: 1,
-      economicBg: 3,
-      pressure: 4,
-      brokenPromises: 4,
-      consistency: 4,
-      authority: 4,
-      communication: 3,
-      worldRelations: 2,
-      criminal: "הרשעות קודמות",
-      lifestyle: "יוקרתי",
+      securityApproach: "ימין",
+      economicApproach: "שמאל כלכלי",
+      leadershipStyle: "עממית",
+      harediGov: "כן",
+      arabGov: "לא",
+      lastElectionMandates: 11,
     },
   },
   {
     id: "golan",
     name: "יאיר גולן",
     party: "העבודה",
-    image: "/leaders/golan.png",
+    image: "/candidates/golan.png",
     color: "#e30613",
     vision:
       "חזון: ישראל דמוקרטית ושוויונית המבקשת פתרון מדיני לסכסוך, תוך חיזוק מוסדות המדינה והגנה על זכויות אדם ואזרח.",
     professionalBackground:
       'רקע מקצועי: קצין בכיר לשעבר בצה"ל, כולל תפקידים בדרג הפיקודי הבכיר, ובהמשך ח"כ ושר במערכת הפוליטית.',
+    academicEducation:
+      "השכלה אקדמאית: תואר ראשון במדעי המדינה ותואר שני במינהל ציבורי.",
+    careerAchievements:
+      "הישגים במהלך הקריירה: שירות צבאי בכיר כסגן רמטכ\"ל, הובלת יוזמות ביטחוניות-חברתיות בכנסת, ומיצוב מחדש של העבודה.",
+    voicePattern:
+      "דפוס קול: חד ואידיאולוגי, עם דגש ערכי על דמוקרטיה ושוויון.",
     recentActions:
       "מה עשה בשנים האחרונות: בלט כקול ביטחוני-שמאלי, לקח חלק במחאה האזרחית ובשיח הציבורי סביב דמוקרטיה, והוביל את מפלגת העבודה לניסיון התחדשות.",
     values: {
-      securityBg: 5,
-      economicBg: 2,
-      pressure: 4,
-      brokenPromises: 1,
-      consistency: 4,
-      authority: 3,
-      communication: 4,
-      worldRelations: 3,
-      criminal: "ללא",
-      lifestyle: "צנוע",
+      securityApproach: "שמאל",
+      economicApproach: "שמאל כלכלי",
+      leadershipStyle: "ערכית",
+      harediGov: "חלקי",
+      arabGov: "כן",
+      lastElectionMandates: 18,
     },
   },
   {
     id: "itshak",
     name: "יצחק גולדקנופף",
     party: "יהדות התורה",
-    image: "/leaders/itshak.png",
+    image: "/candidates/itshak.png",
     color: "#000080",
     vision:
       "חזון: שימור וחיזוק אורח החיים החרדי ומתן עדיפות לעולם התורה בתכנון מדיניות המדינה.",
     professionalBackground:
       "רקע מקצועי: הנהגה במוסדות חינוך ועמדות ניהול בציבור החרדי, ובהמשך כניסה לפוליטיקה הארצית והנהגת המפלגה.",
+    academicEducation:
+      "השכלה אקדמאית: לימודים תורניים במוסדות חרדיים; ללא תואר אקדמי פורמלי.",
+    careerAchievements:
+      "הישגים במהלך הקריירה: הנהגת יהדות התורה במו\"מ קואליציוני, השגת תקציבים למוסדות חינוך חרדיים, ושימור השפעה יציבה של הסיעה.",
+    voicePattern:
+      "דפוס קול: שקול, שמרני ומרוסן, עם דגש על צרכי הציבור החרדי.",
     recentActions:
       "מה עשה בשנים האחרונות: הוביל את יהדות התורה בשותפות לקואליציות ימין, קידם חקיקה ותקציבים למוסדות חרדיים ופעל לשמירה על הסטטוס-קוו בענייני דת.",
     values: {
-      securityBg: 1,
-      economicBg: 2,
-      pressure: 3,
-      brokenPromises: 2,
-      consistency: 4,
-      authority: 3,
-      communication: 2,
-      worldRelations: 1,
-      criminal: "ללא",
-      lifestyle: "צנוע",
+      securityApproach: "ימין",
+      economicApproach: "שמאל כלכלי",
+      leadershipStyle: "שמרנית",
+      harediGov: "כן",
+      arabGov: "לא",
+      lastElectionMandates: 8,
     },
   },
 ];

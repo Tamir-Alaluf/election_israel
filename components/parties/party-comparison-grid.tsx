@@ -68,7 +68,7 @@ export function PartyComparisonGrid() {
   return (
     <>
       <ComparisonFilters
-        searchPlaceholder="חיפוש לפי שם מפלגה או מנהיג..."
+        searchPlaceholder="חיפוש לפי שם מפלגה או מועמד..."
         searchValue={searchQuery}
         onSearchChange={setSearchQuery}
         filters={getPartyComparisonFilters({

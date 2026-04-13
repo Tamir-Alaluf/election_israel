@@ -46,12 +46,12 @@ function buildElectionContext() {
 - אם אינך יודע משהו, אמור זאת
 
 פרמטרים להשוואת מפלגות: ${partyParams}
-פרמטרים להשוואת מנהיגים: ${leaderParams}
+פרמטרים להשוואת מועמדים: ${leaderParams}
 
 מידע על מפלגות:
 ${partyInfo}
 
-מידע על מנהיגים:
+מידע על מועמדים:
 ${leaderInfo}
 `.trim()
 }

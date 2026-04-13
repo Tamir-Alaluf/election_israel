@@ -141,7 +141,7 @@ export default function AdvisorPage() {
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="שאלו על מפלגות, מנהיגים או נושאים..."
+            placeholder="שאלו על מפלגות, מועמדים או נושאים..."
             disabled={isLoading}
             className="flex-1 px-4 py-3 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus:outline-none disabled:opacity-50"
           />
