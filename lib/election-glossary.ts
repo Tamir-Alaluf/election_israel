@@ -66,8 +66,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     id: "opposition",
     term: "אופוזיציה",
     categoryId: "knesset",
-    definition:
-      "מפלגות שלא בשלטון — אלו שמתנגדות לממשלה או לא יושבות בה.",
+    definition: "מפלגות שלא בשלטון — אלו שמתנגדות לממשלה או לא יושבות בה.",
   },
   {
     id: "pm",
@@ -88,7 +87,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     term: "שקל לבן / פתק פסול",
     categoryId: "voting",
     definition:
-      "הצבעה שלא נספרת לטובת רשימה — למשל פתק ריק או שלא לפי ההוראות. לא \"מבזבזים\" קול לרשימה.",
+      'הצבעה שלא נספרת לטובת רשימה — למשל פתק ריק או שלא לפי ההוראות. לא "מבזבזים" קול לרשימה.',
   },
   {
     id: "party-list",
@@ -108,8 +107,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     id: "polling-station",
     term: "קלפי",
     categoryId: "voting",
-    definition:
-      "מקום ההצבעה ביום הבחירות. מגיעים עם תעודה מזהה לפי ההנחיות.",
+    definition: "מקום ההצבעה ביום הבחירות. מגיעים עם תעודה מזהה לפי ההנחיות.",
   },
   {
     id: "exit-poll",
@@ -129,8 +127,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     id: "president-tasked",
     term: "הטלת הרכבת הממשלה",
     categoryId: "knesset",
-    definition:
-      "הנשיא מטיל על חבר כנסת לנסות להרכיב ממשלה שזוכה לאמון הכנסת.",
+    definition: "הנשיא מטיל על חבר כנסת לנסות להרכיב ממשלה שזוכה לאמון הכנסת.",
   },
   {
     id: "conscription-law",
@@ -148,8 +145,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     id: "civil-marriage-law",
     term: "חוק נישואין אזרחיים / ברית הזוגיות",
     categoryId: "laws",
-    definition:
-      "הסדרה של נישואין אזרחיים או מסלול ברית זוגיות לצד המצב הקיים.",
+    definition: "הסדרה של נישואין אזרחיים או מסלול ברית זוגיות לצד המצב הקיים.",
   },
   {
     id: "chametz-hospitals-law",
@@ -161,14 +157,13 @@ export const glossaryTerms: GlossaryTerm[] = [
     id: "override-clause",
     term: "פסקת ההתגברות",
     categoryId: "laws",
-    definition: "יכולת הכנסת לחוקק מחדש חוק שפסל בג\"ץ.",
+    definition: 'יכולת הכנסת לחוקק מחדש חוק שפסל בג"ץ.',
   },
   {
     id: "ag-split-law",
-    term: "חוק פיצול תפקיד היועמ\"ש",
+    term: 'חוק פיצול תפקיד היועמ"ש',
     categoryId: "laws",
-    definition:
-      "פיצול בין תפקיד היועץ המשפטי לממשלה לבין תפקיד התביעה הכללית.",
+    definition: "פיצול בין תפקיד היועץ המשפטי לממשלה לבין תפקיד התביעה הכללית.",
   },
   {
     id: "broadcasting-law",
@@ -203,7 +198,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   },
   {
     id: "minimum-wage-7000",
-    term: "העלאת שכר המינימום ל-7,000 ש\"ח",
+    term: 'העלאת שכר המינימום ל-7,000 ש"ח',
     categoryId: "laws",
     definition: "קביעת יעד העלאה לשכר המינימום במשק.",
   },
@@ -221,7 +216,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   },
   {
     id: "judea-samaria-sovereignty",
-    term: "החלת ריבונות ביו\"ש",
+    term: 'החלת ריבונות ביו"ש',
     categoryId: "laws",
     definition: "סיפוח והחלה פורמלית של החוק הישראלי על שטחים ביהודה ושומרון.",
   },

@@ -1,0 +1,326 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ---------------------------------------------------------
+// CORE ENTITIES: Party & Candidate
+// ---------------------------------------------------------
+
+model Party {
+  id          String  @id @default(uuid()) @db.Uuid
+  name        String
+  candidateId String? @map("candidate_id") @db.Uuid
+  color       String?
+  mandates    Int?
+  vision      String?
+  imageUrl    String?
+
+  // Relations
+  leader         Candidate?         @relation("PartyLeader", fields: [candidateId], references: [id])
+  candidates     Candidate[]        @relation("PartyCandidates")
+  members        PartyMember[]
+  baseTopics     PartyBaseTopic[]
+  legislations   PartyLegislation[]
+  recentActions  RecentAction[]
+  futurePromises FuturePromise[]
+
+  @@index([candidateId])
+  @@map("parties")
+}
+
+model Candidate {
+  id                     String  @id @default(uuid()) @db.Uuid
+  name                   String
+  partyId                String  @map("party_id") @db.Uuid
+  image                  String? @map("image_url")
+  professionalBackground String? @map("professional_background")
+  vision                 String?
+
+  // Relations
+  party          Party                   @relation("PartyCandidates", fields: [partyId], references: [id])
+  partyLeaderOf  Party[]                 @relation("PartyLeader") // Reverse relation for the party they lead
+  education      CandidateEducation[]
+  professionals  CandidateProfessional[]
+  careerActions  CandidateCareerAction[]
+  recentActions  CandidateRecentAction[]
+  publicOpinions PublicOpinion[]
+
+  @@index([partyId])
+  @@map("candidates")
+}
+
+model PartyMember {
+  id         String  @id @default(uuid()) @db.Uuid
+  name       String
+  partyId    String  @map("party_id") @db.Uuid
+  orderIndex Int     @map("order_index")
+  image      String? @map("image_url")
+
+  party Party @relation(fields: [partyId], references: [id])
+
+  @@index([partyId, orderIndex])
+  @@map("party_members")
+}
+
+// ---------------------------------------------------------
+// POLICY & TOPICS
+// ---------------------------------------------------------
+
+model BaseTopic {
+  id    String @id @default(uuid()) @db.Uuid
+  title String
+
+  options     BaseTopicOption[]
+  partyTopics PartyBaseTopic[]
+
+  @@map("base_topics")
+}
+
+model BaseTopicOption {
+  id                 String @id @default(uuid()) @db.Uuid
+  baseTopicId        String @map("base_topic_id") @db.Uuid
+  optionDisplayValue String @map("option_display_value")
+
+  baseTopic   BaseTopic        @relation(fields: [baseTopicId], references: [id])
+  partyTopics PartyBaseTopic[]
+
+  @@index([baseTopicId])
+  @@map("base_topic_options")
+}
+
+model PartyBaseTopic {
+  id                String  @id @default(uuid()) @db.Uuid
+  partyId           String  @map("party_id") @db.Uuid
+  baseTopicId       String  @map("base_topic_id") @db.Uuid
+  baseTopicOptionId String  @map("base_topic_option_id") @db.Uuid
+  description       String?
+
+  party  Party           @relation(fields: [partyId], references: [id])
+  topic  BaseTopic       @relation(fields: [baseTopicId], references: [id])
+  option BaseTopicOption @relation(fields: [baseTopicOptionId], references: [id])
+
+  @@index([partyId])
+  @@index([baseTopicId])
+  @@index([baseTopicOptionId])
+  @@map("party_base_topics")
+}
+
+// ---------------------------------------------------------
+// LEGISLATION (LAWS)
+// ---------------------------------------------------------
+
+model LegislationGroup {
+  id   String @id @default(uuid()) @db.Uuid
+  name String
+
+  legislations Legislation[]
+
+  @@map("legislation_groups")
+}
+
+model Legislation {
+  id                 String @id @default(uuid()) @db.Uuid
+  title              String
+  legislationGroupId String @map("legislation_group_id") @db.Uuid
+
+  group             LegislationGroup   @relation(fields: [legislationGroupId], references: [id])
+  partyLegislations PartyLegislation[]
+
+  @@index([legislationGroupId])
+  @@map("legislations")
+}
+
+model LegislationOption {
+  id           String @id @default(uuid()) @db.Uuid
+  displayValue String @map("display_value")
+
+  partyLegislations PartyLegislation[]
+
+  @@map("legislation_options")
+}
+
+model PartyLegislation {
+  id            String @id @default(uuid()) @db.Uuid
+  partyId       String @map("party_id") @db.Uuid
+  legislationId String @map("legislation_id") @db.Uuid
+  optionId      String @map("option_id") @db.Uuid
+
+  party       Party             @relation(fields: [partyId], references: [id])
+  legislation Legislation       @relation(fields: [legislationId], references: [id])
+  option      LegislationOption @relation(fields: [optionId], references: [id])
+
+  @@index([partyId])
+  @@index([legislationId])
+  @@index([optionId])
+  @@map("party_legislations")
+}
+
+// ---------------------------------------------------------
+// ACTIONS & PROMISES
+// ---------------------------------------------------------
+
+model ActionGroup {
+  id   String @id @default(uuid()) @db.Uuid
+  name String
+
+  recentActions          RecentAction[]
+  futurePromises         FuturePromise[]
+  candidateCareerActions CandidateCareerAction[]
+  candidateRecentActions CandidateRecentAction[]
+
+  @@map("action_groups")
+}
+
+model RecentAction {
+  id            String  @id @default(uuid()) @db.Uuid
+  partyId       String  @map("party_id") @db.Uuid
+  title         String
+  actionGroupId String  @map("action_group_id") @db.Uuid
+  description   String?
+  orderIndex    Int?    @map("order_index")
+
+  party       Party       @relation(fields: [partyId], references: [id])
+  actionGroup ActionGroup @relation(fields: [actionGroupId], references: [id])
+
+  @@index([partyId, orderIndex])
+  @@index([actionGroupId])
+  @@map("recent_actions")
+}
+
+model FuturePromise {
+  id            String  @id @default(uuid()) @db.Uuid
+  partyId       String  @map("party_id") @db.Uuid
+  title         String
+  actionGroupId String  @map("action_group_id") @db.Uuid // mapped exactly as in your image
+  description   String?
+  orderIndex    Int?    @map("order_index")
+
+  party       Party       @relation(fields: [partyId], references: [id])
+  actionGroup ActionGroup @relation(fields: [actionGroupId], references: [id])
+
+  @@index([partyId, orderIndex])
+  @@index([actionGroupId])
+  @@map("future_promises")
+}
+
+// ---------------------------------------------------------
+// CANDIDATE BACKGROUND & OPINION
+// ---------------------------------------------------------
+
+model CandidateEducation {
+  id          String  @id @default(uuid()) @db.Uuid
+  candidateId String  @map("candidate_id") @db.Uuid
+  major       String?
+  startYear   Int?    @map("start_year")
+  endYear     Int?    @map("end_year")
+  degreeLevel String? @map("degree_level")
+  university  String?
+  description String?
+
+  candidate Candidate @relation(fields: [candidateId], references: [id])
+
+  @@index([candidateId])
+  @@map("candidate_educations")
+}
+
+model ProfessionalGroup {
+  id   String @id @default(uuid()) @db.Uuid
+  name String
+
+  professionals CandidateProfessional[]
+
+  @@map("professional_groups")
+}
+
+model CandidateProfessional {
+  id          String  @id @default(uuid()) @db.Uuid
+  candidateId String  @map("candidate_id") @db.Uuid
+  title       String
+  startYear   Int?    @map("start_year")
+  endYear     Int?    @map("end_year")
+  description String?
+  groupId     String  @map("group_id") @db.Uuid
+
+  candidate Candidate         @relation(fields: [candidateId], references: [id])
+  group     ProfessionalGroup @relation(fields: [groupId], references: [id])
+
+  @@index([candidateId])
+  @@index([groupId])
+  @@map("candidate_professionals")
+}
+
+model CandidateCareerAction {
+  id            String  @id @default(uuid()) @db.Uuid
+  candidateId   String  @map("candidate_id") @db.Uuid
+  title         String
+  actionGroupId String  @map("action_group_id") @db.Uuid
+  description   String?
+  orderIndex    Int?    @map("order_index")
+
+  candidate   Candidate   @relation(fields: [candidateId], references: [id])
+  actionGroup ActionGroup @relation(fields: [actionGroupId], references: [id])
+
+  @@index([candidateId, orderIndex])
+  @@index([actionGroupId])
+  @@map("candidate_career_actions")
+}
+
+model CandidateRecentAction {
+  id            String  @id @default(uuid()) @db.Uuid
+  candidateId   String  @map("candidate_id") @db.Uuid
+  title         String
+  actionGroupId String  @map("action_group_id") @db.Uuid
+  description   String?
+  orderIndex    Int?    @map("order_index")
+
+  candidate   Candidate   @relation(fields: [candidateId], references: [id])
+  actionGroup ActionGroup @relation(fields: [actionGroupId], references: [id])
+
+  @@index([candidateId, orderIndex])
+  @@index([actionGroupId])
+  @@map("candidate_recent_actions")
+}
+
+model PublicOpinion {
+  id          String  @id @default(uuid()) @db.Uuid
+  candidateId String  @map("candidate_id") @db.Uuid
+  sentiment   String // e.g. "Positive", "Negative", or change to Int if it's a score
+  description String?
+  orderIndex  Int?    @map("order_index")
+
+  candidate Candidate @relation(fields: [candidateId], references: [id])
+
+  @@index([candidateId, orderIndex])
+  @@map("public_opinions")
+}
+
+// ---------------------------------------------------------
+// GLOSSARY
+// ---------------------------------------------------------
+
+model GlossaryCategory {
+  id   String @id @default(uuid()) @db.Uuid
+  name String
+
+  terms GlossaryTerm[]
+
+  @@map("glossary_categories")
+}
+
+model GlossaryTerm {
+  id                 String @id @default(uuid()) @db.Uuid
+  title              String
+  glossaryCategoryId String @map("glossary_category_id") @db.Uuid
+  definition         String
+
+  category GlossaryCategory @relation(fields: [glossaryCategoryId], references: [id])
+
+  @@index([glossaryCategoryId])
+  @@map("glossary_terms")
+}
