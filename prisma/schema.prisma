@@ -13,16 +13,16 @@ datasource db {
 // ---------------------------------------------------------
 
 model Party {
-  id          String  @id @default(uuid()) @db.Uuid
-  name        String
-  candidateId String? @map("candidate_id") @db.Uuid
-  color       String?
-  mandates    Int?
-  vision      String?
-  imageUrl    String?
+  id            String  @id @default(uuid()) @db.Uuid
+  name          String  @unique
+  candidateName String? @map("candidate_name")
+  color         String?
+  mandates      Int?
+  vision        String?
+  imageUrl      String?
 
   // Relations
-  leader         Candidate?         @relation("PartyLeader", fields: [candidateId], references: [id])
+  leader         Candidate?         @relation("PartyLeader", fields: [candidateName], references: [name])
   candidates     Candidate[]        @relation("PartyCandidates")
   members        PartyMember[]
   baseTopics     PartyBaseTopic[]
@@ -30,20 +30,20 @@ model Party {
   recentActions  RecentAction[]
   futurePromises FuturePromise[]
 
-  @@index([candidateId])
+  @@index([candidateName])
   @@map("parties")
 }
 
 model Candidate {
   id                     String  @id @default(uuid()) @db.Uuid
-  name                   String
-  partyId                String  @map("party_id") @db.Uuid
+  name                   String  @unique
+  partyName              String  @map("party_name")
   image                  String? @map("image_url")
   professionalBackground String? @map("professional_background")
   vision                 String?
 
   // Relations
-  party          Party                   @relation("PartyCandidates", fields: [partyId], references: [id])
+  party          Party                   @relation("PartyCandidates", fields: [partyName], references: [name])
   partyLeaderOf  Party[]                 @relation("PartyLeader") // Reverse relation for the party they lead
   education      CandidateEducation[]
   professionals  CandidateProfessional[]
@@ -51,20 +51,20 @@ model Candidate {
   recentActions  CandidateRecentAction[]
   publicOpinions PublicOpinion[]
 
-  @@index([partyId])
+  @@index([partyName])
   @@map("candidates")
 }
 
 model PartyMember {
   id         String  @id @default(uuid()) @db.Uuid
   name       String
-  partyId    String  @map("party_id") @db.Uuid
+  partyName  String  @map("party_name")
   orderIndex Int     @map("order_index")
   image      String? @map("image_url")
 
-  party Party @relation(fields: [partyId], references: [id])
+  party Party @relation(fields: [partyName], references: [name])
 
-  @@index([partyId, orderIndex])
+  @@index([partyName, orderIndex])
   @@map("party_members")
 }
 
@@ -74,7 +74,7 @@ model PartyMember {
 
 model BaseTopic {
   id    String @id @default(uuid()) @db.Uuid
-  title String
+  title String @unique
 
   options     BaseTopicOption[]
   partyTopics PartyBaseTopic[]
@@ -84,30 +84,31 @@ model BaseTopic {
 
 model BaseTopicOption {
   id                 String @id @default(uuid()) @db.Uuid
-  baseTopicId        String @map("base_topic_id") @db.Uuid
+  baseTopicTitle     String @map("base_topic_title")
   optionDisplayValue String @map("option_display_value")
 
-  baseTopic   BaseTopic        @relation(fields: [baseTopicId], references: [id])
+  baseTopic   BaseTopic        @relation(fields: [baseTopicTitle], references: [title])
   partyTopics PartyBaseTopic[]
 
-  @@index([baseTopicId])
+  @@unique([baseTopicTitle, optionDisplayValue])
+  @@index([baseTopicTitle])
   @@map("base_topic_options")
 }
 
 model PartyBaseTopic {
-  id                String  @id @default(uuid()) @db.Uuid
-  partyId           String  @map("party_id") @db.Uuid
-  baseTopicId       String  @map("base_topic_id") @db.Uuid
-  baseTopicOptionId String  @map("base_topic_option_id") @db.Uuid
-  description       String?
+  id                          String  @id @default(uuid()) @db.Uuid
+  partyName                   String  @map("party_name")
+  baseTopicTitle              String  @map("base_topic_title")
+  baseTopicOptionDisplayValue String  @map("base_topic_option_display_value")
+  description                 String?
 
-  party  Party           @relation(fields: [partyId], references: [id])
-  topic  BaseTopic       @relation(fields: [baseTopicId], references: [id])
-  option BaseTopicOption @relation(fields: [baseTopicOptionId], references: [id])
+  party  Party           @relation(fields: [partyName], references: [name])
+  topic  BaseTopic       @relation(fields: [baseTopicTitle], references: [title])
+  option BaseTopicOption @relation(fields: [baseTopicTitle, baseTopicOptionDisplayValue], references: [baseTopicTitle, optionDisplayValue])
 
-  @@index([partyId])
-  @@index([baseTopicId])
-  @@index([baseTopicOptionId])
+  @@index([partyName])
+  @@index([baseTopicTitle])
+  @@index([baseTopicOptionDisplayValue])
   @@map("party_base_topics")
 }
 
@@ -117,7 +118,7 @@ model PartyBaseTopic {
 
 model LegislationGroup {
   id   String @id @default(uuid()) @db.Uuid
-  name String
+  name String @unique
 
   legislations Legislation[]
 
@@ -125,20 +126,20 @@ model LegislationGroup {
 }
 
 model Legislation {
-  id                 String @id @default(uuid()) @db.Uuid
-  title              String
-  legislationGroupId String @map("legislation_group_id") @db.Uuid
+  id                   String @id @default(uuid()) @db.Uuid
+  title                String @unique
+  legislationGroupName String @map("legislation_group_name")
 
-  group             LegislationGroup   @relation(fields: [legislationGroupId], references: [id])
+  group             LegislationGroup   @relation(fields: [legislationGroupName], references: [name])
   partyLegislations PartyLegislation[]
 
-  @@index([legislationGroupId])
+  @@index([legislationGroupName])
   @@map("legislations")
 }
 
 model LegislationOption {
   id           String @id @default(uuid()) @db.Uuid
-  displayValue String @map("display_value")
+  displayValue String @unique @map("display_value")
 
   partyLegislations PartyLegislation[]
 
@@ -146,18 +147,18 @@ model LegislationOption {
 }
 
 model PartyLegislation {
-  id            String @id @default(uuid()) @db.Uuid
-  partyId       String @map("party_id") @db.Uuid
-  legislationId String @map("legislation_id") @db.Uuid
-  optionId      String @map("option_id") @db.Uuid
+  id                 String @id @default(uuid()) @db.Uuid
+  partyName          String @map("party_name")
+  legislationTitle   String @map("legislation_title")
+  optionDisplayValue String @map("option_display_value")
 
-  party       Party             @relation(fields: [partyId], references: [id])
-  legislation Legislation       @relation(fields: [legislationId], references: [id])
-  option      LegislationOption @relation(fields: [optionId], references: [id])
+  party       Party             @relation(fields: [partyName], references: [name])
+  legislation Legislation       @relation(fields: [legislationTitle], references: [title])
+  option      LegislationOption @relation(fields: [optionDisplayValue], references: [displayValue])
 
-  @@index([partyId])
-  @@index([legislationId])
-  @@index([optionId])
+  @@index([partyName])
+  @@index([legislationTitle])
+  @@index([optionDisplayValue])
   @@map("party_legislations")
 }
 
@@ -167,7 +168,7 @@ model PartyLegislation {
 
 model ActionGroup {
   id   String @id @default(uuid()) @db.Uuid
-  name String
+  name String @unique
 
   recentActions          RecentAction[]
   futurePromises         FuturePromise[]
@@ -178,34 +179,34 @@ model ActionGroup {
 }
 
 model RecentAction {
-  id            String  @id @default(uuid()) @db.Uuid
-  partyId       String  @map("party_id") @db.Uuid
-  title         String
-  actionGroupId String  @map("action_group_id") @db.Uuid
-  description   String?
-  orderIndex    Int?    @map("order_index")
+  id              String  @id @default(uuid()) @db.Uuid
+  partyName       String  @map("party_name")
+  title           String
+  actionGroupName String  @map("action_group_name")
+  description     String?
+  orderIndex      Int?    @map("order_index")
 
-  party       Party       @relation(fields: [partyId], references: [id])
-  actionGroup ActionGroup @relation(fields: [actionGroupId], references: [id])
+  party       Party       @relation(fields: [partyName], references: [name])
+  actionGroup ActionGroup @relation(fields: [actionGroupName], references: [name])
 
-  @@index([partyId, orderIndex])
-  @@index([actionGroupId])
+  @@index([partyName, orderIndex])
+  @@index([actionGroupName])
   @@map("recent_actions")
 }
 
 model FuturePromise {
-  id            String  @id @default(uuid()) @db.Uuid
-  partyId       String  @map("party_id") @db.Uuid
-  title         String
-  actionGroupId String  @map("action_group_id") @db.Uuid // mapped exactly as in your image
-  description   String?
-  orderIndex    Int?    @map("order_index")
+  id              String  @id @default(uuid()) @db.Uuid
+  partyName       String  @map("party_name")
+  title           String
+  actionGroupName String  @map("action_group_name")
+  description     String?
+  orderIndex      Int?    @map("order_index")
 
-  party       Party       @relation(fields: [partyId], references: [id])
-  actionGroup ActionGroup @relation(fields: [actionGroupId], references: [id])
+  party       Party       @relation(fields: [partyName], references: [name])
+  actionGroup ActionGroup @relation(fields: [actionGroupName], references: [name])
 
-  @@index([partyId, orderIndex])
-  @@index([actionGroupId])
+  @@index([partyName, orderIndex])
+  @@index([actionGroupName])
   @@map("future_promises")
 }
 
@@ -214,24 +215,24 @@ model FuturePromise {
 // ---------------------------------------------------------
 
 model CandidateEducation {
-  id          String  @id @default(uuid()) @db.Uuid
-  candidateId String  @map("candidate_id") @db.Uuid
-  major       String?
-  startYear   Int?    @map("start_year")
-  endYear     Int?    @map("end_year")
-  degreeLevel String? @map("degree_level")
-  university  String?
-  description String?
+  id            String  @id @default(uuid()) @db.Uuid
+  candidateName String  @map("candidate_name")
+  major         String?
+  startYear     Int?    @map("start_year")
+  endYear       Int?    @map("end_year")
+  degreeLevel   String? @map("degree_level")
+  university    String?
+  description   String?
 
-  candidate Candidate @relation(fields: [candidateId], references: [id])
+  candidate Candidate @relation(fields: [candidateName], references: [name])
 
-  @@index([candidateId])
+  @@index([candidateName])
   @@map("candidate_educations")
 }
 
 model ProfessionalGroup {
   id   String @id @default(uuid()) @db.Uuid
-  name String
+  name String @unique
 
   professionals CandidateProfessional[]
 
@@ -239,64 +240,64 @@ model ProfessionalGroup {
 }
 
 model CandidateProfessional {
-  id          String  @id @default(uuid()) @db.Uuid
-  candidateId String  @map("candidate_id") @db.Uuid
-  title       String
-  startYear   Int?    @map("start_year")
-  endYear     Int?    @map("end_year")
-  description String?
-  groupId     String  @map("group_id") @db.Uuid
+  id            String  @id @default(uuid()) @db.Uuid
+  candidateName String  @map("candidate_name")
+  title         String
+  startYear     Int?    @map("start_year")
+  endYear       Int?    @map("end_year")
+  description   String?
+  groupName     String  @map("group_name")
 
-  candidate Candidate         @relation(fields: [candidateId], references: [id])
-  group     ProfessionalGroup @relation(fields: [groupId], references: [id])
+  candidate Candidate         @relation(fields: [candidateName], references: [name])
+  group     ProfessionalGroup @relation(fields: [groupName], references: [name])
 
-  @@index([candidateId])
-  @@index([groupId])
+  @@index([candidateName])
+  @@index([groupName])
   @@map("candidate_professionals")
 }
 
 model CandidateCareerAction {
-  id            String  @id @default(uuid()) @db.Uuid
-  candidateId   String  @map("candidate_id") @db.Uuid
-  title         String
-  actionGroupId String  @map("action_group_id") @db.Uuid
-  description   String?
-  orderIndex    Int?    @map("order_index")
+  id              String  @id @default(uuid()) @db.Uuid
+  candidateName   String  @map("candidate_name")
+  title           String
+  actionGroupName String  @map("action_group_name")
+  description     String?
+  orderIndex      Int?    @map("order_index")
 
-  candidate   Candidate   @relation(fields: [candidateId], references: [id])
-  actionGroup ActionGroup @relation(fields: [actionGroupId], references: [id])
+  candidate   Candidate   @relation(fields: [candidateName], references: [name])
+  actionGroup ActionGroup @relation(fields: [actionGroupName], references: [name])
 
-  @@index([candidateId, orderIndex])
-  @@index([actionGroupId])
+  @@index([candidateName, orderIndex])
+  @@index([actionGroupName])
   @@map("candidate_career_actions")
 }
 
 model CandidateRecentAction {
-  id            String  @id @default(uuid()) @db.Uuid
-  candidateId   String  @map("candidate_id") @db.Uuid
-  title         String
-  actionGroupId String  @map("action_group_id") @db.Uuid
-  description   String?
-  orderIndex    Int?    @map("order_index")
+  id              String  @id @default(uuid()) @db.Uuid
+  candidateName   String  @map("candidate_name")
+  title           String
+  actionGroupName String  @map("action_group_name")
+  description     String?
+  orderIndex      Int?    @map("order_index")
 
-  candidate   Candidate   @relation(fields: [candidateId], references: [id])
-  actionGroup ActionGroup @relation(fields: [actionGroupId], references: [id])
+  candidate   Candidate   @relation(fields: [candidateName], references: [name])
+  actionGroup ActionGroup @relation(fields: [actionGroupName], references: [name])
 
-  @@index([candidateId, orderIndex])
-  @@index([actionGroupId])
+  @@index([candidateName, orderIndex])
+  @@index([actionGroupName])
   @@map("candidate_recent_actions")
 }
 
 model PublicOpinion {
-  id          String  @id @default(uuid()) @db.Uuid
-  candidateId String  @map("candidate_id") @db.Uuid
-  sentiment   String // e.g. "Positive", "Negative", or change to Int if it's a score
-  description String?
-  orderIndex  Int?    @map("order_index")
+  id            String  @id @default(uuid()) @db.Uuid
+  candidateName String  @map("candidate_name")
+  sentiment     String // e.g. "Positive", "Negative", or change to Int if it's a score
+  description   String?
+  orderIndex    Int?    @map("order_index")
 
-  candidate Candidate @relation(fields: [candidateId], references: [id])
+  candidate Candidate @relation(fields: [candidateName], references: [name])
 
-  @@index([candidateId, orderIndex])
+  @@index([candidateName, orderIndex])
   @@map("public_opinions")
 }
 
@@ -306,7 +307,7 @@ model PublicOpinion {
 
 model GlossaryCategory {
   id   String @id @default(uuid()) @db.Uuid
-  name String
+  name String @unique
 
   terms GlossaryTerm[]
 
@@ -314,13 +315,13 @@ model GlossaryCategory {
 }
 
 model GlossaryTerm {
-  id                 String @id @default(uuid()) @db.Uuid
-  title              String
-  glossaryCategoryId String @map("glossary_category_id") @db.Uuid
-  definition         String
+  id                   String @id @default(uuid()) @db.Uuid
+  title                String
+  glossaryCategoryName String @map("glossary_category_name")
+  definition           String
 
-  category GlossaryCategory @relation(fields: [glossaryCategoryId], references: [id])
+  category GlossaryCategory @relation(fields: [glossaryCategoryName], references: [name])
 
-  @@index([glossaryCategoryId])
+  @@index([glossaryCategoryName])
   @@map("glossary_terms")
 }

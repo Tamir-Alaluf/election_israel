@@ -12,31 +12,61 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import {
-  glossaryCategories,
-  glossaryTerms,
-  sortGlossaryTerms,
-  type GlossaryCategoryId,
-} from "@/lib/election-glossary";
-import {
   Empty,
   EmptyDescription,
   EmptyHeader,
   EmptyTitle,
 } from "@/components/ui/empty";
 
+export type GlossaryCategoryItem = {
+  id: string;
+  label: string;
+};
+
+export type GlossaryTermItem = {
+  id: string;
+  term: string;
+  definition: string;
+  categoryId: string;
+};
+
+type ElectionGlossaryViewProps = {
+  categories: GlossaryCategoryItem[];
+  terms: GlossaryTermItem[];
+};
+
 function normalize(s: string): string {
   return s.trim().replace(/\s+/g, " ").toLowerCase();
 }
 
-export function ElectionGlossaryView() {
+function sortGlossaryTermsForDisplay(
+  list: GlossaryTermItem[],
+  categoryOrder: string[],
+): GlossaryTermItem[] {
+  const order = new Map(categoryOrder.map((id, i) => [id, i]));
+  return [...list].sort((a, b) => {
+    const ca = order.get(a.categoryId) ?? 999;
+    const cb = order.get(b.categoryId) ?? 999;
+    if (ca !== cb) return ca - cb;
+    return a.term.localeCompare(b.term, "he");
+  });
+}
+
+export function ElectionGlossaryView({
+  categories,
+  terms,
+}: ElectionGlossaryViewProps) {
   const [query, setQuery] = useState("");
-  const [categoryId, setCategoryId] = useState<GlossaryCategoryId | "all">(
-    "all",
+  const [categoryId, setCategoryId] = useState<string | "all">("all");
+
+  const categoryOrder = useMemo(
+    () => categories.map((c) => c.id),
+    [categories],
   );
 
   const filtered = useMemo(() => {
     const q = normalize(query);
-    let list = glossaryTerms;
+    let list = terms;
 
     if (categoryId !== "all") {
       list = list.filter((t) => t.categoryId === categoryId);
@@ -49,10 +79,10 @@ export function ElectionGlossaryView() {
       });
     }
 
-    return sortGlossaryTerms(list);
-  }, [query, categoryId]);
+    return sortGlossaryTermsForDisplay(list, categoryOrder);
+  }, [query, categoryId, terms, categoryOrder]);
 
-  const total = glossaryTerms.length;
+  const total = terms.length;
 
   return (
     <div className="space-y-5">
@@ -100,7 +130,7 @@ export function ElectionGlossaryView() {
           >
             הכל
           </button>
-          {glossaryCategories.map((c) => (
+          {categories.map((c) => (
             <button
               key={c.id}
               type="button"
@@ -134,9 +164,7 @@ export function ElectionGlossaryView() {
       ) : (
         <Accordion type="multiple" className="glass-card rounded-xl px-1">
           {filtered.map((item) => {
-            const cat = glossaryCategories.find(
-              (c) => c.id === item.categoryId,
-            );
+            const cat = categories.find((c) => c.id === item.categoryId);
             return (
               <AccordionItem key={item.id} value={item.id} className="px-3">
                 <AccordionTrigger className="text-start hover:no-underline py-4">
