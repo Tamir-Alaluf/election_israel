@@ -11,7 +11,7 @@ import {
 import {
   ComparisonCollapsibleSection,
   ComparisonDialogShell,
-} from "@/components/shared/data-display/comparison-shared";
+} from "@/components/shared/data-display";
 import {
   comparisonBadgeClassName,
   ValueBadge,

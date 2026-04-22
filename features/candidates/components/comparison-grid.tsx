@@ -1,163 +1,31 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { leaders } from "@/lib/election-data";
 import {
-  ComparisonCollapsibleSection,
-  ComparisonDialogShell,
-  ComparisonEmptyState,
   ComparisonFilters,
-  ComparisonGrid,
   ComparisonProfileCard,
-} from "@/components/shared/data-display/comparison-shared";
-import { ValueBadge } from "@/features/parties/components/value-badge";
+  ComparisonScaffold,
+  type ComparisonListItem,
+  useComparisonState,
+} from "@/components/shared/data-display";
+import { LeaderDialog } from "@/features/candidates/components/dialog";
 import {
   getGovernmentIntegrationsLabel,
   getLeaderComparisonFilters,
 } from "@/features/candidates/components/comparison-filters";
 
-function LeaderCard({
-  leader,
-  onClick,
-}: {
-  leader: (typeof leaders)[0];
-  onClick: () => void;
-}) {
-  return (
-    <ComparisonProfileCard
-      image={leader.image}
-      name={leader.name}
-      subtitle={leader.party}
-      onClick={onClick}
-    />
-  );
-}
-
-function LeaderDialog({
-  leader,
-  open,
-  onClose,
-}: {
-  leader: (typeof leaders)[0] | null;
-  open: boolean;
-  onClose: () => void;
-}) {
-  if (!leader) return null;
-
-  return (
-    <ComparisonDialogShell
-      open={open}
-      onClose={onClose}
-      image={leader.image}
-      title={leader.name}
-      subtitle={leader.party}
-    >
-      <ComparisonCollapsibleSection title="חזון" defaultOpen>
-        <div className="p-3 rounded-lg bg-muted/30">
-          <p className="text-sm text-foreground leading-relaxed">
-            {leader.vision}
-          </p>
-        </div>
-      </ComparisonCollapsibleSection>
-
-      <ComparisonCollapsibleSection title="השכלה אקדמאית">
-        <div className="p-3 rounded-lg bg-muted/30">
-          <p className="text-sm text-foreground leading-relaxed">
-            {leader.academicEducation}
-          </p>
-        </div>
-      </ComparisonCollapsibleSection>
-
-      <ComparisonCollapsibleSection title="רקע מקצועי">
-        <div className="p-3 rounded-lg bg-muted/30">
-          <p className="text-sm text-foreground leading-relaxed">
-            {leader.professionalBackground}
-          </p>
-        </div>
-      </ComparisonCollapsibleSection>
-
-      <ComparisonCollapsibleSection title="הישגים במהלך הקריירה">
-        <div className="p-3 rounded-lg bg-muted/30">
-          <p className="text-sm text-foreground leading-relaxed">
-            {leader.careerAchievements}
-          </p>
-        </div>
-      </ComparisonCollapsibleSection>
-
-      <ComparisonCollapsibleSection title="מה עשה מאז הבחירות האחרונות">
-        <div className="p-3 rounded-lg bg-muted/30">
-          <p className="text-sm text-foreground leading-relaxed">
-            {leader.recentActions}
-          </p>
-        </div>
-      </ComparisonCollapsibleSection>
-
-      <ComparisonCollapsibleSection title="דפוס קול">
-        <div className="p-3 rounded-lg bg-muted/30">
-          <p className="text-sm text-foreground leading-relaxed">
-            {leader.voicePattern}
-          </p>
-        </div>
-      </ComparisonCollapsibleSection>
-
-      <ComparisonCollapsibleSection title="עמדות">
-        <div className="space-y-2">
-          <div className="flex items-center justify-between py-2 px-1 border-b border-border/30">
-            <span className="text-sm text-muted-foreground">גישה ביטחונית</span>
-            <ValueBadge value={leader.values.securityApproach} />
-          </div>
-          <div className="flex items-center justify-between py-2 px-1 border-b border-border/30">
-            <span className="text-sm text-muted-foreground">גישה כלכלית</span>
-            <ValueBadge value={leader.values.economicApproach} />
-          </div>
-          <div className="flex items-center justify-between py-2 px-1 border-b border-border/30">
-            <span className="text-sm text-muted-foreground">סגנון מנהיגות</span>
-            <ValueBadge value={leader.values.leadershipStyle} />
-          </div>
-          <div className="flex items-center justify-between py-2 px-1 border-b border-border/30">
-            <span className="text-sm text-muted-foreground">
-              שילוב חרדים בממשלה
-            </span>
-            <ValueBadge value={leader.values.harediGov} />
-          </div>
-          <div className="flex items-center justify-between py-2 px-1 border-b border-border/30">
-            <span className="text-sm text-muted-foreground">
-              שילוב ערבים בממשלה
-            </span>
-            <ValueBadge value={leader.values.arabGov} />
-          </div>
-          <div className="flex items-center justify-between py-2 px-1">
-            <span className="text-sm text-muted-foreground">
-              מספר מנדטים בבחירות האחרונות
-            </span>
-            <span className="text-sm font-semibold text-foreground">
-              {leader.values.lastElectionMandates}
-            </span>
-          </div>
-        </div>
-      </ComparisonCollapsibleSection>
-
-      {leader.id === "netanyahu" && leader.likudPromisesComparison && (
-        <ComparisonCollapsibleSection title="הבטחות מול תוצאות - הליכוד">
-          <div className="p-3 rounded-lg bg-muted/30">
-            <p className="text-sm text-foreground leading-relaxed">
-              {leader.likudPromisesComparison}
-            </p>
-          </div>
-        </ComparisonCollapsibleSection>
-      )}
-    </ComparisonDialogShell>
-  );
-}
-
 export function LeaderComparisonGrid() {
-  const [selectedLeader, setSelectedLeader] = useState<
-    (typeof leaders)[0] | null
-  >(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const {
+    searchQuery,
+    setSearchQuery,
+    selectedItem: selectedLeader,
+    openItem: openLeader,
+    closeItem: closeLeader,
+  } = useComparisonState<(typeof leaders)[0]>();
   const [partyFilter, setPartyFilter] = useState<string[]>([]);
   const [securityFilter, setSecurityFilter] = useState<string[]>([]);
-  const [economicFilter, setEconomicFilter] = useState<string[]>([]);
+  const [economyFilter, setEconomyFilter] = useState<string[]>([]);
   const [leadershipStyleFilter, setLeadershipStyleFilter] = useState<string[]>(
     [],
   );
@@ -171,8 +39,8 @@ export function LeaderComparisonGrid() {
         setPartyFilter,
         securityFilter,
         setSecurityFilter,
-        economyFilter: economicFilter,
-        setEconomyFilter: setEconomicFilter,
+        economyFilter,
+        setEconomyFilter,
         leadershipStyleFilter,
         setLeadershipStyleFilter,
         governmentIntegrationsFilter,
@@ -181,7 +49,7 @@ export function LeaderComparisonGrid() {
     [
       partyFilter,
       securityFilter,
-      economicFilter,
+      economyFilter,
       leadershipStyleFilter,
       governmentIntegrationsFilter,
     ],
@@ -208,8 +76,8 @@ export function LeaderComparisonGrid() {
         return false;
       }
       if (
-        economicFilter.length > 0 &&
-        !economicFilter.includes(leader.values.economicApproach)
+        economyFilter.length > 0 &&
+        !economyFilter.includes(leader.values.economicApproach)
       ) {
         return false;
       }
@@ -235,39 +103,58 @@ export function LeaderComparisonGrid() {
     searchQuery,
     partyFilter,
     securityFilter,
-    economicFilter,
+    economyFilter,
     leadershipStyleFilter,
     governmentIntegrationsFilter,
   ]);
 
+  const leaderCards: Array<{
+    item: ComparisonListItem;
+    leader: (typeof leaders)[0];
+  }> = useMemo(
+    () =>
+      filteredLeaders.map((leader) => ({
+        item: {
+          id: leader.id,
+          title: leader.name,
+          subtitle: leader.party,
+          image: leader.image,
+        },
+        leader,
+      })),
+    [filteredLeaders],
+  );
+
   return (
     <>
-      <ComparisonFilters
-        searchPlaceholder="חיפוש לפי שם מועמד או מפלגה..."
-        searchValue={searchQuery}
-        onSearchChange={setSearchQuery}
-        filters={leaderFilters}
-        resultsText={`${filteredLeaders.length} מועמדים`}
-      />
-
-      <ComparisonGrid>
-        {filteredLeaders.map((leader) => (
-          <LeaderCard
-            key={leader.id}
-            leader={leader}
-            onClick={() => setSelectedLeader(leader)}
+      <ComparisonScaffold
+        filters={
+          <ComparisonFilters
+            searchPlaceholder="חיפוש לפי שם מועמד או מפלגה..."
+            searchValue={searchQuery}
+            onSearchChange={setSearchQuery}
+            filters={leaderFilters}
+            resultsText={`${filteredLeaders.length} מועמדים`}
+          />
+        }
+        hasResults={filteredLeaders.length > 0}
+        emptyMessage="לא נמצאו מועמדים התואמים את הסינון"
+      >
+        {leaderCards.map(({ item, leader }) => (
+          <ComparisonProfileCard
+            key={item.id}
+            image={item.image}
+            name={item.title}
+            subtitle={item.subtitle}
+            onClick={() => openLeader(leader)}
           />
         ))}
-      </ComparisonGrid>
-
-      {filteredLeaders.length === 0 && (
-        <ComparisonEmptyState message="לא נמצאו מועמדים התואמים את הסינון" />
-      )}
+      </ComparisonScaffold>
 
       <LeaderDialog
         leader={selectedLeader}
         open={!!selectedLeader}
-        onClose={() => setSelectedLeader(null)}
+        onClose={closeLeader}
       />
     </>
   );

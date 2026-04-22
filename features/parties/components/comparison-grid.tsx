@@ -1,21 +1,25 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { parties, partyCategories } from "@/lib/election-data";
 import {
-  ComparisonEmptyState,
   ComparisonFilters,
-  ComparisonGrid,
-} from "@/components/shared/data-display/comparison-shared";
+  ComparisonProfileCard,
+  ComparisonScaffold,
+  type ComparisonListItem,
+  useComparisonState,
+} from "@/components/shared/data-display";
 import { getPartyComparisonFilters } from "@/features/parties/components/comparison-filters";
-import { PartyCard } from "@/features/parties/components/card";
 import { PartyDialog } from "@/features/parties/components/dialog";
 
 export function PartyComparisonGrid() {
-  const [selectedParty, setSelectedParty] = useState<
-    (typeof parties)[0] | null
-  >(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const {
+    searchQuery,
+    setSearchQuery,
+    selectedItem: selectedParty,
+    openItem: openParty,
+    closeItem: closeParty,
+  } = useComparisonState<(typeof parties)[0]>();
   const [typeFilter, setTypeFilter] = useState<string[]>([]);
   const [securityFilter, setSecurityFilter] = useState<string[]>([]);
   const [economyFilter, setEconomyFilter] = useState<string[]>([]);
@@ -62,43 +66,62 @@ export function PartyComparisonGrid() {
     });
   }, [searchQuery, typeFilter, securityFilter, economyFilter, lawFilters]);
 
+  const partyCards: Array<{
+    item: ComparisonListItem;
+    party: (typeof parties)[0];
+  }> = useMemo(
+    () =>
+      filteredParties.map((party) => ({
+        item: {
+          id: party.id,
+          title: party.name,
+          subtitle: party.leader,
+          image: party.image,
+        },
+        party,
+      })),
+    [filteredParties],
+  );
+
   return (
     <>
-      <ComparisonFilters
-        searchPlaceholder="חיפוש לפי שם מפלגה או מועמד..."
-        searchValue={searchQuery}
-        onSearchChange={setSearchQuery}
-        filters={getPartyComparisonFilters({
-          typeFilter,
-          setTypeFilter,
-          securityFilter,
-          setSecurityFilter,
-          economyFilter,
-          setEconomyFilter,
-          lawFilters,
-          setLawFilters,
-        })}
-        resultsText={`${filteredParties.length} מפלגות`}
-      />
-
-      <ComparisonGrid>
-        {filteredParties.map((party) => (
-          <PartyCard
-            key={party.id}
-            party={party}
-            onClick={() => setSelectedParty(party)}
+      <ComparisonScaffold
+        filters={
+          <ComparisonFilters
+            searchPlaceholder="חיפוש לפי שם מפלגה או מועמד..."
+            searchValue={searchQuery}
+            onSearchChange={setSearchQuery}
+            filters={getPartyComparisonFilters({
+              typeFilter,
+              setTypeFilter,
+              securityFilter,
+              setSecurityFilter,
+              economyFilter,
+              setEconomyFilter,
+              lawFilters,
+              setLawFilters,
+            })}
+            resultsText={`${filteredParties.length} מפלגות`}
+          />
+        }
+        hasResults={filteredParties.length > 0}
+        emptyMessage="לא נמצאו מפלגות התואמות את הסינון"
+      >
+        {partyCards.map(({ item, party }) => (
+          <ComparisonProfileCard
+            key={item.id}
+            image={item.image}
+            name={item.title}
+            subtitle={item.subtitle}
+            onClick={() => openParty(party)}
           />
         ))}
-      </ComparisonGrid>
-
-      {filteredParties.length === 0 && (
-        <ComparisonEmptyState message="לא נמצאו מפלגות התואמות את הסינון" />
-      )}
+      </ComparisonScaffold>
 
       <PartyDialog
         party={selectedParty}
         open={!!selectedParty}
-        onClose={() => setSelectedParty(null)}
+        onClose={closeParty}
       />
     </>
   );
