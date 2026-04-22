@@ -1,4 +1,4 @@
-import { MandatesChart } from "@/components/home/mandates-chart";
+import { MandatesChart } from "@/features/home/components/mandates-chart";
 
 export function HomeMandatesSection() {
   return (

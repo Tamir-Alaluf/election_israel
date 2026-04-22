@@ -1,7 +1,7 @@
 "use client";
 
 import { parties } from "@/lib/election-data";
-import { ComparisonProfileCard } from "@/components/general/comparison-shared";
+import { ComparisonProfileCard } from "@/components/shared/data-display/comparison-shared";
 
 export function PartyCard({
   party,

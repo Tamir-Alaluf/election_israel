@@ -28,11 +28,10 @@ export function BubbleBackground({
   interactive = true,
   transition = { stiffness: 100, damping: 20 },
   colors = {
-    // Original soft blue palette from the previous design.
-    first: "155,182,198", // #9BB6C6
-    second: "181,204,217", // #b5ccd9
-    third: "200,219,229", // #c8dbe5
-    fourth: "155,182,198", // #9BB6C6
+    first: "155,182,198",
+    second: "181,204,217",
+    third: "200,219,229",
+    fourth: "155,182,198",
   },
 }: BubbleBackgroundProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -61,7 +60,6 @@ export function BubbleBackground({
     `radial-gradient(circle at center, rgba(${color}, 0.8) 0%, rgba(${color}, 0) 50%)`;
 
   return (
-    //This div create the full screen background layer
     <div
       ref={containerRef}
       aria-hidden="true"
@@ -70,7 +68,6 @@ export function BubbleBackground({
         className,
       )}
     >
-      {/* This svg create the goo effect */}
       <svg className="hidden" aria-hidden="true">
         <defs>
           <filter id="bubble-goo">
@@ -90,9 +87,7 @@ export function BubbleBackground({
         </defs>
       </svg>
 
-      {/* This div create the bubbles */}
       <div className="absolute inset-0" style={{ filter: "url(#bubble-goo) " }}>
-        {/* This motion.div create the first bubble */}
         <motion.div
           className="absolute rounded-full mix-blend-hard-light"
           style={{
@@ -114,7 +109,6 @@ export function BubbleBackground({
           }}
         />
 
-        {/* This motion.div create the second bubble */}
         <motion.div
           className="absolute rounded-full mix-blend-hard-light"
           style={{
@@ -136,7 +130,6 @@ export function BubbleBackground({
           }}
         />
 
-        {/* This motion.div create the third bubble */}
         <motion.div
           className="absolute rounded-full mix-blend-hard-light"
           style={{
@@ -158,7 +151,6 @@ export function BubbleBackground({
           }}
         />
 
-        {/* This motion.div create the mouse bubble */}
         {interactive && (
           <motion.div
             className="absolute rounded-full mix-blend-hard-light "

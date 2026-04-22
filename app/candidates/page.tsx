@@ -1,4 +1,4 @@
-import { LeaderComparisonGrid } from "@/components/candidates/candidate-comparison-grid";
+import { LeaderComparisonGrid } from "@/features/candidates/components/comparison-grid";
 
 export const metadata = {
   title: "השוואת מועמדים | בחירות 2026",

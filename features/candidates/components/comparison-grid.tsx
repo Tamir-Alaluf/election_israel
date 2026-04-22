@@ -9,12 +9,12 @@ import {
   ComparisonFilters,
   ComparisonGrid,
   ComparisonProfileCard,
-} from "@/components/general/comparison-shared";
-import { ValueBadge } from "@/components/parties/value-badge";
+} from "@/components/shared/data-display/comparison-shared";
+import { ValueBadge } from "@/features/parties/components/value-badge";
 import {
   getGovernmentIntegrationsLabel,
   getLeaderComparisonFilters,
-} from "@/components/candidates/candidate-comparison-filters";
+} from "@/features/candidates/components/comparison-filters";
 
 function LeaderCard({
   leader,
@@ -189,7 +189,6 @@ export function LeaderComparisonGrid() {
 
   const filteredLeaders = useMemo(() => {
     return leaders.filter((leader) => {
-      // Search filter
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
         if (

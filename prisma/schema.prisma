@@ -13,10 +13,9 @@ datasource db {
 // ---------------------------------------------------------
 
 model Party {
-  id            String  @id @default(uuid()) @db.Uuid
+  id            String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name          String  @unique
   candidateName String? @map("candidate_name")
-  color         String?
   mandates      Int?
   vision        String?
   imageUrl      String?
@@ -35,11 +34,10 @@ model Party {
 }
 
 model Candidate {
-  id                     String  @id @default(uuid()) @db.Uuid
+  id                     String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name                   String  @unique
   partyName              String  @map("party_name")
   image                  String? @map("image_url")
-  professionalBackground String? @map("professional_background")
   vision                 String?
 
   // Relations
@@ -56,7 +54,7 @@ model Candidate {
 }
 
 model PartyMember {
-  id         String  @id @default(uuid()) @db.Uuid
+  id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name       String
   partyName  String  @map("party_name")
   orderIndex Int     @map("order_index")
@@ -73,7 +71,7 @@ model PartyMember {
 // ---------------------------------------------------------
 
 model BaseTopic {
-  id    String @id @default(uuid()) @db.Uuid
+  id    String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title String @unique
 
   options     BaseTopicOption[]
@@ -83,7 +81,7 @@ model BaseTopic {
 }
 
 model BaseTopicOption {
-  id                 String @id @default(uuid()) @db.Uuid
+  id                 String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   baseTopicTitle     String @map("base_topic_title")
   optionDisplayValue String @map("option_display_value")
 
@@ -96,7 +94,7 @@ model BaseTopicOption {
 }
 
 model PartyBaseTopic {
-  id                          String  @id @default(uuid()) @db.Uuid
+  id                          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   partyName                   String  @map("party_name")
   baseTopicTitle              String  @map("base_topic_title")
   baseTopicOptionDisplayValue String  @map("base_topic_option_display_value")
@@ -117,7 +115,7 @@ model PartyBaseTopic {
 // ---------------------------------------------------------
 
 model LegislationGroup {
-  id   String @id @default(uuid()) @db.Uuid
+  id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name String @unique
 
   legislations Legislation[]
@@ -126,7 +124,7 @@ model LegislationGroup {
 }
 
 model Legislation {
-  id                   String @id @default(uuid()) @db.Uuid
+  id                   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title                String @unique
   legislationGroupName String @map("legislation_group_name")
 
@@ -138,7 +136,7 @@ model Legislation {
 }
 
 model LegislationOption {
-  id           String @id @default(uuid()) @db.Uuid
+  id           String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   displayValue String @unique @map("display_value")
 
   partyLegislations PartyLegislation[]
@@ -147,7 +145,7 @@ model LegislationOption {
 }
 
 model PartyLegislation {
-  id                 String @id @default(uuid()) @db.Uuid
+  id                 String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   partyName          String @map("party_name")
   legislationTitle   String @map("legislation_title")
   optionDisplayValue String @map("option_display_value")
@@ -167,7 +165,7 @@ model PartyLegislation {
 // ---------------------------------------------------------
 
 model ActionGroup {
-  id   String @id @default(uuid()) @db.Uuid
+  id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name String @unique
 
   recentActions          RecentAction[]
@@ -179,7 +177,7 @@ model ActionGroup {
 }
 
 model RecentAction {
-  id              String  @id @default(uuid()) @db.Uuid
+  id              String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   partyName       String  @map("party_name")
   title           String
   actionGroupName String  @map("action_group_name")
@@ -191,11 +189,11 @@ model RecentAction {
 
   @@index([partyName, orderIndex])
   @@index([actionGroupName])
-  @@map("recent_actions")
+  @@map("party_recent_actions")
 }
 
 model FuturePromise {
-  id              String  @id @default(uuid()) @db.Uuid
+  id              String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   partyName       String  @map("party_name")
   title           String
   actionGroupName String  @map("action_group_name")
@@ -207,7 +205,7 @@ model FuturePromise {
 
   @@index([partyName, orderIndex])
   @@index([actionGroupName])
-  @@map("future_promises")
+  @@map("party_future_promises")
 }
 
 // ---------------------------------------------------------
@@ -215,7 +213,7 @@ model FuturePromise {
 // ---------------------------------------------------------
 
 model CandidateEducation {
-  id            String  @id @default(uuid()) @db.Uuid
+  id            String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   candidateName String  @map("candidate_name")
   major         String?
   startYear     Int?    @map("start_year")
@@ -231,7 +229,7 @@ model CandidateEducation {
 }
 
 model ProfessionalGroup {
-  id   String @id @default(uuid()) @db.Uuid
+  id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name String @unique
 
   professionals CandidateProfessional[]
@@ -240,7 +238,7 @@ model ProfessionalGroup {
 }
 
 model CandidateProfessional {
-  id            String  @id @default(uuid()) @db.Uuid
+  id            String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   candidateName String  @map("candidate_name")
   title         String
   startYear     Int?    @map("start_year")
@@ -257,7 +255,7 @@ model CandidateProfessional {
 }
 
 model CandidateCareerAction {
-  id              String  @id @default(uuid()) @db.Uuid
+  id              String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   candidateName   String  @map("candidate_name")
   title           String
   actionGroupName String  @map("action_group_name")
@@ -273,7 +271,7 @@ model CandidateCareerAction {
 }
 
 model CandidateRecentAction {
-  id              String  @id @default(uuid()) @db.Uuid
+  id              String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   candidateName   String  @map("candidate_name")
   title           String
   actionGroupName String  @map("action_group_name")
@@ -289,7 +287,7 @@ model CandidateRecentAction {
 }
 
 model PublicOpinion {
-  id            String  @id @default(uuid()) @db.Uuid
+  id            String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   candidateName String  @map("candidate_name")
   sentiment     String // e.g. "Positive", "Negative", or change to Int if it's a score
   description   String?
@@ -306,7 +304,7 @@ model PublicOpinion {
 // ---------------------------------------------------------
 
 model GlossaryCategory {
-  id   String @id @default(uuid()) @db.Uuid
+  id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name String @unique
 
   terms GlossaryTerm[]
@@ -315,7 +313,7 @@ model GlossaryCategory {
 }
 
 model GlossaryTerm {
-  id                   String @id @default(uuid()) @db.Uuid
+  id                   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title                String
   glossaryCategoryName String @map("glossary_category_name")
   definition           String

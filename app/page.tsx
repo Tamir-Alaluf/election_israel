@@ -1,8 +1,8 @@
-import { CountdownTimer } from "@/components/home/countdown-timer";
-import { HomePageTitle } from "@/components/home/home-page-title";
-import { HomeAdvisorCta } from "@/components/home/home-advisor-cta";
-import { HomeMandatesSection } from "@/components/home/home-mandates-section";
-import { HomeFooterNote } from "@/components/home/home-footer-note";
+import { CountdownTimer } from "@/features/home/components/countdown-timer";
+import { HomePageTitle } from "@/features/home/components/page-title";
+import { HomeAdvisorCta } from "@/features/home/components/advisor-cta";
+import { HomeMandatesSection } from "@/features/home/components/mandates-section";
+import { HomeFooterNote } from "@/features/home/components/footer-note";
 
 export default function HomePage() {
   return (

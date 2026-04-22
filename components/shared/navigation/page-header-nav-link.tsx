@@ -8,7 +8,6 @@ export type PageHeaderNavLinkProps = {
   item: PageHeaderNavItem;
   isActive: boolean;
   variant: "desktop" | "mobile";
-  /** e.g. close mobile sheet — Radix `Close` + Next `Link` does not merge reliably */
   onClick?: MouseEventHandler<HTMLAnchorElement>;
 };
 

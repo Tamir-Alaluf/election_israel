@@ -1,4 +1,4 @@
-import { PartyComparisonGrid } from "@/components/parties/party-comparison-grid";
+import { PartyComparisonGrid } from "@/features/parties/components/comparison-grid";
 
 export const metadata = {
   title: "השוואת מפלגות | בחירות 2026",

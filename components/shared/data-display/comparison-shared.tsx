@@ -152,7 +152,6 @@ export function ComparisonDialogShell({
   title: string;
   subtitle: string;
   children: ReactNode;
-  /** Merged into DialogContent (e.g. scrollbar-hide for party dialog) */
   contentClassName?: string;
 }) {
   return (

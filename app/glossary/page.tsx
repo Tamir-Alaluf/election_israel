@@ -1,4 +1,4 @@
-import { ElectionGlossaryView } from "@/components/glossary/election-glossary-view";
+import { ElectionGlossaryView } from "@/features/glossary/components/view";
 import { prisma } from "@/lib/prisma";
 
 export const metadata = {

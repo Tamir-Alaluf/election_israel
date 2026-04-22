@@ -11,11 +11,11 @@ import {
 import {
   ComparisonCollapsibleSection,
   ComparisonDialogShell,
-} from "@/components/general/comparison-shared";
+} from "@/components/shared/data-display/comparison-shared";
 import {
   comparisonBadgeClassName,
   ValueBadge,
-} from "@/components/parties/value-badge";
+} from "@/features/parties/components/value-badge";
 import {
   type CarouselApi,
   Carousel,
@@ -25,7 +25,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
-/** תגיות קטגוריה: כחול / ירוק-אמרלד (חברה) / סגול (משפט) / צהוב */
 const recentActionCategoryBadgeClass: Record<RecentActionItemCategory, string> =
   {
     "ביטחון ומדיניות":
@@ -227,15 +226,6 @@ export function PartyDialog({
         </div>
       </ComparisonCollapsibleSection>
 
-      {/* {party.id === "likud" && party.promisesVsResultsLikud && (
-        <ComparisonCollapsibleSection title="הבטחות מול מעשים">
-          <div className="p-3 rounded-lg bg-muted/30">
-            <p className="text-sm text-foreground leading-relaxed whitespace-pre-line">
-              {party.promisesVsResultsLikud}
-            </p>
-          </div>
-        </ComparisonCollapsibleSection>
-      )} */}
       <ComparisonCollapsibleSection title="הבטחות לשנים הקרובות">
         <div className="p-3 rounded-lg bg-muted/30">
           {promiseItems.length > 0 ? (
@@ -353,7 +343,6 @@ export function PartyDialog({
                     const shouldRenderGroupTitle =
                       param.group && param.group !== prevGroup;
 
-                    // return null;
                     return (
                       <div key={param.id}>
                         {shouldRenderGroupTitle && (

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Heebo } from "next/font/google";
-import { BubbleBackground } from "@/components/general/bubble-background";
-import { PageHeader } from "@/components/general/header/page-header";
+import { BubbleBackground } from "@/components/shared/layout/bubble-background";
+import { PageHeader } from "@/components/shared/navigation/page-header";
 import "./globals.css";
 
 const heebo = Heebo({
