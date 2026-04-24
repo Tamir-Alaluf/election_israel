@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
-import type { FilterConfig } from "@/components/shared/data-display/types";
+import type { Filter } from "@/components/shared/data-display/types";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-type LawFilterConfig = Extract<FilterConfig, { lawFilter: true }>;
+type LawFilterConfig = Extract<Filter, { lawFilter: true }>;
 
 export function ComparisonLawFilter({ filter }: { filter: LawFilterConfig }) {
   const selectedCount = Object.values(filter.lawStances).filter(
@@ -36,7 +36,9 @@ export function ComparisonLawFilter({ filter }: { filter: LawFilterConfig }) {
         align="start"
       >
         <div dir="rtl">
-          <DropdownMenuItem onClick={filter.onClearAll}>נקה חוקים</DropdownMenuItem>
+          <DropdownMenuItem onClick={filter.onClearAll}>
+            נקה חוקים
+          </DropdownMenuItem>
           {filter.lawOptions.map((law) => {
             const selectedStance = filter.lawStances[law.id] ?? "";
 

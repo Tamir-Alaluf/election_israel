@@ -2,12 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { User } from "lucide-react";
-import {
-  parties,
-  partyCategories,
-  recentActionItemCategories,
-  type RecentActionItemCategory,
-} from "@/lib/election-data";
+import type {
+  PartyComparisonRow,
+  PartyPageFilterMeta,
+} from "@/lib/data/party-comparison";
 import {
   ComparisonCollapsibleSection,
   ComparisonDialogShell,
@@ -16,6 +14,7 @@ import {
   comparisonBadgeClassName,
   ValueBadge,
 } from "@/features/parties/components/value-badge";
+import { classForRecentActionCategory } from "@/features/parties/components/recent-action-badges";
 import {
   type CarouselApi,
   Carousel,
@@ -24,30 +23,6 @@ import {
 } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-
-const recentActionCategoryBadgeClass: Record<RecentActionItemCategory, string> =
-  {
-    "ביטחון ומדיניות":
-      "border-sky-500/35 bg-sky-500/10 text-sky-950 dark:text-sky-100",
-    "חברה וכלכלה":
-      "border-emerald-500/35 bg-emerald-500/10 text-emerald-950 dark:text-emerald-100",
-    "משפט וממשל":
-      "border-violet-500/35 bg-violet-500/10 text-violet-950 dark:text-violet-100",
-    "דת ומדינה":
-      "border-amber-500/40 bg-amber-500/10 text-amber-950 dark:text-amber-100",
-  };
-
-function classForRecentActionCategory(
-  category: string | undefined,
-): string | undefined {
-  if (
-    !category ||
-    !(recentActionItemCategories as readonly string[]).includes(category)
-  ) {
-    return undefined;
-  }
-  return recentActionCategoryBadgeClass[category as RecentActionItemCategory];
-}
 
 function CarouselScrollDots({
   api,
@@ -97,30 +72,32 @@ function CarouselScrollDots({
 
 export function PartyDialog({
   party,
+  filterMeta,
   open,
   onClose,
 }: {
-  party: (typeof parties)[0] | null;
+  party: PartyComparisonRow | null;
+  filterMeta: PartyPageFilterMeta;
   open: boolean;
   onClose: () => void;
 }) {
   if (!party) return null;
 
-  const attributeParams = partyCategories.attributes.parameters;
-  const issueParams = partyCategories.issues.parameters;
-  const members = party.members ?? [];
+  const attributeParams = filterMeta.attributeTopics;
+  const issueParams = filterMeta.lawIssues;
+  const members = party.members;
   const displayedMembers = members.slice(0, 10);
-  const promiseItems = party.futurePromisesItems ?? [];
+  const promiseItems = party.futurePromisesItems;
   const promiseSlides = Array.from(
     { length: Math.ceil(promiseItems.length / 4) },
     (_, index) => promiseItems.slice(index * 4, index * 4 + 4),
   );
-  const recentItems = party.recentActionsItems ?? [];
+  const recentItems = party.recentActionsItems;
   const recentSlides = Array.from(
     { length: Math.ceil(recentItems.length / 4) },
     (_, index) => recentItems.slice(index * 4, index * 4 + 4),
   );
-  const issueItemsPerPage = Math.ceil(issueParams.length / 4);
+  const issueItemsPerPage = Math.max(1, Math.ceil(issueParams.length / 4));
   const issueSlides = Array.from({ length: 4 }, (_, pageIndex) =>
     issueParams.slice(
       pageIndex * issueItemsPerPage,
@@ -138,7 +115,7 @@ export function PartyDialog({
     <ComparisonDialogShell
       open={open}
       onClose={onClose}
-      image={party.image}
+      image={party.image ?? ""}
       title={party.name}
       subtitle={party.leader}
       contentClassName="scrollbar-hide"
@@ -146,7 +123,7 @@ export function PartyDialog({
       <ComparisonCollapsibleSection title="חזון המפלגה">
         <div className="p-3 rounded-lg bg-muted/30">
           <p className="text-sm text-foreground leading-relaxed whitespace-pre-line">
-            {party.vision}
+            {party.vision ?? "—"}
           </p>
         </div>
       </ComparisonCollapsibleSection>
@@ -214,10 +191,6 @@ export function PartyDialog({
                 count={recentSlides.length}
               />
             </Carousel>
-          ) : party.recentActions ? (
-            <p className="text-sm text-foreground leading-relaxed whitespace-pre-line">
-              {party.recentActions}
-            </p>
           ) : (
             <p className="text-sm text-muted-foreground">
               אין מידע להצגה כרגע.
@@ -304,7 +277,9 @@ export function PartyDialog({
         </div>
       </ComparisonCollapsibleSection>
 
-      <ComparisonCollapsibleSection title={partyCategories.attributes.title}>
+      <ComparisonCollapsibleSection
+        title={filterMeta.attributesSectionTitle}
+      >
         <div className="space-y-2">
           {attributeParams.map((param) => (
             <div
@@ -315,15 +290,13 @@ export function PartyDialog({
                 {param.label}
               </span>
               <ValueBadge
-                value={
-                  party.values[param.id as keyof typeof party.values] || "-"
-                }
+                value={party.baseTopicByTitle[param.id] ?? "-"}
               />
             </div>
           ))}
         </div>
       </ComparisonCollapsibleSection>
-      <ComparisonCollapsibleSection title={partyCategories.issues.title}>
+      <ComparisonCollapsibleSection title={filterMeta.issuesSectionTitle}>
         <Carousel
           key={`issues-${party.id}`}
           setApi={setIssuesApi}
@@ -357,11 +330,7 @@ export function PartyDialog({
                           </span>
                           <div className="shrink-0">
                             <ValueBadge
-                              value={
-                                party.values[
-                                  param.id as keyof typeof party.values
-                                ] || "-"
-                              }
+                              value={party.legislationById[param.id] ?? "-"}
                             />
                           </div>
                         </div>

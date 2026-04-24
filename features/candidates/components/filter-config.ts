@@ -21,6 +21,7 @@ export function getGovernmentIntegrationsLabel({
 }
 
 export function getLeaderComparisonFilters({
+  partyOptions,
   partyFilter,
   setPartyFilter,
   securityFilter,
@@ -32,6 +33,7 @@ export function getLeaderComparisonFilters({
   governmentIntegrationsFilter,
   setGovernmentIntegrationsFilter,
 }: {
+  partyOptions: { value: string; label: string }[];
   partyFilter: string[];
   setPartyFilter: SetStringArrayState;
   securityFilter: string[];
@@ -51,14 +53,7 @@ export function getLeaderComparisonFilters({
       placeholder: "מפלגה",
       multiSelect: true as const,
       allLabel: "כל המפלגות",
-      options: [
-        { value: "הליכוד", label: "הליכוד" },
-        { value: "יש עתיד", label: "יש עתיד" },
-        { value: "המחנה הממלכתי", label: "המחנה הממלכתי" },
-        { value: "ש״ס", label: "ש״ס" },
-        { value: "העבודה", label: "העבודה" },
-        { value: "יהדות התורה", label: "יהדות התורה" },
-      ],
+      options: partyOptions,
     },
     {
       key: "security",

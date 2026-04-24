@@ -1,6 +1,6 @@
 "use client";
 
-import { leaders } from "@/lib/election-data";
+import type { LeaderComparisonRow } from "@/lib/data/leader-comparison";
 import {
   ComparisonCollapsibleSection,
   ComparisonDialogShell,
@@ -12,7 +12,7 @@ export function LeaderDialog({
   open,
   onClose,
 }: {
-  leader: (typeof leaders)[0] | null;
+  leader: LeaderComparisonRow | null;
   open: boolean;
   onClose: () => void;
 }) {
@@ -22,13 +22,15 @@ export function LeaderDialog({
     <ComparisonDialogShell
       open={open}
       onClose={onClose}
-      image={leader.image}
+      image={leader.image ?? ""}
       title={leader.name}
       subtitle={leader.party}
     >
       <ComparisonCollapsibleSection title="חזון" defaultOpen>
         <div className="p-3 rounded-lg bg-muted/30">
-          <p className="text-sm text-foreground leading-relaxed">{leader.vision}</p>
+          <p className="text-sm text-foreground leading-relaxed">
+            {leader.vision ?? "—"}
+          </p>
         </div>
       </ComparisonCollapsibleSection>
 
@@ -105,15 +107,15 @@ export function LeaderDialog({
         </div>
       </ComparisonCollapsibleSection>
 
-      {leader.id === "netanyahu" && leader.likudPromisesComparison && (
+      {leader.likudNotes ? (
         <ComparisonCollapsibleSection title="הבטחות מול תוצאות - הליכוד">
           <div className="p-3 rounded-lg bg-muted/30">
             <p className="text-sm text-foreground leading-relaxed">
-              {leader.likudPromisesComparison}
+              {leader.likudNotes}
             </p>
           </div>
         </ComparisonCollapsibleSection>
-      )}
+      ) : null}
     </ComparisonDialogShell>
   );
 }

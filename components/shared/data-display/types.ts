@@ -3,7 +3,7 @@ type FilterOption = {
   label: string;
 };
 
-type SingleFilterConfig = {
+type SingleFilter = {
   key: string;
   value: string;
   onValueChange: (value: string) => void;
@@ -12,7 +12,7 @@ type SingleFilterConfig = {
   multiSelect?: false;
 };
 
-type MultiSelectFilterConfig = {
+type MultiSelectFilter = {
   key: string;
   values: string[];
   onValuesChange: (values: string[]) => void;
@@ -22,7 +22,7 @@ type MultiSelectFilterConfig = {
   allLabel?: string;
 };
 
-type LawStanceFilterConfig = {
+type LawStanceFilter = {
   key: string;
   placeholder: string;
   lawStances: Record<string, string>;
@@ -32,14 +32,15 @@ type LawStanceFilterConfig = {
   lawFilter: true;
 };
 
-export type FilterConfig =
-  | SingleFilterConfig
-  | MultiSelectFilterConfig
-  | LawStanceFilterConfig;
+export type Filter = SingleFilter | MultiSelectFilter | LawStanceFilter;
 
 export type ComparisonListItem = {
   id: string;
   title: string;
   subtitle: string;
   image: string;
+};
+
+export type ComparisonGridRow = ComparisonListItem & {
+  onClick: () => void;
 };

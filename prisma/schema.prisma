@@ -19,6 +19,7 @@ model Party {
   mandates      Int?
   vision        String?
   imageUrl      String?
+  chartColor    String? @map("chart_color")
 
   // Relations
   leader         Candidate?         @relation("PartyLeader", fields: [candidateName], references: [name])
@@ -39,6 +40,13 @@ model Candidate {
   partyName              String  @map("party_name")
   image                  String? @map("image_url")
   vision                 String?
+  voicePattern           String? @map("voice_pattern")
+  securityApproach       String? @map("security_approach")
+  economicApproach      String? @map("economic_approach")
+  leadershipStyle        String? @map("leadership_style")
+  harediGov              String? @map("haredi_gov")
+  arabGov                String? @map("arab_gov")
+  likudNotes             String? @map("likud_notes")
 
   // Relations
   party          Party                   @relation("PartyCandidates", fields: [partyName], references: [name])

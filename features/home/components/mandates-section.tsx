@@ -1,9 +1,11 @@
 import { MandatesChart } from "@/features/home/components/mandates-chart";
+import { getMandatesChartData } from "@/lib/data/party-comparison";
 
-export function HomeMandatesSection() {
+export async function HomeMandatesSection() {
+  const data = await getMandatesChartData();
   return (
     <div className="mt-10">
-      <MandatesChart />
+      <MandatesChart data={data} />
     </div>
   );
 }

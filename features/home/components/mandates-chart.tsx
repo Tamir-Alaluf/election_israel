@@ -1,41 +1,53 @@
-"use client"
+"use client";
 
-import { Bar, BarChart, XAxis, YAxis, LabelList } from "recharts"
-import { parties } from "@/lib/election-data"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { Bar, BarChart, Cell, LabelList, XAxis, YAxis } from "recharts";
+import type { MandatesChartParty } from "@/lib/data/party-comparison";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
 function wrapHebrewLabel(value: string) {
-  // Prefer breaking on spaces; fallback to whole string.
-  const parts = value.split(" ")
-  if (parts.length <= 1) return [value]
-  if (parts.length === 2) return parts
-  // If many words, keep last word on 2nd line.
-  return [parts.slice(0, -1).join(" "), parts.at(-1) ?? ""]
+  const parts = value.split(" ");
+  if (parts.length <= 1) return [value];
+  if (parts.length === 2) return parts;
+  return [parts.slice(0, -1).join(" "), parts.at(-1) ?? ""];
 }
 
-const baseData = parties.map((party) => ({
-  key: party.id,
-  name: party.name,
-  mandates: party.mandates,
-  color: party.color,
-})).sort((a, b) => b.mandates - a.mandates)
+type MandatesChartProps = {
+  data: MandatesChartParty[];
+};
 
-export function MandatesChart() {
-  const data = baseData
+export function MandatesChart({ data }: MandatesChartProps) {
+  const chartConfig = data.reduce(
+    (acc, party) => {
+      acc[party.key] = { label: party.name, color: party.color };
+      return acc;
+    },
+    {} as Record<string, { label: string; color: string }>,
+  );
 
-  const chartConfig = data.reduce((acc, party) => {
-    acc[party.key] = { label: party.name, color: party.color }
-    return acc
-  }, {} as Record<string, { label: string; color: string }>)
+  if (data.length === 0) {
+    return (
+      <div className="glass-card rounded-2xl p-5">
+        <h2 className="text-base font-semibold text-foreground mb-1 text-center">
+          סקר מנדטים
+        </h2>
+        <p className="text-xs text-muted-foreground text-center">אין נתוני מנדטים להצגה</p>
+      </div>
+    );
+  }
 
   return (
     <div className="glass-card rounded-2xl p-5">
       <h2 className="text-base font-semibold text-foreground mb-1 text-center">
         סקר מנדטים
       </h2>
-      <p className="text-xs text-muted-foreground mb-4 text-center">חלוקת מנדטים לפי סקרים</p>
+      <p className="text-xs text-muted-foreground mb-4 text-center">
+        חלוקת מנדטים לפי סקרים
+      </p>
       <ChartContainer config={chartConfig} className="h-[350px] w-full">
-        <BarChart data={data} margin={{ left: 8, right: 8, top: 16, bottom: 55 }}>
+        <BarChart
+          data={data}
+          margin={{ left: 8, right: 8, top: 16, bottom: 55 }}
+        >
           <XAxis
             dataKey="name"
             tickLine={false}
@@ -44,7 +56,7 @@ export function MandatesChart() {
             height={44}
             tickMargin={10}
             tick={({ x, y, payload }) => {
-              const lines = wrapHebrewLabel(String(payload.value))
+              const lines = wrapHebrewLabel(String(payload.value));
               return (
                 <text
                   x={x}
@@ -59,7 +71,7 @@ export function MandatesChart() {
                     </tspan>
                   ))}
                 </text>
-              )
+              );
             }}
           />
           <YAxis
@@ -73,12 +85,10 @@ export function MandatesChart() {
             content={<ChartTooltipContent nameKey="key" labelKey="name" />}
             cursor={{ fill: "rgba(0,0,0,0.05)" }}
           />
-          <Bar
-            dataKey="mandates"
-            radius={[4, 4, 0, 0]}
-            isAnimationActive={false}
-            fill="#3b82f6"
-          >
+          <Bar dataKey="mandates" radius={[4, 4, 0, 0]} isAnimationActive={false}>
+            {data.map((d) => (
+              <Cell key={d.key} fill={d.color} />
+            ))}
             <LabelList
               dataKey="mandates"
               position="top"
@@ -89,5 +99,5 @@ export function MandatesChart() {
         </BarChart>
       </ChartContainer>
     </div>
-  )
+  );
 }

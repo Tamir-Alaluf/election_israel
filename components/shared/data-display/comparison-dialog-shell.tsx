@@ -52,7 +52,7 @@ export function ComparisonDialogShell({
             </div>
           </div>
         </DialogHeader>
-
+  
         <div className="mt-4 min-w-0 space-y-4">{children}</div>
       </DialogContent>
     </Dialog>

@@ -1,12 +1,13 @@
 "use client";
 
 import type { Dispatch, SetStateAction } from "react";
-import { partyCategories } from "@/lib/election-data";
+import type { PartyPageFilterMeta } from "@/lib/data/party-comparison";
 
 type SetStringArrayState = Dispatch<SetStateAction<string[]>>;
 type SetLawFiltersState = Dispatch<SetStateAction<Record<string, string>>>;
 
 export function getPartyComparisonFilters({
+  filterMeta,
   typeFilter,
   setTypeFilter,
   securityFilter,
@@ -16,6 +17,7 @@ export function getPartyComparisonFilters({
   lawFilters,
   setLawFilters,
 }: {
+  filterMeta: PartyPageFilterMeta;
   typeFilter: string[];
   setTypeFilter: SetStringArrayState;
   securityFilter: string[];
@@ -32,11 +34,7 @@ export function getPartyComparisonFilters({
       onValuesChange: setTypeFilter,
       placeholder: "סוג מפלגה",
       multiSelect: true as const,
-      options: [
-        { value: "חרדית", label: "חרדית" },
-        { value: "ערבית", label: "ערבית" },
-        { value: "חילונית", label: "חילונית" },
-      ],
+      options: filterMeta.typeBaseTopic.options,
     },
     {
       key: "security",
@@ -44,12 +42,7 @@ export function getPartyComparisonFilters({
       onValuesChange: setSecurityFilter,
       placeholder: "עמדה ביטחונית",
       multiSelect: true as const,
-      options: [
-        { value: "ימין", label: "ימין" },
-        { value: "מרכז ימין", label: "מרכז ימין" },
-        { value: "מרכז שמאל", label: "מרכז שמאל" },
-        { value: "שמאל", label: "שמאל" },
-      ],
+      options: filterMeta.securityBaseTopic.options,
     },
     {
       key: "economy",
@@ -57,18 +50,14 @@ export function getPartyComparisonFilters({
       onValuesChange: setEconomyFilter,
       placeholder: "עמדה כלכלית",
       multiSelect: true as const,
-      options: [
-        { value: "ימין כלכלי", label: "ימין כלכלי" },
-        { value: "שמאל כלכלי", label: "שמאל כלכלי" },
-        { value: "מרכז", label: "מרכז" },
-      ],
+      options: filterMeta.economyBaseTopic.options,
     },
     {
       key: "laws",
       placeholder: "חוקים",
       lawFilter: true as const,
       lawStances: lawFilters,
-      lawOptions: partyCategories.issues.parameters.map((issue) => ({
+      lawOptions: filterMeta.lawIssues.map((issue) => ({
         id: issue.id,
         label: issue.label,
       })),

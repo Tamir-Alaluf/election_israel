@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
-import type { FilterConfig } from "@/components/shared/data-display/types";
+import type { Filter } from "@/components/shared/data-display/types";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-type MultiSelectFilterConfig = Extract<FilterConfig, { multiSelect: true }>;
+type MultiSelectFilterConfig = Extract<Filter, { multiSelect: true }>;
 
 export function ComparisonMultiSelectFilter({
   filter,

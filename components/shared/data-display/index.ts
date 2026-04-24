@@ -1,4 +1,8 @@
-export type { ComparisonListItem, FilterConfig } from "./types";
+export type {
+  ComparisonGridRow,
+  ComparisonListItem,
+  Filter as FilterConfig,
+} from "./types";
 export { ComparisonImage } from "./comparison-image";
 export { ComparisonProfileCard } from "./comparison-profile-card";
 export { ComparisonDialogShell } from "./comparison-dialog-shell";

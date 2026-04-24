@@ -1,8 +1,17 @@
+import { Suspense } from "react";
 import { CountdownTimer } from "@/features/home/components/countdown-timer";
+
+export const dynamic = "force-dynamic";
 import { HomePageTitle } from "@/features/home/components/page-title";
 import { HomeAdvisorCta } from "@/features/home/components/advisor-cta";
 import { HomeMandatesSection } from "@/features/home/components/mandates-section";
 import { HomeFooterNote } from "@/features/home/components/footer-note";
+
+function MandatesFallback() {
+  return (
+    <div className="mt-10 h-[350px] w-full animate-pulse rounded-2xl bg-muted/20" />
+  );
+}
 
 export default function HomePage() {
   return (
@@ -11,7 +20,9 @@ export default function HomePage() {
         <HomePageTitle />
         <HomeAdvisorCta />
         <CountdownTimer />
-        <HomeMandatesSection />
+        <Suspense fallback={<MandatesFallback />}>
+          <HomeMandatesSection />
+        </Suspense>
         <HomeFooterNote />
       </main>
     </div>

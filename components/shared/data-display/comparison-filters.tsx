@@ -1,6 +1,6 @@
 "use client";
 
-import type { FilterConfig } from "@/components/shared/data-display/types";
+import type { Filter } from "@/components/shared/data-display/types";
 import { ComparisonSearchBox } from "@/components/shared/data-display/comparison-search-box";
 import { ComparisonLawFilter } from "@/components/shared/data-display/comparison-law-filter";
 import { ComparisonMultiSelectFilter } from "@/components/shared/data-display/comparison-multi-select-filter";
@@ -22,7 +22,7 @@ export function ComparisonFilters({
   searchPlaceholder: string;
   searchValue: string;
   onSearchChange: (value: string) => void;
-  filters: FilterConfig[];
+  filters: Filter[];
   resultsText: string;
 }) {
   return (
