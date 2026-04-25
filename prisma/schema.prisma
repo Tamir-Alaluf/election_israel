@@ -19,7 +19,6 @@ model Party {
   mandates      Int?
   vision        String?
   imageUrl      String?
-  chartColor    String? @map("chart_color")
 
   // Relations
   leader         Candidate?         @relation("PartyLeader", fields: [candidateName], references: [name])

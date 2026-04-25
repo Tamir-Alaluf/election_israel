@@ -9,7 +9,7 @@ export const metadata = {
   description: "השוואה בין ראשי המפלגות המתמודדות בבחירות 2026",
 };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function LeadersPage() {
   const leaders = await getLeadersForComparison();
@@ -18,10 +18,7 @@ export default async function LeadersPage() {
   return (
     <div className="min-h-screen relative">
       <main className="max-w-md mx-auto px-5 py-8">
-        <LeaderComparisonGrid
-          leaders={leaders}
-          partyOptions={partyOptions}
-        />
+        <LeaderComparisonGrid leaders={leaders} partyOptions={partyOptions} />
       </main>
     </div>
   );

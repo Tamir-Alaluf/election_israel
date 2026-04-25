@@ -1,7 +1,7 @@
 "use client";
 
 import { Bar, BarChart, Cell, LabelList, XAxis, YAxis } from "recharts";
-import type { MandatesChartParty } from "@/lib/data/party-comparison";
+import type { MandatesChartParty } from "@/features/parties/types/party-comparison";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
 function wrapHebrewLabel(value: string) {

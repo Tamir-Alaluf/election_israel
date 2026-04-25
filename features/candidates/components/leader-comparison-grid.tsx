@@ -1,14 +1,14 @@
 "use client";
 
 import { useMemo } from "react";
-import type { LeaderComparisonRow } from "@/lib/data/leader-comparison";
+import type { LeaderComparisonRow } from "@/features/candidates/types/leader-comparison";
 import {
   ComparisonScaffold,
   type ComparisonGridRow,
   useComparisonState,
 } from "@/components/shared/data-display";
 import { LeaderDialog } from "@/features/candidates/components/dialog";
-import { useLeaderComparisonFilters } from "@/features/candidates/components/use-leader-comparison-filters";
+import { useLeaderComparisonFilters } from "@/features/candidates/hooks/use-leader-comparison-filters";
 
 type LeaderComparisonGridProps = {
   leaders: LeaderComparisonRow[];

@@ -1,20 +1,28 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import type {
-  PartyComparisonRow,
+  PartyListRow,
   PartyPageFilterMeta,
-} from "@/lib/data/party-comparison";
+} from "@/features/parties/types/party-comparison";
 import {
   ComparisonScaffold,
   type ComparisonGridRow,
   useComparisonState,
 } from "@/components/shared/data-display";
-import { PartyDialog } from "@/features/parties/components/dialog";
-import { usePartyComparisonFilters } from "@/features/parties/components/use-party-comparison-filters";
+import { usePartyComparisonFilters } from "@/features/parties/hooks/use-party-comparison-filters";
+
+const PartyDialog = dynamic(
+  () =>
+    import("@/features/parties/components/dialog").then((m) => ({
+      default: m.PartyDialog,
+    })),
+  { ssr: false },
+);
 
 type PartyComparisonGridProps = {
-  parties: PartyComparisonRow[];
+  parties: PartyListRow[];
   filterMeta: PartyPageFilterMeta;
 };
 
@@ -28,7 +36,7 @@ export function PartyComparisonGrid({
     selectedItem: selectedParty,
     openItem: openParty,
     closeItem: closeParty,
-  } = useComparisonState<PartyComparisonRow>();
+  } = useComparisonState<PartyListRow>();
   const { filteredParties, partyFilterConfigs } = usePartyComparisonFilters(
     searchQuery,
     parties,

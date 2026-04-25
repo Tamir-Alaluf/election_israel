@@ -2,14 +2,14 @@
 
 import { useMemo, useState } from "react";
 import type {
-  PartyComparisonRow,
+  PartyListRow,
   PartyPageFilterMeta,
-} from "@/lib/data/party-comparison";
-import { getPartyComparisonFilters } from "@/features/parties/components/filter-config";
+} from "@/features/parties/types/party-comparison";
+import { getPartyComparisonFilters } from "@/features/parties/types/filter-config";
 
 export function usePartyComparisonFilters(
   searchQuery: string,
-  parties: PartyComparisonRow[],
+  parties: PartyListRow[],
   filterMeta: PartyPageFilterMeta,
 ) {
   const [typeFilter, setTypeFilter] = useState<string[]>([]);

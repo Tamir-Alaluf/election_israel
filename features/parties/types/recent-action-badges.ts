@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { comparisonBadgeClassName } from "@/features/parties/components/value-badge";
+import { comparisonBadgeClassName } from "@/features/parties/types/value-badge";
 
 const knownRecentActionCategoryBadgeClass: Record<string, string> = {
   "ביטחון ומדיניות":

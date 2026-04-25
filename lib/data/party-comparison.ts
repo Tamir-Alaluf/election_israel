@@ -1,46 +1,19 @@
+import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import {
   ATTRIBUTE_BASE_TOPIC_ORDER,
   FILTER_BASE_TOPIC_TITLES,
 } from "@/lib/data/party-filter-keys";
+import type {
+  MandatesChartParty,
+  PartyComparisonRow,
+  PartyFilterBaseTopicBlock,
+  PartyListRow,
+  PartyPageFilterMeta,
+} from "@/features/parties/types/party-comparison";
 
-export type PartyComparisonRow = {
-  id: string;
-  name: string;
-  leader: string;
-  image: string | null;
-  vision: string | null;
-  /** baseTopicTitle → selected option display */
-  baseTopicByTitle: Record<string, string>;
-  /** legislation id → option display */
-  legislationById: Record<string, string>;
-  members: string[];
-  recentActionsItems: {
-    category: string;
-    title: string;
-    description: string | null;
-  }[];
-  futurePromisesItems: { title: string; description: string | null }[];
-};
-
-export type PartyFilterBaseTopicBlock = {
-  title: string;
-  options: { value: string; label: string }[];
-};
-
-export type PartyPageFilterMeta = {
-  typeBaseTopic: PartyFilterBaseTopicBlock;
-  securityBaseTopic: PartyFilterBaseTopicBlock;
-  economyBaseTopic: PartyFilterBaseTopicBlock;
-  /** Row id = BaseTopic.title (stable in DB) */
-  attributeTopics: { id: string; label: string }[];
-  /** Law filter + issues carousel; id = legislation UUID */
-  lawIssues: { id: string; label: string; group: string }[];
-  attributesSectionTitle: string;
-  issuesSectionTitle: string;
-};
-
-const partyInclude = {
+const partyDetailInclude = {
   leader: true,
   baseTopics: {
     include: { topic: true, option: true },
@@ -58,6 +31,59 @@ const partyInclude = {
   },
   futurePromises: { orderBy: { orderIndex: "asc" as const } },
 } as const;
+
+const partyListSelect = {
+  id: true,
+  name: true,
+  candidateName: true,
+  imageUrl: true,
+  leader: { select: { name: true } },
+  baseTopics: {
+    select: {
+      baseTopicTitle: true,
+      baseTopicOptionDisplayValue: true,
+    },
+  },
+  legislations: {
+    select: {
+      optionDisplayValue: true,
+      legislation: { select: { id: true } },
+    },
+  },
+} as const;
+
+function mapPartyList(p: {
+  id: string;
+  name: string;
+  candidateName: string | null;
+  imageUrl: string | null;
+  leader: { name: string } | null;
+  baseTopics: {
+    baseTopicTitle: string;
+    baseTopicOptionDisplayValue: string;
+  }[];
+  legislations: {
+    optionDisplayValue: string;
+    legislation: { id: string };
+  }[];
+}): PartyListRow {
+  const baseTopicByTitle: Record<string, string> = {};
+  for (const bt of p.baseTopics) {
+    baseTopicByTitle[bt.baseTopicTitle] = bt.baseTopicOptionDisplayValue;
+  }
+  const legislationById: Record<string, string> = {};
+  for (const pl of p.legislations) {
+    legislationById[pl.legislation.id] = pl.optionDisplayValue;
+  }
+  return {
+    id: p.id,
+    name: p.name,
+    leader: p.leader?.name ?? p.candidateName ?? "",
+    image: p.imageUrl,
+    baseTopicByTitle,
+    legislationById,
+  };
+}
 
 function mapParty(p: {
   id: string;
@@ -141,7 +167,7 @@ function sortAttributeTopics(
   return [...ordered, ...rest].map((t) => ({ id: t, label: t }));
 }
 
-export async function getPartyFilterMetadata(): Promise<PartyPageFilterMeta> {
+async function getPartyFilterMetadata(): Promise<PartyPageFilterMeta> {
   const [baseTopicRows, legislationRows] = await Promise.all([
     prisma.baseTopic.findMany({
       include: {
@@ -168,7 +194,9 @@ export async function getPartyFilterMetadata(): Promise<PartyPageFilterMeta> {
     baseTopicRows,
   );
 
-  const attributeTopics = sortAttributeTopics(baseTopicRows.map((t) => t.title));
+  const attributeTopics = sortAttributeTopics(
+    baseTopicRows.map((t) => t.title),
+  );
 
   const lawIssues = legislationRows.map((leg) => ({
     id: leg.id,
@@ -187,65 +215,68 @@ export async function getPartyFilterMetadata(): Promise<PartyPageFilterMeta> {
   };
 }
 
-export async function getPartiesForComparison(): Promise<PartyComparisonRow[]> {
+export async function getPartiesList(): Promise<PartyListRow[]> {
   const rows = await prisma.party.findMany({
-    include: partyInclude,
+    select: partyListSelect,
     orderBy: { name: "asc" },
   });
-  return rows.map((p) => mapParty(p));
+  return rows.map((p) => mapPartyList(p));
 }
 
-export async function getPartyPageData(): Promise<{
-  parties: PartyComparisonRow[];
-  filterMeta: PartyPageFilterMeta;
-}> {
-  const [parties, filterMeta] = await Promise.all([
-    getPartiesForComparison(),
-    getPartyFilterMetadata(),
-  ]);
-  return { parties, filterMeta };
+const loadPartyPageData = unstable_cache(
+  async () => {
+    const [parties, filterMeta] = await Promise.all([
+      getPartiesList(),
+      getPartyFilterMetadata(),
+    ]);
+    return { parties, filterMeta };
+  },
+  ["parties-page-data"],
+  { revalidate: 60 },
+);
+
+/**
+ * List + filter metadata, cached 60s at the data layer; React `cache` dedupes within a request.
+ */
+export const getPartyPageData = cache(async () => loadPartyPageData());
+
+export async function getPartyComparisonDetailById(
+  id: string,
+): Promise<PartyComparisonRow | null> {
+  const row = await prisma.party.findUnique({
+    where: { id },
+    include: partyDetailInclude,
+  });
+  if (!row) return null;
+  return mapParty(row);
 }
 
-export type MandatesChartParty = {
-  key: string;
-  name: string;
-  mandates: number;
-  color: string;
-};
+/** Bar colors when `parties.chart_color` is not stored in the database. */
+const MANDATES_CHART_PALETTE = [
+  "#0066cc",
+  "#00a0dc",
+  "#1e3a5f",
+  "#006400",
+  "#e30613",
+  "#000080",
+  "#64748b",
+] as const;
 
 export async function getMandatesChartData(): Promise<MandatesChartParty[]> {
   const rows = await prisma.party.findMany({
     where: { mandates: { not: null } },
-    select: {
-      id: true,
-      name: true,
-      mandates: true,
-      chartColor: true,
-    },
+    select: { id: true, name: true, mandates: true },
   });
-  const withMandates = rows
+  const sorted = rows
     .filter(
-      (r): r is typeof r & { mandates: number } =>
-        r.mandates != null && r.chartColor != null && r.chartColor !== "",
+      (r): r is typeof r & { mandates: number } => r.mandates != null,
     )
-    .map((r) => ({
-      key: r.id,
-      name: r.name,
-      mandates: r.mandates,
-      color: r.chartColor!,
-    }));
-  if (withMandates.length > 0) {
-    return withMandates.sort((a, b) => b.mandates - a.mandates);
-  }
-  const fallback = await prisma.party.findMany({
-    select: { id: true, name: true, mandates: true, chartColor: true },
-  });
-  return fallback
-    .map((r) => ({
-      key: r.id,
-      name: r.name,
-      mandates: r.mandates ?? 0,
-      color: r.chartColor ?? "#64748b",
-    }))
     .sort((a, b) => b.mandates - a.mandates);
+
+  return sorted.map((r, i) => ({
+    key: r.id,
+    name: r.name,
+    mandates: r.mandates,
+    color: MANDATES_CHART_PALETTE[i % MANDATES_CHART_PALETTE.length],
+  }));
 }
