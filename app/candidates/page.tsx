@@ -1,8 +1,5 @@
 import { LeaderComparisonGrid } from "@/features/candidates/components/leader-comparison-grid";
-import {
-  getLeaderPartyOptions,
-  getLeadersForComparison,
-} from "@/lib/data/leader-comparison";
+import { getLeadersForComparison } from "@/lib/data/leader-comparison";
 
 export const metadata = {
   title: "השוואת מועמדים | בחירות 2026",
@@ -13,12 +10,11 @@ export const revalidate = 60;
 
 export default async function LeadersPage() {
   const leaders = await getLeadersForComparison();
-  const partyOptions = getLeaderPartyOptions(leaders);
 
   return (
     <div className="min-h-screen relative">
       <main className="max-w-md mx-auto px-5 py-8">
-        <LeaderComparisonGrid leaders={leaders} partyOptions={partyOptions} />
+        <LeaderComparisonGrid leaders={leaders} />
       </main>
     </div>
   );

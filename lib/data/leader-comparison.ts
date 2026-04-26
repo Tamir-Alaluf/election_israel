@@ -1,50 +1,62 @@
 import { prisma } from "@/lib/prisma";
-import type { LeaderComparisonRow } from "@/features/candidates/types/leader-comparison";
+import type {
+  LeaderActionItem,
+  LeaderComparisonRow,
+  LeaderEducationItem,
+  LeaderProfessionalItem,
+} from "@/features/candidates/types/leader-comparison";
 
-function joinEducation(
+function mapEducation(
   rows: {
     description: string | null;
     major: string | null;
     university: string | null;
+    degreeLevel: string | null;
+    startYear: number | null;
+    endYear: number | null;
   }[],
-): string {
-  if (rows.length === 0) return "—";
-  return rows
-    .map(
-      (e) =>
-        [e.university, e.major, e.description].filter(Boolean).join(" — ") ||
-        "—",
-    )
-    .join("\n");
+): LeaderEducationItem[] {
+  return rows.map((e) => ({
+    major: e.major,
+    university: e.university,
+    degreeLevel: e.degreeLevel,
+    startYear: e.startYear,
+    endYear: e.endYear,
+    description: e.description,
+  }));
 }
 
-function joinProfessionals(
+function mapProfessionals(
   rows: {
     title: string;
+    startYear: number | null;
+    endYear: number | null;
     description: string | null;
     group: { name: string };
   }[],
-): string {
-  if (rows.length === 0) return "—";
-  return rows
-    .map(
-      (p) =>
-        `${p.title}${p.group?.name ? ` · ${p.group.name}` : ""}${p.description ? ` — ${p.description}` : ""}`,
-    )
-    .join("\n");
+): LeaderProfessionalItem[] {
+  return rows.map((p) => ({
+    title: p.title,
+    groupName: p.group?.name ?? null,
+    startYear: p.startYear,
+    endYear: p.endYear,
+    description: p.description,
+  }));
 }
 
 function mapCareerItems(
   rows: {
     title: string;
     description: string | null;
+    orderIndex: number | null;
     actionGroup: { name: string };
   }[],
-): { category: string; title: string; description: string | null }[] {
+): LeaderActionItem[] {
   return rows.map((c) => ({
     category: c.actionGroup.name,
     title: c.title,
     description: c.description,
+    orderIndex: c.orderIndex,
   }));
 }
 
@@ -52,13 +64,15 @@ function mapRecentItems(
   rows: {
     title: string;
     description: string | null;
+    orderIndex: number | null;
     actionGroup: { name: string };
   }[],
-): { category: string; title: string; description: string | null }[] {
+): LeaderActionItem[] {
   return rows.map((r) => ({
     category: r.actionGroup.name,
     title: r.title,
     description: r.description,
+    orderIndex: r.orderIndex,
   }));
 }
 
@@ -69,7 +83,10 @@ export async function getLeadersForComparison(): Promise<
     where: { partyLeaderOf: { some: {} } },
     include: {
       education: { orderBy: { id: "asc" } },
-      professionals: { include: { group: true } },
+      professionals: {
+        include: { group: true },
+        orderBy: { startYear: "asc" },
+      },
       careerActions: {
         include: { actionGroup: true },
         orderBy: { orderIndex: "asc" },
@@ -89,16 +106,17 @@ export async function getLeadersForComparison(): Promise<
     image: c.image,
     color: null,
     vision: c.vision,
-    academicEducation: joinEducation(c.education),
-    professionalBackground: joinProfessionals(c.professionals),
-    careerAchievementsItems: mapCareerItems(c.careerActions),
-    recentActionsItems: mapRecentItems(c.recentActions),
+    education: mapEducation(c.education),
+    professionalBackground: mapProfessionals(c.professionals),
+    careerAchievements: mapCareerItems(c.careerActions),
+    recentActions: mapRecentItems(c.recentActions),
     values: {
       securityApproach: c.securityApproach ?? "—",
       economicApproach: c.economicApproach ?? "—",
       leadershipStyle: c.leadershipStyle ?? "—",
       harediGov: c.harediGov ?? "—",
       arabGov: c.arabGov ?? "—",
+      bloc: "—",
     },
   }));
 }

@@ -12,13 +12,9 @@ import { useLeaderComparisonFilters } from "@/features/candidates/hooks/use-lead
 
 type LeaderComparisonGridProps = {
   leaders: LeaderComparisonRow[];
-  partyOptions: { value: string; label: string }[];
 };
 
-export function LeaderComparisonGrid({
-  leaders,
-  partyOptions,
-}: LeaderComparisonGridProps) {
+export function LeaderComparisonGrid({ leaders }: LeaderComparisonGridProps) {
   const {
     searchQuery,
     setSearchQuery,
@@ -29,7 +25,6 @@ export function LeaderComparisonGrid({
   const { filteredLeaders, leaderFilterConfigs } = useLeaderComparisonFilters(
     searchQuery,
     leaders,
-    partyOptions,
   );
 
   const rows: ComparisonGridRow[] = useMemo(

@@ -3,23 +3,21 @@
 import { useMemo, useState } from "react";
 import type { LeaderComparisonRow } from "@/features/candidates/types/leader-comparison";
 import {
-  getGovernmentIntegrationsLabel,
+  getGovernmentIntegrationExclusions,
   getLeaderComparisonFilters,
 } from "@/features/candidates/types/filter-config";
 
 export function useLeaderComparisonFilters(
   searchQuery: string,
   leaders: LeaderComparisonRow[],
-  partyOptions: { value: string; label: string }[],
 ) {
-  const [partyFilter, setPartyFilter] = useState<string[]>([]);
   const [securityFilter, setSecurityFilter] = useState<string[]>([]);
   const [economyFilter, setEconomyFilter] = useState<string[]>([]);
-  const [leadershipStyleFilter, setLeadershipStyleFilter] = useState<string[]>(
-    [],
-  );
+  const [professionalBackgroundFilter, setProfessionalBackgroundFilter] =
+    useState<string[]>([]);
   const [governmentIntegrationsFilter, setGovernmentIntegrationsFilter] =
     useState<string[]>([]);
+  const [blocFilter, setBlocFilter] = useState<string[]>([]);
 
   const filteredLeaders = useMemo(() => {
     return leaders.filter((leader) => {
@@ -31,9 +29,6 @@ export function useLeaderComparisonFilters(
         ) {
           return false;
         }
-      }
-      if (partyFilter.length > 0 && !partyFilter.includes(leader.party)) {
-        return false;
       }
       if (
         securityFilter.length > 0 &&
@@ -48,55 +43,64 @@ export function useLeaderComparisonFilters(
         return false;
       }
       if (
-        leadershipStyleFilter.length > 0 &&
-        !leadershipStyleFilter.includes(leader.values.leadershipStyle)
+        professionalBackgroundFilter.length > 0 &&
+        !professionalBackgroundFilter.every((selectedGroup) =>
+          leader.professionalBackground.some(
+            (professional) => professional.groupName === selectedGroup,
+          ),
+        )
       ) {
         return false;
       }
-      const governmentIntegrations = getGovernmentIntegrationsLabel({
+      const governmentIntegrationExclusions = getGovernmentIntegrationExclusions(
+        {
         harediGov: leader.values.harediGov,
         arabGov: leader.values.arabGov,
-      });
+        },
+      );
       if (
         governmentIntegrationsFilter.length > 0 &&
-        !governmentIntegrationsFilter.includes(governmentIntegrations)
+        !governmentIntegrationsFilter.some((filterValue) =>
+          governmentIntegrationExclusions.includes(filterValue),
+        )
       ) {
+        return false;
+      }
+      if (blocFilter.length > 0 && !blocFilter.includes(leader.values.bloc)) {
         return false;
       }
       return true;
     });
   }, [
     searchQuery,
-    partyFilter,
     securityFilter,
     economyFilter,
-    leadershipStyleFilter,
+    professionalBackgroundFilter,
     governmentIntegrationsFilter,
+    blocFilter,
     leaders,
   ]);
 
   const leaderFilterConfigs = useMemo(
     () =>
       getLeaderComparisonFilters({
-        partyOptions,
-        partyFilter,
-        setPartyFilter,
         securityFilter,
         setSecurityFilter,
         economyFilter,
         setEconomyFilter,
-        leadershipStyleFilter,
-        setLeadershipStyleFilter,
+        professionalBackgroundFilter,
+        setProfessionalBackgroundFilter,
         governmentIntegrationsFilter,
         setGovernmentIntegrationsFilter,
+        blocFilter,
+        setBlocFilter,
       }),
     [
-      partyOptions,
-      partyFilter,
       securityFilter,
       economyFilter,
-      leadershipStyleFilter,
+      professionalBackgroundFilter,
       governmentIntegrationsFilter,
+      blocFilter,
     ],
   );
 

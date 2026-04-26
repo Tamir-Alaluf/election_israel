@@ -1,55 +1,42 @@
 import type { LeaderComparisonRow } from "@/features/candidates/types/leader-comparison";
-import { AttributesSection } from "@/features/parties/components/dialog-sections/attributes-section";
+import { LeaderEducationSection } from "@/features/candidates/components/dialog-sections/leader-education-section";
+import { LeaderPositionsSection } from "@/features/candidates/components/dialog-sections/leader-positions-section";
+import { LeaderProfessionalSection } from "@/features/candidates/components/dialog-sections/leader-professional-section";
+import { LeaderVisionSection } from "@/features/candidates/components/dialog-sections/leader-vision-section";
 import { RecentActionsSection } from "@/features/parties/components/dialog-sections/recent-actions-section";
-import { SectionShell } from "@/features/parties/components/dialog-sections/section-shell";
-import { VisionSection } from "@/features/parties/components/dialog-sections/vision-section";
 
-export function LeaderDialogSections({ leader }: { leader: LeaderComparisonRow }) {
-  const positions = [
-    { id: "securityApproach", label: "גישה ביטחונית" },
-    { id: "economicApproach", label: "גישה כלכלית" },
-    { id: "leadershipStyle", label: "סגנון מנהיגות" },
-    { id: "harediGov", label: "שילוב חרדים בממשלה" },
-    { id: "arabGov", label: "שילוב ערבים בממשלה" },
-  ] as const;
-
+export function LeaderDialogSections({
+  leader,
+}: {
+  leader: LeaderComparisonRow;
+}) {
   return (
     <>
-      <VisionSection vision={leader.vision} title="חזון" />
+      <LeaderVisionSection vision={leader.vision} />
 
-      <SectionShell title="השכלה אקדמאית">
-        <p className="whitespace-pre-line text-sm leading-relaxed text-foreground">
-          {leader.academicEducation}
-        </p>
-      </SectionShell>
+      <LeaderEducationSection
+        leaderId={leader.id}
+        education={leader.education}
+      />
 
-      <SectionShell title="רקע מקצועי">
-        <p className="whitespace-pre-line text-sm leading-relaxed text-foreground">
-          {leader.professionalBackground}
-        </p>
-      </SectionShell>
+      <LeaderProfessionalSection
+        leaderId={leader.id}
+        professionalBackground={leader.professionalBackground}
+      />
 
-      <RecentActionsSection
+      {/* <RecentActionsSection
         itemId={`${leader.id}-career`}
         title="הישגים בקריירה"
-        recentItems={leader.careerAchievementsItems}
-      />
+        recentItems={leader.careerAchievements}
+      /> */}
 
       <RecentActionsSection
         itemId={`${leader.id}-recent`}
         title="מה נעשה מאז הבחירות הקודמות"
-        recentItems={leader.recentActionsItems}
+        recentItems={leader.recentActions}
       />
 
-      <SectionShell title="עמדות" withSurface={false}>
-        <AttributesSection
-          attributes={positions.map((position) => ({
-            id: position.id,
-            label: position.label,
-          }))}
-          valuesById={leader.values}
-        />
-      </SectionShell>
+      <LeaderPositionsSection values={leader.values} />
     </>
   );
 }

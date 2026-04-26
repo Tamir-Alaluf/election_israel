@@ -5,7 +5,6 @@ import type { Filter } from "@/components/shared/data-display/types";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
@@ -40,13 +39,12 @@ export function ComparisonMultiSelectFilter({
             </DropdownMenuItem>
           ) : null}
           {filter.options.map((option) => (
-            <DropdownMenuCheckboxItem
+            <DropdownMenuItem
               key={option.value}
-              checked={filter.values.includes(option.value)}
-              onSelect={(event) => event.preventDefault()}
-              onCheckedChange={(checked) => {
-                const isChecked = checked === true;
-                if (isChecked) {
+              onSelect={(event) => {
+                event.preventDefault();
+                const isSelected = filter.values.includes(option.value);
+                if (!isSelected) {
                   filter.onValuesChange([...filter.values, option.value]);
                   return;
                 }
@@ -54,9 +52,18 @@ export function ComparisonMultiSelectFilter({
                   filter.values.filter((value) => value !== option.value),
                 );
               }}
+              className="max-md:focus:bg-transparent"
             >
-              {option.label}
-            </DropdownMenuCheckboxItem>
+              <span
+                className={`inline-flex h-8 items-center rounded-full border px-4 text-sm transition-colors ${
+                  filter.values.includes(option.value)
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-background text-foreground"
+                }`}
+              >
+                {option.label}
+              </span>
+            </DropdownMenuItem>
           ))}
         </div>
       </DropdownMenuContent>
