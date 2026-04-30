@@ -1,11 +1,25 @@
 import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@prisma/client";
 import {
   leaderParameterLabels,
   partyComparisonParameterLabels,
 } from "@/lib/data/election-parameter-labels";
 
+type PartyWithAdvisorRelations = Prisma.PartyGetPayload<{
+  include: {
+    baseTopics: true;
+    legislations: { include: { legislation: true } };
+    leader: true;
+  };
+}>;
+
+type CandidateWithParty = Prisma.CandidateGetPayload<{
+  include: { party: true };
+}>;
+
 export async function buildAdvisorElectionContext(): Promise<string> {
-  const [parties, leaders] = await Promise.all([
+  const [parties, leaders]: [PartyWithAdvisorRelations[], CandidateWithParty[]] =
+    await Promise.all([
     prisma.party.findMany({
       include: {
         baseTopics: true,
@@ -19,7 +33,7 @@ export async function buildAdvisorElectionContext(): Promise<string> {
       include: { party: true },
       orderBy: { name: "asc" },
     }),
-  ]);
+    ]);
 
   const partyInfo = parties
     .map((p) => {
