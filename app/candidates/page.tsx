@@ -6,7 +6,7 @@ export const metadata = {
   description: "השוואה בין ראשי המפלגות המתמודדות בבחירות 2026",
 };
 
-export const revalidate = 60;
+export const dynamic = "force-static"; 
 
 export default async function LeadersPage() {
   const leaders = await getLeadersForComparison();

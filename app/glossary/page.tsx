@@ -1,5 +1,7 @@
 import { ElectionGlossaryView } from "@/features/glossary/components/view";
-import { prisma } from "@/lib/prisma";
+import { getGlossaryPageData } from "@/lib/data/glossary";
+
+export const dynamic = "force-static";
 
 export const metadata = {
   title: "מילון בחירות | בחירות 2026",
@@ -8,26 +10,7 @@ export const metadata = {
 };
 
 export default async function GlossaryPage() {
-  const categories = await prisma.glossaryCategory.findMany({
-    include: {
-      terms: { orderBy: { title: "asc" } },
-    },
-    orderBy: { name: "asc" },
-  });
-
-  const categoryItems = categories.map((c) => ({
-    id: c.id,
-    label: c.name,
-  }));
-
-  const termItems = categories.flatMap((c) =>
-    c.terms.map((t) => ({
-      id: t.id,
-      term: t.title,
-      definition: t.definition,
-      categoryId: c.id,
-    })),
-  );
+  const { categories, terms } = await getGlossaryPageData();
 
   return (
     <div className="min-h-screen relative">
@@ -35,10 +18,7 @@ export default async function GlossaryPage() {
         <header className="text-center mb-8 space-y-2">
           <h1 className="text-lg font-bold text-foreground">מילון בחירות</h1>
         </header>
-        <ElectionGlossaryView
-          categories={categoryItems}
-          terms={termItems}
-        />
+        <ElectionGlossaryView categories={categories} terms={terms} />
       </main>
     </div>
   );

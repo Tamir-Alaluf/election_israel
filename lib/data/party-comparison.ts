@@ -268,9 +268,7 @@ export async function getMandatesChartData(): Promise<MandatesChartParty[]> {
     select: { id: true, name: true, mandates: true },
   });
   const sorted = rows
-    .filter(
-      (r): r is typeof r & { mandates: number } => r.mandates != null,
-    )
+    .filter((r): r is typeof r & { mandates: number } => r.mandates != null)
     .sort((a, b) => b.mandates - a.mandates);
 
   return sorted.map((r, i) => ({

@@ -6,8 +6,7 @@ export const metadata = {
   description: "השוואה מקיפה בין המפלגות המתמודדות בבחירות 2026",
 };
 
-/** Aligned with `unstable_cache` in getPartyPageData (60s). */
-export const revalidate = 60;
+export const dynamic = "force-static";
 
 export default async function PartiesPage() {
   const { parties, filterMeta } = await getPartyPageData();
