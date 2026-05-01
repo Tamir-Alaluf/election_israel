@@ -58,6 +58,8 @@ export const PARTY_LAW_ISSUE_GROUPS = [
 export type MandatesChartParty = {
   key: string;
   name: string;
+  leader: string;
+  leaderImage: string | null;
   mandates: number;
   color: string;
 };

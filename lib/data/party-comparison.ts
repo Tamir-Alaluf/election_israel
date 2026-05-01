@@ -265,7 +265,14 @@ const MANDATES_CHART_PALETTE = [
 export async function getMandatesChartData(): Promise<MandatesChartParty[]> {
   const rows = await prisma.party.findMany({
     where: { mandates: { not: null } },
-    select: { id: true, name: true, mandates: true },
+    select: {
+      id: true,
+      name: true,
+      mandates: true,
+      candidateName: true,
+      imageUrl: true,
+      leader: { select: { name: true, image: true } },
+    },
   });
   const sorted = rows
     .filter((r): r is typeof r & { mandates: number } => r.mandates != null)
@@ -274,6 +281,8 @@ export async function getMandatesChartData(): Promise<MandatesChartParty[]> {
   return sorted.map((r, i) => ({
     key: r.id,
     name: r.name,
+    leader: r.leader?.name ?? r.candidateName ?? "",
+    leaderImage: r.leader?.image ?? r.imageUrl ?? null,
     mandates: r.mandates,
     color: MANDATES_CHART_PALETTE[i % MANDATES_CHART_PALETTE.length],
   }));

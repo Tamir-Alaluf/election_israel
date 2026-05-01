@@ -18,8 +18,10 @@ type CandidateWithParty = Prisma.CandidateGetPayload<{
 }>;
 
 export async function buildAdvisorElectionContext(): Promise<string> {
-  const [parties, leaders]: [PartyWithAdvisorRelations[], CandidateWithParty[]] =
-    await Promise.all([
+  const [parties, leaders]: [
+    PartyWithAdvisorRelations[],
+    CandidateWithParty[],
+  ] = await Promise.all([
     prisma.party.findMany({
       include: {
         baseTopics: true,
@@ -33,20 +35,15 @@ export async function buildAdvisorElectionContext(): Promise<string> {
       include: { party: true },
       orderBy: { name: "asc" },
     }),
-    ]);
+  ]);
 
   const partyInfo = parties
     .map((p) => {
       const base = p.baseTopics
-        .map(
-          (t) => `${t.baseTopicTitle}: ${t.baseTopicOptionDisplayValue}`,
-        )
+        .map((t) => `${t.baseTopicTitle}: ${t.baseTopicOptionDisplayValue}`)
         .join(", ");
       const laws = p.legislations
-        .map(
-          (l) =>
-            `${l.legislationTitle}: ${l.optionDisplayValue}`,
-        )
+        .map((l) => `${l.legislationTitle}: ${l.optionDisplayValue}`)
         .join(", ");
       return `${p.name} (${p.leader?.name ?? p.candidateName ?? ""}): ${base}; חוקים: ${laws}`;
     })
@@ -60,8 +57,7 @@ export async function buildAdvisorElectionContext(): Promise<string> {
         l.leadershipStyle && `סגנון מנהיגות: ${l.leadershipStyle}`,
         l.harediGov && `שילוב חרדים: ${l.harediGov}`,
         l.arabGov && `שילוב ערבים: ${l.arabGov}`,
-        l.party?.mandates != null &&
-          `מנדטים (אומדן): ${l.party.mandates}`,
+        l.party?.mandates != null && `מנדטים (אומדן): ${l.party.mandates}`,
       ]
         .filter(Boolean)
         .join(", ");
