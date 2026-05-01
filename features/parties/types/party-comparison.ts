@@ -1,13 +1,3 @@
-/** Minimal row for the grid, filters, and client payload (no per-party heavy sections). */
-export type PartyListRow = {
-  id: string;
-  name: string;
-  leader: string;
-  image: string | null;
-  baseTopicByTitle: Record<string, string>;
-  legislationById: Record<string, string>;
-};
-
 export type PartyComparisonRow = {
   id: string;
   name: string;

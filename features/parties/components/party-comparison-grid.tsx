@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import type {
-  PartyListRow,
+  PartyComparisonRow,
   PartyPageFilterMeta,
 } from "@/features/parties/types/party-comparison";
 import {
@@ -22,7 +22,7 @@ const PartyDialog = dynamic(
 );
 
 type PartyComparisonGridProps = {
-  parties: PartyListRow[];
+  parties: PartyComparisonRow[];
   filterMeta: PartyPageFilterMeta;
 };
 
@@ -36,7 +36,7 @@ export function PartyComparisonGrid({
     selectedItem: selectedParty,
     openItem: openParty,
     closeItem: closeParty,
-  } = useComparisonState<PartyListRow>();
+  } = useComparisonState<PartyComparisonRow>();
   const { filteredParties, partyFilterConfigs } = usePartyComparisonFilters(
     searchQuery,
     parties,
