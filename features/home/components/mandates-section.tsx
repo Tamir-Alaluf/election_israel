@@ -6,7 +6,7 @@ export async function HomeMandatesSection() {
   const data = await getMandatesChartData();
   return (
     <div className="mt-10">
-      <MandatesChart data={data} />
+      <MandatesChart data={data.parties} blocs={data.blocs} />
     </div>
   );
 }

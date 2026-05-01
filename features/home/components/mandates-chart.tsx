@@ -2,6 +2,13 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { Cell, Pie, PieChart } from "recharts";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  type ChartConfig,
+} from "@/components/ui/chart";
 import {
   Tooltip,
   TooltipContent,
@@ -9,10 +16,14 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import type { MandatesChartParty } from "@/features/parties/types/party-comparison";
+import type {
+  MandatesBlocSummary,
+  MandatesChartParty,
+} from "@/features/parties/types/party-comparison";
 
 type MandatesChartProps = {
   data: MandatesChartParty[];
+  blocs?: MandatesBlocSummary[];
   /** When the poll was last updated. Defaults to today. */
   lastUpdatedAt?: Date;
 };
@@ -27,7 +38,11 @@ function getInitials(name: string) {
   return cleaned.slice(0, 2);
 }
 
-export function MandatesChart({ data, lastUpdatedAt }: MandatesChartProps) {
+export function MandatesChart({
+  data,
+  blocs = [],
+  lastUpdatedAt,
+}: MandatesChartProps) {
   if (data.length === 0) {
     return (
       <div className="glass-card rounded-2xl p-5">
@@ -74,6 +89,8 @@ export function MandatesChart({ data, lastUpdatedAt }: MandatesChartProps) {
           ))}
         </ol>
       </TooltipProvider>
+
+      <BlocsGauge blocs={blocs} />
 
       <p className="mt-4 text-[11px] text-muted-foreground text-end">
         מעודכן ל- {formatHebrewDate(updatedAt)}
@@ -162,6 +179,132 @@ function MandatesChartRow({
           {ariaLabel}
         </TooltipContent>
       </Tooltip>
+    </li>
+  );
+}
+
+type BlocsGaugeProps = {
+  blocs: MandatesBlocSummary[];
+};
+
+function BlocsGauge({ blocs }: BlocsGaugeProps) {
+  if (blocs.length === 0) return null;
+
+  const chartConfig = blocs.reduce<ChartConfig>((config, bloc) => {
+    config[bloc.key] = { label: bloc.label, color: bloc.color };
+    return config;
+  }, {});
+
+  const pieData = blocs.filter((bloc) => bloc.mandates > 0);
+
+  return (
+    <section
+      className="mt-6 rounded-xl border border-border/50 bg-muted/30 p-4"
+      dir="rtl"
+    >
+      <h3 className="mb-3 text-center text-sm font-semibold text-foreground">
+        מפת הגושים
+      </h3>
+
+      <ul className="sr-only">
+        {blocs.map((bloc) => (
+          <li key={`bloc-sr-${bloc.key}`}>
+            {bloc.label}: {bloc.mandates} מנדטים
+          </li>
+        ))}
+      </ul>
+
+      <div className="relative mx-auto w-full max-w-none" aria-hidden="true">
+        <ChartContainer
+          config={chartConfig}
+          className="mx-auto aspect-[2/1.25] w-full"
+        >
+          <PieChart>
+            <ChartTooltip
+              cursor={false}
+              content={
+                <ChartTooltipContent
+                  hideLabel
+                  formatter={(value, _name, item) => {
+                    const key = item?.payload?.key as string | undefined;
+                    const label = key
+                      ? chartConfig[key]?.label
+                      : (item?.name as React.ReactNode);
+                    return (
+                      <div className="flex w-full items-center justify-between gap-3">
+                        <span className="inline-flex items-center gap-1.5 text-muted-foreground">
+                          <span
+                            className="h-2.5 w-2.5 shrink-0 rounded-[2px]"
+                            style={{
+                              backgroundColor: item?.payload?.fill as
+                                | string
+                                | undefined,
+                            }}
+                            aria-hidden="true"
+                          />
+                          {label}
+                        </span>
+                        <span className="font-mono font-medium tabular-nums text-foreground">
+                          {Number(value).toLocaleString()} מנדטים
+                        </span>
+                      </div>
+                    );
+                  }}
+                />
+              }
+            />
+            <Pie
+              data={pieData}
+              dataKey="mandates"
+              nameKey="key"
+              startAngle={180}
+              endAngle={0}
+              innerRadius="45%"
+              outerRadius="100%"
+              cy="92%"
+              stroke="var(--background)"
+              strokeWidth={2}
+              paddingAngle={pieData.length > 1 ? 1 : 0}
+              isAnimationActive
+              animationDuration={700}
+            >
+              {pieData.map((bloc) => (
+                <Cell key={bloc.key} fill={`var(--color-${bloc.key})`} />
+              ))}
+            </Pie>
+          </PieChart>
+        </ChartContainer>
+      </div>
+
+      <ul className="mt-4 grid grid-cols-3 gap-2" aria-hidden="true">
+        {blocs.map((bloc) => (
+          <BlocTile key={bloc.key} bloc={bloc} />
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+type BlocTileProps = {
+  bloc: MandatesBlocSummary;
+};
+
+function BlocTile({ bloc }: BlocTileProps) {
+  return (
+    <li className="flex flex-col items-start gap-1 rounded-lg border border-border/50 bg-background/60 p-3">
+      <div className="flex items-center gap-1.5">
+        <span
+          className="h-2.5 w-2.5 shrink-0 rounded-full border border-foreground/10"
+          style={{ backgroundColor: bloc.color }}
+          aria-hidden="true"
+        />
+        <span className="text-[11px] leading-tight text-muted-foreground sm:text-xs">
+          {bloc.label}
+        </span>
+      </div>
+      <span className="text-2xl font-bold leading-none tabular-nums text-foreground sm:text-3xl">
+        {bloc.mandates}
+      </span>
     </li>
   );
 }
