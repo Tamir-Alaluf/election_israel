@@ -1,5 +1,6 @@
 import {
   BookOpen,
+  CircleUser,
   Home,
   MessageCircle,
   UserCircle,
@@ -18,5 +19,10 @@ export const pageHeaderNavItems: PageHeaderNavItem[] = [
   { href: "/parties", label: "מפלגות", icon: Users },
   { href: "/candidates", label: "מועמדים", icon: UserCircle },
   { href: "/glossary", label: "מילון בחירות", icon: BookOpen },
+  {
+    href: "/political-card",
+    label: "הכרטיס הפוליטי שלי",
+    icon: CircleUser,
+  },
   { href: "/advisor", label: "יועץ", icon: MessageCircle },
 ];

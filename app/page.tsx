@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 import { CountdownTimer } from "@/features/home/components/countdown-timer";
-
-export const dynamic = "force-dynamic";
 import { HomePageTitle } from "@/features/home/components/page-title";
 import { HomeAdvisorCta } from "@/features/home/components/advisor-cta";
 import { HomeMandatesSection } from "@/features/home/components/mandates-section";
 import { HomeFooterNote } from "@/features/home/components/footer-note";
+
+export const dynamic = "force-static";
 
 function MandatesFallback() {
   return (
