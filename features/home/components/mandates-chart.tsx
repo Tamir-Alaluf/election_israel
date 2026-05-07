@@ -133,7 +133,7 @@ function MandatesChartRow({
               <span className="block">{party.name}</span>
               {party.leader ? (
                 <span className="block text-muted-foreground">
-                  בראשות {party.leader}
+                  {party.leader}
                 </span>
               ) : null}
             </div>

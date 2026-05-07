@@ -11,6 +11,7 @@
     "db:seed": "prisma db seed"
   },
   "dependencies": {
+    "@ai-sdk/google": "^3.0.68",
     "@ai-sdk/react": "^3.0.136",
     "@hookform/resolvers": "^3.9.1",
     "@prisma/client": "^6.19.3",

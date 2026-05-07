@@ -4,6 +4,10 @@ import {
   streamText,
   UIMessage,
 } from "ai";
+import {
+  advisorModel,
+  advisorProviderOptions,
+} from "@/lib/ai/advisor-model";
 import { buildAdvisorElectionContext } from "@/lib/data/advisor-context";
 
 export const maxDuration = 30;
@@ -14,9 +18,10 @@ export async function POST(req: Request) {
   const system = await buildAdvisorElectionContext();
 
   const result = streamText({
-    model: "openai/gpt-4o-mini",
+    model: advisorModel,
     system,
     messages: await convertToModelMessages(messages),
+    providerOptions: advisorProviderOptions,
     abortSignal: req.signal,
   });
 
