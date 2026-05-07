@@ -6,19 +6,28 @@
 - **Audience & UI**: Hebrew content, RTL (`dir="rtl"`), Heebo font — preserve RTL layout, logical spacing, and accessibility when adding UI.
 - **Data & copy**: Election/party/leader content lives in `lib/` and feature components — keep factual tone consistent; do not invent mandates or poll numbers without source data in code.
 
+## Project structure
+
+- Keep `app/` clean: routes, layouts, metadata, and thin page-level composition only.
+- Put feature-specific components in `features/` and keep feature logic close to each feature.
+- Keep shared/reusable UI and cross-feature components in `components/` (especially `components/ui/` and shared building blocks).
+- Keep `lib/` focused to exactly these folders: `constants/`, `hooks/`, `types/`, and `utils/`.
+- When moving or creating files, follow this structure instead of introducing parallel folders.
+
 ## Code style
 
 - Match existing patterns: imports (`@/`), component structure, and naming in nearby files.
 - Prefer small, focused changes; avoid unrelated refactors or broad formatting-only edits.
-- Reuse shared pieces (`components/general/`, `components/ui/`) before adding new primitives.
+- Reuse shared pieces in `components/` and `components/ui/` before adding new primitives.
 - Prefer shadcn/ui components wherever possible; avoid raw/native HTML elements when an equivalent shadcn component exists.
+- If a required shadcn component is missing, add/import it first; build a custom solution only if no suitable shadcn component exists.
 - TypeScript: explicit types for public props and exported APIs; avoid `any` unless unavoidable.
 - Keep code highly modular: split large screens/features into small, focused components with clear responsibilities.
 
 ## Next.js / React
 
 - Default to Server Components; add `"use client"` only when hooks, browser APIs, or interactivity require it.
-- Colocate route-specific UI under `app/`; feature UI under `components/<area>/`.
+- Keep `app/` route files thin; import most page UI from `features/` and shared parts from `components/`.
 - Use existing API route patterns in `app/api/` when adding server endpoints.
 - Maximize Next.js optimizations: use `next/image`, `next/font`, dynamic imports/code-splitting, caching/revalidation, and metadata best practices where appropriate.
 
