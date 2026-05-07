@@ -8,9 +8,9 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
-import { comparisonBadgeClassName } from "@/features/parties/types/value-badge";
-import { classForRecentActionCategory } from "@/features/parties/types/recent-action-badges";
+import { cn } from "@/lib/utils/utils";
+import { comparisonBadgeClassName } from "@/lib/constants/value-badge";
+import { classForRecentActionCategory } from "@/lib/constants/recent-action-badges";
 import { CarouselScrollDots } from "@/features/parties/components/dialog-sections/carousel-scroll-dots";
 import { SectionShell } from "@/features/parties/components/dialog-sections/section-shell";
 

@@ -1,4 +1,4 @@
-import type { LeaderValues } from "@/features/candidates/types/leader-comparison";
+import type { LeaderValues } from "@/lib/types/leader-comparison";
 import { AttributesSection } from "@/features/parties/components/dialog-sections/attributes-section";
 import { SectionShell } from "@/features/parties/components/dialog-sections/section-shell";
 

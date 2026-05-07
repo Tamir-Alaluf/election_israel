@@ -3,7 +3,7 @@
 import type {
   PartyComparisonRow,
   PartyPageFilterMeta,
-} from "@/features/parties/types/party-comparison";
+} from "@/lib/types/party-comparison";
 import { SectionShell } from "@/features/parties/components/dialog-sections/section-shell";
 import { VisionSection } from "@/features/parties/components/dialog-sections/vision-section";
 import { RecentActionsSection } from "@/features/parties/components/dialog-sections/recent-actions-section";
@@ -23,13 +23,22 @@ export function PartyDialogSections({
     <>
       <VisionSection vision={party.vision} />
 
-      <RecentActionsSection itemId={party.id} recentItems={party.recentActionsItems} />
+      <RecentActionsSection
+        itemId={party.id}
+        recentItems={party.recentActionsItems}
+      />
 
-      <FuturePromisesSection partyId={party.id} promiseItems={party.futurePromisesItems} />
+      <FuturePromisesSection
+        partyId={party.id}
+        promiseItems={party.futurePromisesItems}
+      />
 
       <MembersSection members={party.members} />
 
-      <SectionShell title={filterMeta.attributesSectionTitle} withSurface={false}>
+      <SectionShell
+        title={filterMeta.attributesSectionTitle}
+        withSurface={false}
+      >
         <AttributesSection
           attributes={filterMeta.attributeTopics}
           valuesById={party.baseTopicByTitle}

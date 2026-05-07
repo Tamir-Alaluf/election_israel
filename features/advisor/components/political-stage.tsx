@@ -1,6 +1,6 @@
 "use client";
 
-import type { AdvisorAiQuestion } from "@/features/advisor/types";
+import type { AdvisorAiQuestion } from "@/lib/types/advisor";
 
 type AdvisorPoliticalStageProps = {
   roundIndex: number;
@@ -23,9 +23,7 @@ export function AdvisorPoliticalStage({
       dir="rtl"
     >
       <div className="flex flex-wrap items-center justify-center gap-2 mb-2">
-        <p className="text-xs text-muted-foreground">
-          שאלה {step + 1} מתוך 5
-        </p>
+        <p className="text-xs text-muted-foreground">שאלה {step + 1} מתוך 5</p>
         <span className="text-[10px] font-semibold rounded-full bg-primary/10 text-primary px-2 py-0.5 tabular-nums">
           סבב {roundIndex + 1}/{maxRounds}
         </span>

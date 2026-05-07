@@ -1,5 +1,5 @@
-import { prisma } from "@/lib/prisma";
-import type { ElectionGlossaryViewProps } from "@/features/glossary/types/items";
+import { prisma } from "@/lib/utils/prisma";
+import type { ElectionGlossaryViewProps } from "@/lib/types/items";
 
 export async function getGlossaryPageData(): Promise<ElectionGlossaryViewProps> {
   const rows = await prisma.glossaryCategory.findMany({

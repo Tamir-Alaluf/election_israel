@@ -1,11 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { LeaderComparisonRow } from "@/features/candidates/types/leader-comparison";
+import type { LeaderComparisonRow } from "@/lib/types/leader-comparison";
 import {
   getGovernmentIntegrationExclusions,
   getLeaderComparisonFilters,
-} from "@/features/candidates/types/filter-config";
+} from "@/lib/utils/filter-config-candidates";
 
 export function useLeaderComparisonFilters(
   searchQuery: string,
@@ -52,12 +52,11 @@ export function useLeaderComparisonFilters(
       ) {
         return false;
       }
-      const governmentIntegrationExclusions = getGovernmentIntegrationExclusions(
-        {
-        harediGov: leader.values.harediGov,
-        arabGov: leader.values.arabGov,
-        },
-      );
+      const governmentIntegrationExclusions =
+        getGovernmentIntegrationExclusions({
+          harediGov: leader.values.harediGov,
+          arabGov: leader.values.arabGov,
+        });
       if (
         governmentIntegrationsFilter.length > 0 &&
         !governmentIntegrationsFilter.some((filterValue) =>

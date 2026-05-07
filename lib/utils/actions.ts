@@ -5,10 +5,10 @@ import { z } from "zod";
 import {
   advisorModel,
   advisorProviderOptions,
-} from "@/lib/ai/advisor-model";
-import { prisma } from "@/lib/prisma";
-import { buildAdvisorElectionContext } from "@/lib/data/advisor-context";
-import { FILTER_BASE_TOPIC_TITLES } from "@/lib/data/party-filter-keys";
+} from "@/lib/constants/advisor-model";
+import { prisma } from "@/lib/utils/prisma";
+import { buildAdvisorElectionContext } from "@/lib/utils/advisor-context";
+import { FILTER_BASE_TOPIC_TITLES } from "@/lib/constants/party-filter-keys";
 import type {
   AdvisorAiQuestion,
   AdvisorAxisSnapshot,
@@ -17,12 +17,12 @@ import type {
   AdvisorMatchingResult,
   AdvisorPoliticalQA,
   AdvisorProfileBase,
-} from "@/features/advisor/types";
+} from "@/lib/types/advisor";
 import {
   ADVISOR_ECONOMY_OPTIONS,
   ADVISOR_GOV_INTEGRATION_OPTIONS,
   ADVISOR_SECURITY_OPTIONS,
-} from "@/features/advisor/questions";
+} from "@/lib/constants/questions";
 
 const batchSchema = z.object({
   questions: z
@@ -113,9 +113,12 @@ function ruleScoreForLeader(
 const LLM_WEIGHT = 0.7;
 const RULE_WEIGHT = 0.3;
 
-function blendedPercent(llmRankIndex: number, listLen: number, ruleScore: number) {
-  const llmFraction =
-    listLen <= 1 ? 1 : (listLen - llmRankIndex) / listLen;
+function blendedPercent(
+  llmRankIndex: number,
+  listLen: number,
+  ruleScore: number,
+) {
+  const llmFraction = listLen <= 1 ? 1 : (listLen - llmRankIndex) / listLen;
   return Math.round(
     100 * (LLM_WEIGHT * llmFraction + RULE_WEIGHT * (ruleScore / 4)),
   );
@@ -124,15 +127,30 @@ function blendedPercent(llmRankIndex: number, listLen: number, ruleScore: number
 const FALLBACK_POLITICAL_BATCH: AdvisorAiQuestion[] = [
   {
     question: "איזה נושא ביטחוני־מדיני דחוף עבורכם ביותר?",
-    options: ["התמודדות עם איראן", "עזה והרצועה", "הגנה על גבולות", "ביטחון פנים"],
+    options: [
+      "התמודדות עם איראן",
+      "עזה והרצועה",
+      "הגנה על גבולות",
+      "ביטחון פנים",
+    ],
   },
   {
     question: "מה עמדתכם לגבי סוגיית המשפט והרפורמה?",
-    options: ["רפורמה מהירה", "רפורמה מתונה", "שימור מעמד בתי המשפט", "לא בטוח/ת"],
+    options: [
+      "רפורמה מהירה",
+      "רפורמה מתונה",
+      "שימור מעמד בתי המשפט",
+      "לא בטוח/ת",
+    ],
   },
   {
     question: "מה חשוב לכם בכלכלה?",
-    options: ["הורדת יוקר המחיה", "צמיחה ושוק חופשי", "רווחה ומענקים", "שוויון והגדלת מסים לעשירים"],
+    options: [
+      "הורדת יוקר המחיה",
+      "צמיחה ושוק חופשי",
+      "רווחה ומענקים",
+      "שוויון והגדלת מסים לעשירים",
+    ],
   },
   {
     question: "איך אתם רואים את תפקיד המדינה בחברה?",
@@ -308,7 +326,8 @@ ${leaderNamesList}
   }
 
   scored.sort((a, b) => {
-    if (b.matchPercent !== a.matchPercent) return b.matchPercent - a.matchPercent;
+    if (b.matchPercent !== a.matchPercent)
+      return b.matchPercent - a.matchPercent;
     if (b.ruleScore !== a.ruleScore) return b.ruleScore - a.ruleScore;
     if (a.llmIndex !== b.llmIndex) return a.llmIndex - b.llmIndex;
     return b.mandatesSort - a.mandatesSort;
@@ -352,7 +371,8 @@ ${leaderNamesList}
         };
       })
       .sort((a, b) => {
-        if (b.matchPercent !== a.matchPercent) return b.matchPercent - a.matchPercent;
+        if (b.matchPercent !== a.matchPercent)
+          return b.matchPercent - a.matchPercent;
         if (b.ruleScore !== a.ruleScore) return b.ruleScore - a.ruleScore;
         return b.mandatesSort - a.mandatesSort;
       });

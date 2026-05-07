@@ -1,6 +1,6 @@
 import { PoliticalCardView } from "@/features/political-card/components/political-card-view";
-import { ensureCurrentUser } from "@/lib/auth/ensure-user";
-import { mockPoliticalCardPriorities } from "@/lib/data/mock-political-card";
+import { ensureCurrentUser } from "@/lib/utils/ensure-user";
+import { mockPoliticalCardPriorities } from "@/lib/constants/mock-political-card";
 
 export const metadata = {
   title: "הכרטיס הפוליטי שלי | בחירות 2026",

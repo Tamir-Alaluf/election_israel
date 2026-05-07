@@ -1,10 +1,10 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/utils/prisma";
 import type {
   LeaderActionItem,
   LeaderComparisonRow,
   LeaderEducationItem,
   LeaderProfessionalItem,
-} from "@/features/candidates/types/leader-comparison";
+} from "@/lib/types/leader-comparison";
 
 function mapEducation(
   rows: {

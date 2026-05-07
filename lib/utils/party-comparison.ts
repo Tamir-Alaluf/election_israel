@@ -1,10 +1,10 @@
 import { cache } from "react";
 import { unstable_cache } from "next/cache";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/utils/prisma";
 import {
   ATTRIBUTE_BASE_TOPIC_ORDER,
   FILTER_BASE_TOPIC_TITLES,
-} from "@/lib/data/party-filter-keys";
+} from "@/lib/constants/party-filter-keys";
 import type {
   MandatesChartData,
   MandatesChartParty,
@@ -12,7 +12,7 @@ import type {
   PartyComparisonRow,
   PartyFilterBaseTopicBlock,
   PartyPageFilterMeta,
-} from "@/features/parties/types/party-comparison";
+} from "@/lib/types/party-comparison";
 
 const partyDetailInclude = {
   leader: true,
@@ -163,9 +163,7 @@ async function getPartyFilterMetadata(): Promise<PartyPageFilterMeta> {
   };
 }
 
-export async function getPartiesForComparison(): Promise<
-  PartyComparisonRow[]
-> {
+export async function getPartiesForComparison(): Promise<PartyComparisonRow[]> {
   const rows = await prisma.party.findMany({
     include: partyDetailInclude,
     orderBy: { name: "asc" },
@@ -203,7 +201,10 @@ const MANDATES_CHART_PALETTE = [
 
 const BLOC_BASE_TOPIC_TITLE = "גוש";
 
-const BLOC_META: Record<MandatesBlocSummary["key"], { label: string; color: string }> = {
+const BLOC_META: Record<
+  MandatesBlocSummary["key"],
+  { label: string; color: string }
+> = {
   netanyahu: { label: "גוש נתניהו", color: "#004B8D" },
   opposition: { label: "אופוזיציה", color: "#F59E0B" },
   arabParties: { label: "חד״ש-תע״ל ורע״ם", color: "#BFD8FF" },
@@ -213,11 +214,12 @@ function mapBlocKey(value: string): MandatesBlocSummary["key"] | null {
   const normalized = value.trim();
   if (!normalized) return null;
   if (normalized === "גוש נתניהו") return "netanyahu";
-  if (normalized === "גוש אופוזיציה" || normalized === "אופוזיציה") return "opposition";
+  if (normalized === "גוש אופוזיציה" || normalized === "אופוזיציה")
+    return "opposition";
   if (
     normalized === "מפלגות ערביות" ||
     normalized === "חד״ש-תע״ל ורע״ם" ||
-    normalized === "חד\"ש-תע\"ל ורע\"ם"
+    normalized === 'חד"ש-תע"ל ורע"ם'
   ) {
     return "arabParties";
   }
@@ -227,9 +229,13 @@ function mapBlocKey(value: string): MandatesBlocSummary["key"] | null {
 function pickBlocValue(
   topics: { baseTopicTitle: string; baseTopicOptionDisplayValue: string }[],
 ): string | null {
-  const blocTopic = topics.find((topic) => topic.baseTopicTitle === BLOC_BASE_TOPIC_TITLE);
+  const blocTopic = topics.find(
+    (topic) => topic.baseTopicTitle === BLOC_BASE_TOPIC_TITLE,
+  );
   if (blocTopic) return blocTopic.baseTopicOptionDisplayValue;
-  const fallback = topics.find((topic) => mapBlocKey(topic.baseTopicOptionDisplayValue));
+  const fallback = topics.find((topic) =>
+    mapBlocKey(topic.baseTopicOptionDisplayValue),
+  );
   return fallback?.baseTopicOptionDisplayValue ?? null;
 }
 
@@ -278,18 +284,18 @@ export async function getMandatesChartData(): Promise<MandatesChartData> {
     blocTotals[blocKey] += row.mandates;
   }
 
-  const blocs: MandatesBlocSummary[] = (Object.keys(BLOC_META) as MandatesBlocSummary["key"][]).map(
-    (key) => {
-      const mandates = blocTotals[key];
-      return {
-        key,
-        label: BLOC_META[key].label,
-        mandates,
-        color: BLOC_META[key].color,
-        percent: Math.max(0, Math.min(100, (mandates / 120) * 100)),
-      };
-    },
-  );
+  const blocs: MandatesBlocSummary[] = (
+    Object.keys(BLOC_META) as MandatesBlocSummary["key"][]
+  ).map((key) => {
+    const mandates = blocTotals[key];
+    return {
+      key,
+      label: BLOC_META[key].label,
+      mandates,
+      color: BLOC_META[key].color,
+      percent: Math.max(0, Math.min(100, (mandates / 120) * 100)),
+    };
+  });
 
   return { parties, blocs };
 }

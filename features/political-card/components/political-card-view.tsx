@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { PoliticalPriority } from "@/lib/data/mock-political-card";
+import type { PoliticalPriority } from "@/lib/constants/mock-political-card";
 import { PoliticalCardShareable } from "./political-card-shareable";
 
 export type PoliticalCardViewProps = {
@@ -16,7 +16,10 @@ export function PoliticalCardView({ priorities }: PoliticalCardViewProps) {
       <PoliticalCardShareable priorities={sharePriorities} />
 
       <div className="space-y-5">
-        <Button className="w-full h-11 rounded-2xl text-base font-semibold" asChild>
+        <Button
+          className="w-full h-11 rounded-2xl text-base font-semibold"
+          asChild
+        >
           <Link href="/advisor" className="gap-2">
             <Sparkles className="size-4" />
             בוא נמצא את ההתאמה שלך

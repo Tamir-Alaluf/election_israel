@@ -16,7 +16,7 @@ import {
   buildPoliticalCardPageUrl,
   buildPoliticalCardShareBody,
   buildPoliticalCardShareTitle,
-} from "@/lib/share/political-card-share-text";
+} from "@/lib/utils/political-card-share-text";
 
 export type PoliticalCardShareablePriority = {
   id: string;

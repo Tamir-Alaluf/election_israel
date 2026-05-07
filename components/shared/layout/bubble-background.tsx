@@ -7,7 +7,7 @@ import {
   useSpring,
 } from "framer-motion";
 import { useCallback, useEffect, useRef, type ReactNode } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 
 export interface BubbleBackgroundProps {
   className?: string;

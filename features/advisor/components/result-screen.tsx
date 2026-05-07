@@ -2,12 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import { AdvisorMatchCard } from "@/features/advisor/components/match-card";
-import { formatAdvisorProfileForChat } from "@/features/advisor/format-profile";
+import { formatAdvisorProfileForChat } from "@/lib/utils/format-profile";
 import type {
   AdvisorCandidateMatch,
   AdvisorFinalProfile,
   AdvisorMatchingResult,
-} from "@/features/advisor/types";
+} from "@/lib/types/advisor";
 
 type AdvisorResultScreenProps = {
   result: AdvisorMatchingResult;

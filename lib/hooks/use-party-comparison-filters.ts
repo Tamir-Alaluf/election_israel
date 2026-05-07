@@ -4,8 +4,8 @@ import { useMemo, useState } from "react";
 import type {
   PartyComparisonRow,
   PartyPageFilterMeta,
-} from "@/features/parties/types/party-comparison";
-import { getPartyComparisonFilters } from "@/features/parties/types/filter-config";
+} from "@/lib/types/party-comparison";
+import { getPartyComparisonFilters } from "@/lib/utils/filter-config";
 
 export function usePartyComparisonFilters(
   searchQuery: string,
@@ -81,13 +81,7 @@ export function usePartyComparisonFilters(
         lawFilters,
         setLawFilters,
       }),
-    [
-      filterMeta,
-      typeFilter,
-      securityFilter,
-      economyFilter,
-      lawFilters,
-    ],
+    [filterMeta, typeFilter, securityFilter, economyFilter, lawFilters],
   );
 
   return { filteredParties, partyFilterConfigs };

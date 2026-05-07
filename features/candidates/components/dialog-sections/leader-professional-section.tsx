@@ -1,9 +1,9 @@
-import type { LeaderProfessionalItem } from "@/features/candidates/types/leader-comparison";
+import type { LeaderProfessionalItem } from "@/lib/types/leader-comparison";
 import { formatYearRange } from "@/features/candidates/components/dialog-sections/format-year-range";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
-import { comparisonBadgeClassName } from "@/features/parties/types/value-badge";
-import { classForRecentActionCategory } from "@/features/parties/types/recent-action-badges";
+import { cn } from "@/lib/utils/utils";
+import { comparisonBadgeClassName } from "@/lib/constants/value-badge";
+import { classForRecentActionCategory } from "@/lib/constants/recent-action-badges";
 import { SectionShell } from "@/features/parties/components/dialog-sections/section-shell";
 
 export function LeaderProfessionalSection({
@@ -13,12 +13,14 @@ export function LeaderProfessionalSection({
   leaderId: string;
   professionalBackground: LeaderProfessionalItem[];
 }) {
-  const sortedProfessionalBackground = [...professionalBackground].sort((a, b) => {
-    if (a.startYear === null && b.startYear === null) return 0;
-    if (a.startYear === null) return 1;
-    if (b.startYear === null) return -1;
-    return b.startYear - a.startYear;
-  });
+  const sortedProfessionalBackground = [...professionalBackground].sort(
+    (a, b) => {
+      if (a.startYear === null && b.startYear === null) return 0;
+      if (a.startYear === null) return 1;
+      if (b.startYear === null) return -1;
+      return b.startYear - a.startYear;
+    },
+  );
 
   return (
     <SectionShell title="רקע מקצועי">

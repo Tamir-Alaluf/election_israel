@@ -1,5 +1,5 @@
 import { currentUser } from "@clerk/nextjs/server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/utils/prisma";
 
 export async function ensureCurrentUser() {
   const clerkUser = await currentUser();

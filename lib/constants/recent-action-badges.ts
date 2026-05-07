@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
-import { comparisonBadgeClassName } from "@/features/parties/types/value-badge";
+import { cn } from "@/lib/utils/utils";
+import { comparisonBadgeClassName } from "@/lib/constants/value-badge";
 
 export const PROFESSIONAL_BACKGROUND_GROUPS = [
   "כלכלי",

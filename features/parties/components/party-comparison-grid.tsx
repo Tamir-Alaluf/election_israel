@@ -5,13 +5,13 @@ import { useMemo } from "react";
 import type {
   PartyComparisonRow,
   PartyPageFilterMeta,
-} from "@/features/parties/types/party-comparison";
+} from "@/lib/types/party-comparison";
 import {
   ComparisonScaffold,
   type ComparisonGridRow,
   useComparisonState,
 } from "@/components/shared/data-display";
-import { usePartyComparisonFilters } from "@/features/parties/hooks/use-party-comparison-filters";
+import { usePartyComparisonFilters } from "@/lib/hooks/use-party-comparison-filters";
 
 const PartyDialog = dynamic(
   () =>

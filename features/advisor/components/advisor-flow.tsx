@@ -6,7 +6,7 @@ import { Bot } from "lucide-react";
 import {
   computeAdvisorMatching,
   generateAdvisorPoliticalBatch,
-} from "@/features/advisor/actions";
+} from "@/lib/utils/actions";
 import { AdvisorPoliticalStage } from "@/features/advisor/components/political-stage";
 import { AdvisorProfileStage } from "@/features/advisor/components/profile-stage";
 import { AdvisorResultScreen } from "@/features/advisor/components/result-screen";
@@ -16,7 +16,7 @@ import type {
   AdvisorMatchingResult,
   AdvisorPoliticalQA,
   AdvisorProfileBase,
-} from "@/features/advisor/types";
+} from "@/lib/types/advisor";
 import { Button } from "@/components/ui/button";
 
 const MAX_ROUNDS = 3;
@@ -54,7 +54,11 @@ export function AdvisorFlow({
   const [stage, setStage] = useState<Stage>({ kind: "profile" });
 
   const loadBatch = useCallback(
-    async (base: AdvisorProfileBase, roundIndex: number, prior: AdvisorPoliticalQA[]) => {
+    async (
+      base: AdvisorProfileBase,
+      roundIndex: number,
+      prior: AdvisorPoliticalQA[],
+    ) => {
       setStage({ kind: "loadingBatch", roundIndex });
       const questions = await generateAdvisorPoliticalBatch(
         base,

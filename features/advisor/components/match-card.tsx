@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { ComparisonImage } from "@/components/shared/data-display/comparison-image";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import type { AdvisorCandidateMatch } from "@/features/advisor/types";
+import { cn } from "@/lib/utils/utils";
+import type { AdvisorCandidateMatch } from "@/lib/types/advisor";
 
 type AdvisorMatchCardProps = {
   match: AdvisorCandidateMatch;
@@ -79,7 +79,9 @@ export function AdvisorMatchCard({
               {match.partyName}
             </span>
             {match.partyMandates != null ? (
-              <span className="tabular-nums">~{match.partyMandates} מנדטים</span>
+              <span className="tabular-nums">
+                ~{match.partyMandates} מנדטים
+              </span>
             ) : null}
           </div>
           <p className="text-xs text-muted-foreground leading-snug">

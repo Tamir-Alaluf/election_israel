@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 import {
   Empty,
   EmptyDescription,
@@ -20,8 +20,8 @@ import {
 import {
   normalize,
   sortGlossaryTermsForDisplay,
-} from "@/features/glossary/utils/glossary";
-import type { ElectionGlossaryViewProps } from "@/features/glossary/types/items";
+} from "@/lib/utils/glossary2";
+import type { ElectionGlossaryViewProps } from "@/lib/types/items";
 
 export function ElectionGlossaryView({
   categories,

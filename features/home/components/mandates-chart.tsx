@@ -15,11 +15,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 import type {
   MandatesBlocSummary,
   MandatesChartParty,
-} from "@/features/parties/types/party-comparison";
+} from "@/lib/types/party-comparison";
 
 type MandatesChartProps = {
   data: MandatesChartParty[];

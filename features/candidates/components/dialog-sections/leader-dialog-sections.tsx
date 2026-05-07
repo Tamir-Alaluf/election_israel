@@ -1,4 +1,4 @@
-import type { LeaderComparisonRow } from "@/features/candidates/types/leader-comparison";
+import type { LeaderComparisonRow } from "@/lib/types/leader-comparison";
 import { LeaderEducationSection } from "@/features/candidates/components/dialog-sections/leader-education-section";
 import { LeaderPositionsSection } from "@/features/candidates/components/dialog-sections/leader-positions-section";
 import { LeaderProfessionalSection } from "@/features/candidates/components/dialog-sections/leader-professional-section";

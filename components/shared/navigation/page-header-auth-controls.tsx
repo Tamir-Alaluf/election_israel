@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { LogIn } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 
 export type PageHeaderAuthControlsProps = {
   variant: "desktop" | "mobile";
@@ -42,9 +42,7 @@ export function PageHeaderAuthControls({
           onClick={onSignInClick}
           className={signInClasses[variant]}
         >
-          <LogIn
-            className={variant === "mobile" ? "w-5 h-5" : "w-4 h-4"}
-          />
+          <LogIn className={variant === "mobile" ? "w-5 h-5" : "w-4 h-4"} />
           <span>התחברות</span>
         </Link>
       )}

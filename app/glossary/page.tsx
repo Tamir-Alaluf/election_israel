@@ -1,5 +1,5 @@
 import { ElectionGlossaryView } from "@/features/glossary/components/view";
-import { getGlossaryPageData } from "@/lib/data/glossary";
+import { getGlossaryPageData } from "@/lib/utils/glossary";
 
 export const dynamic = "force-static";
 

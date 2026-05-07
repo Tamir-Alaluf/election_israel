@@ -11,8 +11,8 @@ import type {
   AdvisorFinalProfile,
   AdvisorMatchingResult,
   AdvisorMode,
-} from "@/features/advisor/types";
-import { cn } from "@/lib/utils";
+} from "@/lib/types/advisor";
+import { cn } from "@/lib/utils/utils";
 
 export default function AdvisorPage() {
   const [mode, setMode] = useState<AdvisorMode>("selecting");

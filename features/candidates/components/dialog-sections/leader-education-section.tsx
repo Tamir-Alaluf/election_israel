@@ -1,4 +1,4 @@
-import type { LeaderEducationItem } from "@/features/candidates/types/leader-comparison";
+import type { LeaderEducationItem } from "@/lib/types/leader-comparison";
 import { formatYearRange } from "@/features/candidates/components/dialog-sections/format-year-range";
 import { SectionShell } from "@/features/parties/components/dialog-sections/section-shell";
 
@@ -21,7 +21,9 @@ export function LeaderEducationSection({
       {sortedEducation.length > 0 ? (
         <div className="space-y-4 pt-2">
           {sortedEducation.map((item, index) => {
-            const titleLine = [item.degreeLevel, item.major].filter(Boolean).join(" · ");
+            const titleLine = [item.degreeLevel, item.major]
+              .filter(Boolean)
+              .join(" · ");
             const yearRange = formatYearRange(item.startYear, item.endYear);
 
             return (

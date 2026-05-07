@@ -1,9 +1,9 @@
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/utils/prisma";
 import type { Prisma } from "@prisma/client";
 import {
   leaderParameterLabels,
   partyComparisonParameterLabels,
-} from "@/lib/data/election-parameter-labels";
+} from "@/lib/constants/election-parameter-labels";
 
 type PartyWithAdvisorRelations = Prisma.PartyGetPayload<{
   include: {

@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 import { ComparisonImage } from "@/components/shared/data-display/comparison-image";
 import {
   Dialog,
@@ -45,14 +45,16 @@ export function ComparisonDialogShell({
               sizeClassName="w-16 h-16"
             />
             <div>
-              <DialogTitle className="text-lg text-foreground">{title}</DialogTitle>
+              <DialogTitle className="text-lg text-foreground">
+                {title}
+              </DialogTitle>
               <DialogDescription className="text-sm text-muted-foreground">
                 {subtitle}
               </DialogDescription>
             </div>
           </div>
         </DialogHeader>
-  
+
         <div className="mt-4 min-w-0 space-y-4">{children}</div>
       </DialogContent>
     </Dialog>

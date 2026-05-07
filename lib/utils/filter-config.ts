@@ -1,7 +1,7 @@
 "use client";
 
 import type { Dispatch, SetStateAction } from "react";
-import type { PartyPageFilterMeta } from "@/features/parties/types/party-comparison";
+import type { PartyPageFilterMeta } from "@/lib/types/party-comparison";
 
 type SetStringArrayState = Dispatch<SetStateAction<string[]>>;
 type SetLawFiltersState = Dispatch<SetStateAction<Record<string, string>>>;

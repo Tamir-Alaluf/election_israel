@@ -1,4 +1,4 @@
-import type { AdvisorFinalProfile } from "@/features/advisor/types";
+import type { AdvisorFinalProfile } from "@/lib/types/advisor";
 
 /** Summary injected as the first user message when starting chat from matching results. */
 export function formatAdvisorProfileForChat(

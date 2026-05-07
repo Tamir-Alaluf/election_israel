@@ -1,7 +1,7 @@
 "use client";
 
 import type { Dispatch, SetStateAction } from "react";
-import { PROFESSIONAL_BACKGROUND_GROUPS } from "@/features/parties/types/recent-action-badges";
+import { PROFESSIONAL_BACKGROUND_GROUPS } from "@/lib/constants/recent-action-badges";
 
 type SetStringArrayState = Dispatch<SetStateAction<string[]>>;
 

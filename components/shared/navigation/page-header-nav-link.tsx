@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 import type { MouseEventHandler } from "react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 import type { PageHeaderNavItem } from "./page-header-data";
 
 export type PageHeaderNavLinkProps = {

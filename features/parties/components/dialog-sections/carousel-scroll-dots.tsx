@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { CarouselApi } from "@/components/ui/carousel";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 
 export function CarouselScrollDots({
   api,
@@ -40,7 +40,9 @@ export function CarouselScrollDots({
           aria-hidden
           className={cn(
             "h-1.5 w-1.5 rounded-full transition-all",
-            i === selectedIndex ? "scale-125 bg-primary" : "bg-muted-foreground/30",
+            i === selectedIndex
+              ? "scale-125 bg-primary"
+              : "bg-muted-foreground/30",
           )}
         />
       ))}

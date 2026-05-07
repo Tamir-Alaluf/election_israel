@@ -4,8 +4,8 @@ import { useCallback, useState } from "react";
 import {
   ADVISOR_PROFILE_QUESTIONS,
   type AdvisorProfileQuestionKey,
-} from "@/features/advisor/profile-questions";
-import type { AdvisorProfileBase } from "@/features/advisor/types";
+} from "@/lib/constants/profile-questions";
+import type { AdvisorProfileBase } from "@/lib/types/advisor";
 
 type AdvisorProfileStageProps = {
   onComplete: (profile: AdvisorProfileBase) => void;
@@ -20,7 +20,10 @@ export function AdvisorProfileStage({ onComplete }: AdvisorProfileStageProps) {
   const handleOption = useCallback(
     (option: string) => {
       const key = q.key as AdvisorProfileQuestionKey;
-      const merged = { ...answers, [key]: option } as Partial<AdvisorProfileBase>;
+      const merged = {
+        ...answers,
+        [key]: option,
+      } as Partial<AdvisorProfileBase>;
 
       if (step < ADVISOR_PROFILE_QUESTIONS.length - 1) {
         setAnswers(merged);

@@ -4,8 +4,8 @@ import { useState } from "react";
 import {
   PARTY_LAW_ISSUE_GROUPS,
   type PartyPageFilterMeta,
-} from "@/features/parties/types/party-comparison";
-import { ValueBadge } from "@/features/parties/types/value-badge";
+} from "@/lib/types/party-comparison";
+import { ValueBadge } from "@/lib/constants/value-badge";
 import {
   type CarouselApi,
   Carousel,
@@ -71,7 +71,9 @@ export function IssuesSection({
           {issueSlides.map((slide, slideIndex) => (
             <CarouselItem key={slideIndex} className="pl-0">
               <div className="space-y-2">
-                <p className="mb-1 mt-2 text-xs font-semibold text-primary">{slide.group}</p>
+                <p className="mb-1 mt-2 text-xs font-semibold text-primary">
+                  {slide.group}
+                </p>
                 {slide.items.map((issue) => (
                   <div
                     key={issue.id}

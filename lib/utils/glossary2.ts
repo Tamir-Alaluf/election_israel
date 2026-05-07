@@ -1,4 +1,4 @@
-import type { GlossaryTermItem } from "@/features/glossary/types/items";
+import type { GlossaryTermItem } from "@/lib/types/items";
 
 export function normalize(s: string): string {
   return s.trim().replace(/\s+/g, " ").toLowerCase();

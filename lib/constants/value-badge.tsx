@@ -1,7 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 
 /**
  * צבעי תג ערך: לשעבר אדום → כחול, לשעבר ירוק → סגול, צהוב נשאר צהוב.

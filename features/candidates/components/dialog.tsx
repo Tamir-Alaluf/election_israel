@@ -1,6 +1,6 @@
 "use client";
 
-import type { LeaderComparisonRow } from "@/features/candidates/types/leader-comparison";
+import type { LeaderComparisonRow } from "@/lib/types/leader-comparison";
 import { ComparisonDialogShell } from "@/components/shared/data-display";
 import { LeaderDialogSections } from "@/features/candidates/components/dialog-sections";
 

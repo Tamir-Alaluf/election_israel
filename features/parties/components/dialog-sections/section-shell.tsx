@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { ComparisonCollapsibleSection } from "@/components/shared/data-display";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 
 type SectionShellProps = {
   title: string;
@@ -20,7 +20,9 @@ export function SectionShell({
   return (
     <ComparisonCollapsibleSection title={title} defaultOpen={defaultOpen}>
       {withSurface ? (
-        <div className={cn("rounded-lg bg-muted/30 p-3", contentClassName)}>{children}</div>
+        <div className={cn("rounded-lg bg-muted/30 p-3", contentClassName)}>
+          {children}
+        </div>
       ) : (
         <div className={contentClassName}>{children}</div>
       )}

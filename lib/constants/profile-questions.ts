@@ -1,4 +1,4 @@
-import type { AdvisorProfileBase } from "@/features/advisor/types";
+import type { AdvisorProfileBase } from "@/lib/types/advisor";
 
 export type AdvisorProfileQuestionKey = keyof AdvisorProfileBase;
 
@@ -25,7 +25,13 @@ export const ADVISOR_PROFILE_QUESTIONS: AdvisorProfileQuestion[] = [
   {
     key: "region",
     prompt: "איפה אתם גרים? (אזור מגורים)",
-    options: ['תל אביב והמרכז', "ירושלים והסביבה", "צפון", "דרום", "יהודה ושומרון"],
+    options: [
+      "תל אביב והמרכז",
+      "ירושלים והסביבה",
+      "צפון",
+      "דרום",
+      "יהודה ושומרון",
+    ],
   },
   {
     key: "lifeStage",

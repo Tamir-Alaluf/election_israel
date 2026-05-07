@@ -2,7 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 import { ChevronDown } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 import {
   Collapsible,
   CollapsibleContent,
@@ -31,7 +31,9 @@ export function ComparisonCollapsibleSection({
           )}
         />
       </CollapsibleTrigger>
-      <CollapsibleContent className="min-w-0 pt-3">{children}</CollapsibleContent>
+      <CollapsibleContent className="min-w-0 pt-3">
+        {children}
+      </CollapsibleContent>
     </Collapsible>
   );
 }
