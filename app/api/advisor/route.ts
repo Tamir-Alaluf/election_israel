@@ -4,15 +4,20 @@ import {
   streamText,
   UIMessage,
 } from "ai";
+import { auth } from "@clerk/nextjs/server";
 import {
   advisorModel,
   advisorProviderOptions,
 } from "@/lib/ai/advisor-model";
+import { ensureCurrentUser } from "@/lib/auth/ensure-user";
 import { buildAdvisorElectionContext } from "@/lib/data/advisor-context";
 
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
+  await auth.protect();
+  await ensureCurrentUser();
+
   const { messages }: { messages: UIMessage[] } = await req.json();
 
   const system = await buildAdvisorElectionContext();

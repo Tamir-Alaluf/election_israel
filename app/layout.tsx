@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
+import { heIL } from "@clerk/localizations";
 import { Heebo } from "next/font/google";
 import { BubbleBackground } from "@/components/shared/layout/bubble-background";
 import { PageHeader } from "@/components/shared/navigation/page-header";
@@ -22,12 +24,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="he" dir="rtl">
-      <body className={`${heebo.variable} font-sans antialiased`}>
-        {/* <BubbleBackground interactive /> */}
-        <PageHeader />
-        {children}
-      </body>
-    </html>
+    <ClerkProvider localization={heIL}>
+      <html lang="he" dir="rtl">
+        <body className={`${heebo.variable} font-sans antialiased`}>
+          {/* <BubbleBackground interactive /> */}
+          <PageHeader />
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

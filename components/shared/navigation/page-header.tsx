@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PageHeaderAuthControls } from "./page-header-auth-controls";
 import { PageHeaderDesktopNav } from "./page-header-desktop-nav";
 import { PageHeaderMobileNav } from "./page-header-mobile-nav";
 
@@ -11,6 +12,7 @@ export function PageHeader() {
         </Link>
 
         <PageHeaderDesktopNav />
+        <PageHeaderAuthControls variant="desktop" />
         <PageHeaderMobileNav />
       </div>
     </header>

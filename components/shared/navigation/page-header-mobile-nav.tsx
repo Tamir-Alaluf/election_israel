@@ -11,6 +11,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { PageHeaderAuthControls } from "./page-header-auth-controls";
 import { pageHeaderNavItems } from "./page-header-data";
 import { PageHeaderNavLink } from "./page-header-nav-link";
 
@@ -47,6 +48,10 @@ export function PageHeaderMobileNav() {
               onClick={() => setOpen(false)}
             />
           ))}
+          <PageHeaderAuthControls
+            variant="mobile"
+            onSignInClick={() => setOpen(false)}
+          />
         </nav>
       </SheetContent>
     </Sheet>

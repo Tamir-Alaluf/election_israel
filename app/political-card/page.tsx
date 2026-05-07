@@ -1,4 +1,5 @@
 import { PoliticalCardView } from "@/features/political-card/components/political-card-view";
+import { ensureCurrentUser } from "@/lib/auth/ensure-user";
 import { mockPoliticalCardPriorities } from "@/lib/data/mock-political-card";
 
 export const metadata = {
@@ -7,9 +8,9 @@ export const metadata = {
     "הנושאים שמובילים את הבחירות שלך — גלו את העדיפויות שלכם והתאימו ליועץ הפוליטי",
 };
 
-export const dynamic = "force-static";
+export default async function PoliticalCardPage() {
+  await ensureCurrentUser();
 
-export default function PoliticalCardPage() {
   return (
     <div className="min-h-screen relative">
       <main className="max-w-md mx-auto px-5">
