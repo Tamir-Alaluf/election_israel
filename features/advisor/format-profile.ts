@@ -1,22 +1,30 @@
-import type { AdvisorProfile } from "@/features/advisor/types";
+import type { AdvisorFinalProfile } from "@/features/advisor/types";
 
-/** Hebrew summary injected as the first user message when starting chat from results. */
+/** Summary injected as the first user message when starting chat from matching results. */
 export function formatAdvisorProfileForChat(
-  profile: AdvisorProfile,
-  partyFocus?: string,
+  profile: AdvisorFinalProfile,
+  options?: { profileSummary?: string; partyFocus?: string },
 ): string {
   const lines = [
-    "סיכום השאלון שלי:",
-    `- גישה ביטחונית: ${profile.security}`,
-    `- גישה כלכלית: ${profile.economy}`,
-    `- שילוב חרדים בממשלה: ${profile.harediGov}`,
-    `- שילוב ערבים בממשלה: ${profile.arabGov}`,
+    "סיכום מהשאלון:",
+    `- גיל: ${profile.ageRange}`,
+    `- זהות דתית־חברתית: ${profile.religiosity}`,
+    `- אזור מגורים: ${profile.region}`,
+    `- שלב בחיים: ${profile.lifeStage}`,
+    "",
+    "תשובות לשאלות המדיניות:",
+    ...profile.rounds.map(
+      (r, i) => `${i + 1}. ${r.question}\n   נבחר: ${r.answer}`,
+    ),
   ];
-  if (profile.aiFollowUpQuestion && profile.aiFollowUpAnswer) {
-    lines.push(`- ${profile.aiFollowUpQuestion}: ${profile.aiFollowUpAnswer}`);
+  if (options?.profileSummary) {
+    lines.push("", "סיכום קצר:", options.profileSummary);
   }
-  if (partyFocus) {
-    lines.push("", `אשמח להמשיך לדבר על ההתאמה שלי למפלגת ${partyFocus}.`);
+  if (options?.partyFocus) {
+    lines.push(
+      "",
+      `אשמח להמשיך לדבר על ההתאמה שלי למפלגת ${options.partyFocus} ולמועמד/ת המוביל/ה.`,
+    );
   }
   return lines.join("\n");
 }

@@ -1,45 +1,56 @@
-/** Answers collected before the AI-generated follow-up question. */
-export type AdvisorAxisAnswers = {
+/** UI mode on /advisor — `selecting` shows the entry cards. */
+export type AdvisorMode = "selecting" | "ai_matching" | "free_chat";
+
+/** Demographic profile — premade questions only, no political stance. */
+export type AdvisorProfileBase = {
+  ageRange: string;
+  religiosity: string;
+  region: string;
+  lifeStage: string;
+};
+
+export type AdvisorPoliticalQA = {
+  question: string;
+  options: string[];
+  answer: string;
+};
+
+export type AdvisorFinalProfile = AdvisorProfileBase & {
+  rounds: AdvisorPoliticalQA[];
+};
+
+/** AI-generated question with chip options (one item in a batch of 5). */
+export type AdvisorAiQuestion = {
+  question: string;
+  options: string[];
+};
+
+/** Inferred axes for rule-based scoring (must align with DB display values). */
+export type AdvisorAxisSnapshot = {
   security: string;
   economy: string;
   harediGov: string;
   arabGov: string;
 };
 
-/** Full profile after the questionnaire (including optional AI Q&A). */
-export type AdvisorProfile = AdvisorAxisAnswers & {
-  aiFollowUpQuestion?: string;
-  aiFollowUpAnswer?: string;
-};
-
-export type AdvisorQuestionStep =
-  | "security"
-  | "economy"
-  | "harediGov"
-  | "arabGov"
-  | "aiFollowUp";
-
-export type AdvisorFixedQuestion = {
-  key: AdvisorQuestionStep;
-  prompt: string;
-  options: string[];
-};
-
-/** AI-generated single question with chip options. */
-export type AdvisorAiQuestion = {
-  question: string;
-  options: string[];
-};
-
-export type AdvisorPartyMatch = {
-  id: string;
-  name: string;
-  leader: string;
-  image: string | null;
-  /** Number of matching axes out of 4 (security, economy, haredi, arab). */
-  score: number;
-  /** 0–100 */
+export type AdvisorCandidateMatch = {
+  candidateId: string;
+  candidateName: string;
+  candidateImage: string | null;
+  partyId: string;
+  partyName: string;
+  partyImage: string | null;
+  partyMandates: number | null;
+  /** Blended 0–100 */
   matchPercent: number;
-  /** Hebrew labels for axes that matched. */
+  /** 0–4 from DB axes vs inferred snapshot */
+  ruleScore: number;
+  /** Hebrew labels for axes that matched */
   matchedAxes: string[];
+  reasoning: string;
+};
+
+export type AdvisorMatchingResult = {
+  matches: AdvisorCandidateMatch[];
+  profileSummary: string;
 };
