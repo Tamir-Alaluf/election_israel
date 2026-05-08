@@ -17,11 +17,8 @@ import {
   EmptyHeader,
   EmptyTitle,
 } from "@/components/ui/empty";
-import {
-  normalize,
-  sortGlossaryTermsForDisplay,
-} from "@/lib/utils/glossary2";
-import type { ElectionGlossaryViewProps } from "@/lib/types/items";
+import { normalize, sortGlossaryTermsForDisplay } from "@/lib/utils/glossary";
+import type { ElectionGlossaryViewProps } from "@/lib/types/glossary";
 
 export function ElectionGlossaryView({
   categories,

@@ -4,13 +4,7 @@ import Link from "next/link";
 import { ComparisonImage } from "@/components/shared/data-display/comparison-image";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils/utils";
-import type { AdvisorCandidateMatch } from "@/lib/types/advisor";
-
-type AdvisorMatchCardProps = {
-  match: AdvisorCandidateMatch;
-  rank: number;
-  onAskMore: () => void;
-};
+import type { AdvisorMatchCardProps } from "@/lib/types/advisor";
 
 function getInitials(name: string) {
   const cleaned = name.trim();

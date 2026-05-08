@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import type { LeaderComparisonRow } from "@/lib/types/leader-comparison";
+import type { LeaderComparisonRow } from "@/lib/types/candidates";
 import {
   ComparisonScaffold,
   type ComparisonGridRow,

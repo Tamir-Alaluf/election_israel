@@ -4,8 +4,8 @@ import { useState } from "react";
 import {
   PARTY_LAW_ISSUE_GROUPS,
   type PartyPageFilterMeta,
-} from "@/lib/types/party-comparison";
-import { ValueBadge } from "@/lib/constants/value-badge";
+} from "@/lib/types/parties";
+import { ValueBadge } from "@/lib/constants/style";
 import {
   type CarouselApi,
   Carousel,

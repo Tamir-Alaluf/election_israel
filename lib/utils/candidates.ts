@@ -4,7 +4,7 @@ import type {
   LeaderComparisonRow,
   LeaderEducationItem,
   LeaderProfessionalItem,
-} from "@/lib/types/leader-comparison";
+} from "@/lib/types/candidates";
 
 function mapEducation(
   rows: {

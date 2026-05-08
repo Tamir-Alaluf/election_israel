@@ -1,4 +1,4 @@
-import type { LeaderEducationItem } from "@/lib/types/leader-comparison";
+import type { LeaderEducationItem } from "@/lib/types/candidates";
 import { formatYearRange } from "@/features/candidates/components/dialog-sections/format-year-range";
 import { SectionShell } from "@/features/parties/components/dialog-sections/section-shell";
 

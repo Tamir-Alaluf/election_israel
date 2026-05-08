@@ -34,37 +34,9 @@ export type PartyPageFilterMeta = {
   issuesSectionTitle: string;
 };
 
-/**
- * Display order for the issues carousel group pages.
- * Unknown groups (if ever added in DB) are shown after these.
- */
 export const PARTY_LAW_ISSUE_GROUPS = [
   "משפט וממשל",
   "ביטחון ומדיניות",
   "חברה וכלכלה",
   "דת ומדינה",
 ] as const;
-
-export type MandatesChartParty = {
-  key: string;
-  name: string;
-  leader: string;
-  leaderImage: string | null;
-  mandates: number;
-  color: string;
-};
-
-export type MandatesBlocKey = "netanyahu" | "opposition" | "arabParties";
-
-export type MandatesBlocSummary = {
-  key: MandatesBlocKey;
-  label: string;
-  mandates: number;
-  color: string;
-  percent: number;
-};
-
-export type MandatesChartData = {
-  parties: MandatesChartParty[];
-  blocs: MandatesBlocSummary[];
-};

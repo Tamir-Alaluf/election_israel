@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { PoliticalPriority } from "@/lib/constants/mock-political-card";
+import type { PoliticalPriority } from "@/lib/constants/political-card";
 import { PoliticalCardShareable } from "./political-card-shareable";
 
 export type PoliticalCardViewProps = {

@@ -1,3 +1,6 @@
+import type { UIMessage } from "ai";
+import type { FormEvent, RefObject } from "react";
+
 /** UI mode on /advisor — `selecting` shows the entry cards. */
 export type AdvisorMode = "selecting" | "ai_matching" | "free_chat";
 
@@ -54,3 +57,79 @@ export type AdvisorMatchingResult = {
   matches: AdvisorCandidateMatch[];
   profileSummary: string;
 };
+
+export type AdvisorFlowStage =
+  | { kind: "profile" }
+  | { kind: "loadingBatch"; roundIndex: number }
+  | {
+      kind: "political";
+      roundIndex: number;
+      questions: AdvisorAiQuestion[];
+      step: number;
+    }
+  | { kind: "betweenRounds"; completedRoundIndex: number }
+  | { kind: "loadingResult" }
+  | { kind: "result"; data: AdvisorMatchingResult };
+
+export type AdvisorFlowProps = {
+  onMatchingComplete?: (
+    result: AdvisorMatchingResult,
+    finalProfile: AdvisorFinalProfile,
+  ) => void;
+  onHandOffToChat?: (text: string) => void;
+};
+
+export type AdvisorMatchingSnapshot = {
+  result: AdvisorMatchingResult;
+  finalProfile: AdvisorFinalProfile;
+};
+
+export type AdvisorChatInputBarProps = {
+  value: string;
+  onChange: (value: string) => void;
+  onSubmit: (e: FormEvent) => void;
+  disabled: boolean;
+  canSubmit: boolean;
+};
+
+export type AdvisorChatMessageProps = {
+  message: UIMessage;
+};
+
+export type AdvisorChatThreadProps = {
+  messages: UIMessage[];
+  isLoading: boolean;
+  endRef: RefObject<HTMLDivElement | null>;
+};
+
+export type AdvisorMatchCardProps = {
+  match: AdvisorCandidateMatch;
+  rank: number;
+  onAskMore: () => void;
+};
+
+export type AdvisorModeSelectorProps = {
+  onSelectAiMatching: () => void;
+  onSelectFreeChat: () => void;
+};
+
+export type AdvisorPoliticalStageProps = {
+  roundIndex: number;
+  maxRounds: number;
+  step: number;
+  question: AdvisorAiQuestion;
+  onSelectOption: (option: string) => void;
+};
+
+export type AdvisorProfileStageProps = {
+  onComplete: (profile: AdvisorProfileBase) => void;
+};
+
+export type AdvisorResultScreenProps = {
+  result: AdvisorMatchingResult;
+  finalProfile: AdvisorFinalProfile;
+  onStartChat: (text: string) => void;
+  compact?: boolean;
+};
+
+export type AdvisorRoundsRef = AdvisorPoliticalQA[];

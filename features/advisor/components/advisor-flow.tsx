@@ -6,41 +6,21 @@ import { Bot } from "lucide-react";
 import {
   computeAdvisorMatching,
   generateAdvisorPoliticalBatch,
-} from "@/lib/utils/actions";
+} from "@/lib/utils/advisor-actions";
 import { AdvisorPoliticalStage } from "@/features/advisor/components/political-stage";
 import { AdvisorProfileStage } from "@/features/advisor/components/profile-stage";
 import { AdvisorResultScreen } from "@/features/advisor/components/result-screen";
 import type {
-  AdvisorAiQuestion,
   AdvisorFinalProfile,
-  AdvisorMatchingResult,
   AdvisorPoliticalQA,
   AdvisorProfileBase,
 } from "@/lib/types/advisor";
+import { ADVISOR_MAX_ROUNDS } from "@/lib/constants/advisor";
+import type {
+  AdvisorFlowProps,
+  AdvisorFlowStage,
+} from "@/lib/types/advisor";
 import { Button } from "@/components/ui/button";
-
-const MAX_ROUNDS = 3;
-
-type Stage =
-  | { kind: "profile" }
-  | { kind: "loadingBatch"; roundIndex: number }
-  | {
-      kind: "political";
-      roundIndex: number;
-      questions: AdvisorAiQuestion[];
-      step: number;
-    }
-  | { kind: "betweenRounds"; completedRoundIndex: number }
-  | { kind: "loadingResult" }
-  | { kind: "result"; data: AdvisorMatchingResult };
-
-type AdvisorFlowProps = {
-  onMatchingComplete?: (
-    result: AdvisorMatchingResult,
-    finalProfile: AdvisorFinalProfile,
-  ) => void;
-  onHandOffToChat?: (text: string) => void;
-};
 
 export function AdvisorFlow({
   onMatchingComplete,
@@ -51,7 +31,7 @@ export function AdvisorFlow({
   );
   const [rounds, setRounds] = useState<AdvisorPoliticalQA[]>([]);
   const roundsRef = useRef<AdvisorPoliticalQA[]>([]);
-  const [stage, setStage] = useState<Stage>({ kind: "profile" });
+  const [stage, setStage] = useState<AdvisorFlowStage>({ kind: "profile" });
 
   const loadBatch = useCallback(
     async (
@@ -121,7 +101,7 @@ export function AdvisorFlow({
 
       if (!profileBase) return;
 
-      if (roundIndex >= MAX_ROUNDS - 1) {
+      if (roundIndex >= ADVISOR_MAX_ROUNDS - 1) {
         void runMatching({
           ...profileBase,
           rounds: nextRounds,
@@ -142,6 +122,7 @@ export function AdvisorFlow({
     });
   }, [profileBase, runMatching]);
 
+  /** Loads the next batch of 5 questions. */
   const handleAnotherFive = useCallback(() => {
     if (!profileBase) return;
     if (stage.kind !== "betweenRounds") return;
@@ -151,6 +132,7 @@ export function AdvisorFlow({
 
   return (
     <>
+      {/* intro */}
       <div className="shrink-0 pt-8 pb-4 text-center" dir="rtl">
         <div className="w-16 h-16 mx-auto rounded-full bg-primary/10 flex items-center justify-center mb-4">
           <Bot className="w-8 h-8 text-primary" aria-hidden />
@@ -167,10 +149,12 @@ export function AdvisorFlow({
         </p>
       </div>
 
+      {/* profile stage */}
       {stage.kind === "profile" ? (
         <AdvisorProfileStage onComplete={handleProfileComplete} />
       ) : null}
 
+      {/* loading batch */}
       {stage.kind === "loadingBatch" || stage.kind === "loadingResult" ? (
         <div
           className="flex-1 flex flex-col items-center justify-center gap-4 text-center px-4 min-h-[200px]"
@@ -188,16 +172,18 @@ export function AdvisorFlow({
         </div>
       ) : null}
 
+      {/* political stage */}
       {stage.kind === "political" ? (
         <AdvisorPoliticalStage
           roundIndex={stage.roundIndex}
-          maxRounds={MAX_ROUNDS}
+          maxRounds={ADVISOR_MAX_ROUNDS}
           step={stage.step}
           question={stage.questions[stage.step]}
           onSelectOption={handlePoliticalOption}
         />
       ) : null}
 
+      {/* between rounds */}
       {stage.kind === "betweenRounds" && profileBase ? (
         <div
           className="flex-1 flex flex-col items-center justify-center gap-4 px-4 text-center max-w-sm mx-auto"
@@ -214,7 +200,7 @@ export function AdvisorFlow({
             >
               סיימו את ההתאמה
             </Button>
-            {stage.completedRoundIndex < MAX_ROUNDS - 1 ? (
+            {stage.completedRoundIndex < ADVISOR_MAX_ROUNDS - 1 ? (
               <Button
                 type="button"
                 variant="secondary"
@@ -228,6 +214,7 @@ export function AdvisorFlow({
         </div>
       ) : null}
 
+      {/* result screen */}
       {stage.kind === "result" && profileBase ? (
         <div className="flex-1 flex flex-col py-4">
           <AdvisorResultScreen

@@ -23,6 +23,7 @@
 - If a required shadcn component is missing, add/import it first; build a custom solution only if no suitable shadcn component exists.
 - TypeScript: explicit types for public props and exported APIs; avoid `any` unless unavoidable.
 - Keep code highly modular: split large screens/features into small, focused components with clear responsibilities.
+- Avoid defining reusable constants, shared types, or utility functions inside component files; place them in `lib/constants/`, `lib/types/`, or `lib/utils/` and import them into components.
 
 ## Next.js / React
 

@@ -9,11 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
-type AdvisorModeSelectorProps = {
-  onSelectAiMatching: () => void;
-  onSelectFreeChat: () => void;
-};
+import type { AdvisorModeSelectorProps } from "@/lib/types/advisor";
 
 export function AdvisorModeSelector({
   onSelectAiMatching,

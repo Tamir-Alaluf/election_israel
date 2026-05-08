@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils/utils";
 import type {
   MandatesBlocSummary,
   MandatesChartParty,
-} from "@/lib/types/party-comparison";
+} from "@/lib/types/home";
 
 type MandatesChartProps = {
   data: MandatesChartParty[];

@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/carousel";
 import { CarouselScrollDots } from "@/features/parties/components/dialog-sections/carousel-scroll-dots";
 import { SectionShell } from "@/features/parties/components/dialog-sections/section-shell";
-import type { PartyComparisonRow } from "@/lib/types/party-comparison";
+import type { PartyComparisonRow } from "@/lib/types/parties";
 
 export function FuturePromisesSection({
   partyId,

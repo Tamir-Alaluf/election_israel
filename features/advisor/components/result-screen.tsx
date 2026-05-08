@@ -2,19 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { AdvisorMatchCard } from "@/features/advisor/components/match-card";
-import { formatAdvisorProfileForChat } from "@/lib/utils/format-profile";
+import { formatAdvisorProfileForChat } from "@/lib/utils/advisor-result-profile";
 import type {
   AdvisorCandidateMatch,
-  AdvisorFinalProfile,
-  AdvisorMatchingResult,
 } from "@/lib/types/advisor";
-
-type AdvisorResultScreenProps = {
-  result: AdvisorMatchingResult;
-  finalProfile: AdvisorFinalProfile;
-  onStartChat: (text: string) => void;
-  compact?: boolean;
-};
+import type { AdvisorResultScreenProps } from "@/lib/types/advisor";
 
 export function AdvisorResultScreen({
   result,

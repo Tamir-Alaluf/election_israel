@@ -1,13 +1,3 @@
-/** Human-readable parameter names for the political advisor (system prompt). */
-export const partyComparisonParameterLabels: string[] = [
-  "סוג מפלגה",
-  "גישה ביטחונית",
-  "גישה כלכלית",
-  "שילוב חרדים בממשלה",
-  "שילוב ערבים בממשלה",
-  "עמדות בחוקים ספציפיים (רשימת חוקים)",
-];
-
 export const leaderParameterLabels: string[] = [
   "חזון",
   "השכלה אקדמאית",
@@ -22,3 +12,11 @@ export const leaderParameterLabels: string[] = [
   "שילוב ערבים בממשלה",
   "מספר מנדטים בבחירות האחרונות",
 ];
+
+export const PROFESSIONAL_BACKGROUND_GROUPS = [
+  "כלכלי",
+  "מגזר הפרטי",
+  "ביטחוני",
+  "בינלאומי",
+  "פנים מדיני",
+] as const;

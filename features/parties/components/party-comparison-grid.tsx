@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import type {
   PartyComparisonRow,
   PartyPageFilterMeta,
-} from "@/lib/types/party-comparison";
+} from "@/lib/types/parties";
 import {
   ComparisonScaffold,
   type ComparisonGridRow,

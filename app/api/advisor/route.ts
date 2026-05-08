@@ -8,8 +8,8 @@ import { auth } from "@clerk/nextjs/server";
 import {
   advisorModel,
   advisorProviderOptions,
-} from "@/lib/constants/advisor-model";
-import { ensureCurrentUser } from "@/lib/utils/ensure-user";
+} from "@/lib/constants/advisor";
+import { ensureCurrentUser } from "@/lib/utils/auth";
 import { buildAdvisorElectionContext } from "@/lib/utils/advisor-context";
 
 export const maxDuration = 30;

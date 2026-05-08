@@ -1,4 +1,4 @@
-import { ensureCurrentUser } from "@/lib/utils/ensure-user";
+import { ensureCurrentUser } from "@/lib/utils/auth";
 
 export default async function AdvisorLayout({
   children,

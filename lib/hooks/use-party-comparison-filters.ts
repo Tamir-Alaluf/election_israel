@@ -4,8 +4,8 @@ import { useMemo, useState } from "react";
 import type {
   PartyComparisonRow,
   PartyPageFilterMeta,
-} from "@/lib/types/party-comparison";
-import { getPartyComparisonFilters } from "@/lib/utils/filter-config";
+} from "@/lib/types/parties";
+import { getPartyComparisonFilters } from "@/lib/utils/parties-filters";
 
 export function usePartyComparisonFilters(
   searchQuery: string,

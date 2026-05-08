@@ -3,12 +3,15 @@
 import { generateObject } from "ai";
 import { z } from "zod";
 import {
+  ADVISOR_ECONOMY_OPTIONS,
+  ADVISOR_GOV_INTEGRATION_OPTIONS,
+  ADVISOR_SECURITY_OPTIONS,
   advisorModel,
   advisorProviderOptions,
-} from "@/lib/constants/advisor-model";
+} from "@/lib/constants/advisor";
 import { prisma } from "@/lib/utils/prisma";
 import { buildAdvisorElectionContext } from "@/lib/utils/advisor-context";
-import { FILTER_BASE_TOPIC_TITLES } from "@/lib/constants/party-filter-keys";
+import { FILTER_BASE_TOPIC_TITLES } from "@/lib/constants/parties";
 import type {
   AdvisorAiQuestion,
   AdvisorAxisSnapshot,
@@ -18,12 +21,6 @@ import type {
   AdvisorPoliticalQA,
   AdvisorProfileBase,
 } from "@/lib/types/advisor";
-import {
-  ADVISOR_ECONOMY_OPTIONS,
-  ADVISOR_GOV_INTEGRATION_OPTIONS,
-  ADVISOR_SECURITY_OPTIONS,
-} from "@/lib/constants/questions";
-
 const batchSchema = z.object({
   questions: z
     .array(
@@ -175,6 +172,10 @@ export async function generateAdvisorPoliticalBatch(
         תשובה: r.answer,
       })),
     );
+    console.log("system", system);
+    console.log("priorJson", priorJson);
+    console.log("profileBase", profileBase);
+    console.log("batchIndex", batchIndex);
     const { object } = await generateObject({
       model: advisorModel,
       schema: batchSchema,
@@ -188,6 +189,7 @@ export async function generateAdvisorPoliticalBatch(
 החזר בדיוק 5 שאלות קצרות בעברית על פוליטיקה, ערכים ועמדות — מותאמות לפרופיל ולתשובות הקודמות. אל תחזור על ניסוחים זהים לשאלות שכבר נשאלו.
 לכל שאלה בדיוק 3 או 4 אופציות קצרות לבחירה (מחרוזות בלבד).`,
     });
+    console.log("object", object);
     return object.questions;
   } catch {
     return FALLBACK_POLITICAL_BATCH;

@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils/utils";
-import { comparisonBadgeClassName } from "@/lib/constants/value-badge";
-import { classForRecentActionCategory } from "@/lib/constants/recent-action-badges";
+import { comparisonBadgeClassName } from "@/lib/constants/style";
+import { classForPartyRecentActionCategory } from "@/lib/constants/parties";
 import { CarouselScrollDots } from "@/features/parties/components/dialog-sections/carousel-scroll-dots";
 import { SectionShell } from "@/features/parties/components/dialog-sections/section-shell";
 
@@ -69,7 +69,7 @@ export function RecentActionsSection({
                                 comparisonBadgeClassName,
                                 "max-w-none whitespace-nowrap",
                                 "absolute left-1/2 top-0 z-10 -translate-x-1/2 -translate-y-1/2 shadow-sm",
-                                classForRecentActionCategory(item.category),
+                                classForPartyRecentActionCategory(item.category),
                               )}
                             >
                               {item.category}

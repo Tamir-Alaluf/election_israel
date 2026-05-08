@@ -4,7 +4,7 @@ import { HomePageTitle } from "@/features/home/components/page-title";
 import { HomeAdvisorCta } from "@/features/home/components/advisor-cta";
 import { HomeMandatesSection } from "@/features/home/components/mandates-section";
 import { HomeFooterNote } from "@/features/home/components/footer-note";
-import { getMandatesChartData } from "@/lib/utils/party-comparison";
+import { getMandatesChartData } from "@/lib/utils/home";
 
 export const dynamic = "force-static";
 

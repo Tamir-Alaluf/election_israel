@@ -1,9 +1,11 @@
-import type { LeaderProfessionalItem } from "@/lib/types/leader-comparison";
+import type { LeaderProfessionalItem } from "@/lib/types/candidates";
 import { formatYearRange } from "@/features/candidates/components/dialog-sections/format-year-range";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils/utils";
-import { comparisonBadgeClassName } from "@/lib/constants/value-badge";
-import { classForRecentActionCategory } from "@/lib/constants/recent-action-badges";
+import {
+  classForProfessionalBackgroundGroup,
+  comparisonBadgeClassName,
+} from "@/lib/constants/style";
 import { SectionShell } from "@/features/parties/components/dialog-sections/section-shell";
 
 export function LeaderProfessionalSection({
@@ -41,7 +43,9 @@ export function LeaderProfessionalSection({
                         comparisonBadgeClassName,
                         "max-w-none whitespace-nowrap",
                         "absolute left-1/2 top-0 z-10 -translate-x-1/2 -translate-y-1/2 shadow-sm",
-                        classForRecentActionCategory(professional.groupName),
+                        classForProfessionalBackgroundGroup(
+                          professional.groupName,
+                        ),
                       )}
                     >
                       {professional.groupName}

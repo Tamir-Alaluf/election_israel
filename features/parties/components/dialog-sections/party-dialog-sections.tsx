@@ -3,7 +3,7 @@
 import type {
   PartyComparisonRow,
   PartyPageFilterMeta,
-} from "@/lib/types/party-comparison";
+} from "@/lib/types/parties";
 import { SectionShell } from "@/features/parties/components/dialog-sections/section-shell";
 import { VisionSection } from "@/features/parties/components/dialog-sections/vision-section";
 import { RecentActionsSection } from "@/features/parties/components/dialog-sections/recent-actions-section";

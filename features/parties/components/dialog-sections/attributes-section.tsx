@@ -1,4 +1,4 @@
-import { ValueBadge } from "@/lib/constants/value-badge";
+import { ValueBadge } from "@/lib/constants/style";
 
 export function AttributesSection({
   attributes,
