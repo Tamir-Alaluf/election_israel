@@ -1,27 +1,24 @@
 import { prisma } from "@/lib/utils/prisma";
-import type { Prisma } from "@prisma/client";
+import type {
+  PartyWithAdvisorRelations,
+  CandidateWithParty,
+} from "@/lib/types/advisor";
 import { leaderParameterLabels } from "@/lib/constants/candidates";
 import { partyComparisonParameterLabels } from "@/lib/constants/parties";
+import { MISSING_PARAM_FALLBACK } from "@/lib/constants/advisor";
+import { ADVISOR_SYSTEM_CORE_RULES } from "@/lib/constants/advisor";
 
-type PartyWithAdvisorRelations = Prisma.PartyGetPayload<{
-  include: {
-    baseTopics: true;
-    legislations: { include: { legislation: true } };
-    members: { orderBy: { orderIndex: "asc" } };
-    recentActions: {
-      include: { actionGroup: true };
-      orderBy: { orderIndex: "asc" };
-    };
-    futurePromises: { orderBy: { orderIndex: "asc" } };
-    leader: true;
-  };
-}>;
+/** מערכת קצרה לסבבי שאלות המשך — ללא נתוני מפלגות, כדי להתמקד בפרופיל ובתשובות קודמות. */
+export function buildAdvisorFollowUpSystemContext(): string {
+  return `
+אתה יועץ פוליטי אובייקטיבי ומקצועי לבחירות בישראל 2026.
+תפקידך לנסח שאלות מדיניות־ערכיות קצרות המותאמות לפרופיל המשתמש ולתשובותיו הקודמות.
 
-type CandidateWithParty = Prisma.CandidateGetPayload<{
-  include: { party: true };
-}>;
+${ADVISOR_SYSTEM_CORE_RULES}
 
-const MISSING_PARAM_FALLBACK = "לא צוין";
+בסבב זה אין לך גישה לרשימת מפלגות או מועמדים מהמערכת. אל תמציא עובדות על מפלגות או אישים ספציפיים; התמקד בשאלות ובחירות תשובה כלליות וענייניות בעברית.
+`.trim();
+}
 
 function firstTopicValue(
   topics: { baseTopicTitle: string; baseTopicOptionDisplayValue: string }[],
@@ -40,7 +37,6 @@ function listOrFallback(values: string[]): string {
   if (values.length === 0) return MISSING_PARAM_FALLBACK;
   return values.join(", ");
 }
-
 
 function resolvePartyParamValue(
   party: PartyWithAdvisorRelations,
@@ -173,13 +169,7 @@ export async function buildAdvisorElectionContext(): Promise<string> {
 אתה יועץ פוליטי אובייקטיבי ומקצועי לבחירות בישראל 2026.
 תפקידך לעזור לאזרחים להבין את המפה הפוליטית ולמצוא את המפלגה שמתאימה לערכים שלהם.
 
-כללים חשובים:
-- היה אובייקטיבי ונטול משוא פנים
-- הצג עובדות ונתונים
-- עזור למשתמש לגבש דעה משלו, אל תכפה עליו בחירה
-- דבר בעברית תקנית וידידותית
-- התמקד בנושאים פוליטיים ענייניים
-- אם אינך יודע משהו, אמור זאת
+${ADVISOR_SYSTEM_CORE_RULES}
 
 פרמטרים להשוואת מפלגות: ${partyParams}
 פרמטרים להשוואת מועמדים: ${leaderParams}

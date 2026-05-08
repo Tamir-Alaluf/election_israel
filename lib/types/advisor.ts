@@ -1,5 +1,6 @@
 import type { UIMessage } from "ai";
 import type { FormEvent, RefObject } from "react";
+import type { Prisma } from "@prisma/client";
 
 /** UI mode on /advisor — `selecting` shows the entry cards. */
 export type AdvisorMode = "selecting" | "ai_matching" | "free_chat";
@@ -133,3 +134,21 @@ export type AdvisorResultScreenProps = {
 };
 
 export type AdvisorRoundsRef = AdvisorPoliticalQA[];
+
+export type PartyWithAdvisorRelations = Prisma.PartyGetPayload<{
+  include: {
+    baseTopics: true;
+    legislations: { include: { legislation: true } };
+    members: { orderBy: { orderIndex: "asc" } };
+    recentActions: {
+      include: { actionGroup: true };
+      orderBy: { orderIndex: "asc" };
+    };
+    futurePromises: { orderBy: { orderIndex: "asc" } };
+    leader: true;
+  };
+}>;
+
+export type CandidateWithParty = Prisma.CandidateGetPayload<{
+  include: { party: true };
+}>;

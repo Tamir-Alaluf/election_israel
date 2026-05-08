@@ -1,9 +1,10 @@
-import {
-  google,
-  type GoogleLanguageModelOptions,
-} from "@ai-sdk/google";
+import { google, type GoogleLanguageModelOptions } from "@ai-sdk/google";
 
-import type { AdvisorProfileBase } from "@/lib/types/advisor";
+import type {
+  AdvisorAiQuestion,
+  AdvisorProfileBase,
+} from "@/lib/types/advisor";
+import { z } from "zod";
 
 export type AdvisorProfileQuestionKey = keyof AdvisorProfileBase;
 
@@ -13,11 +14,6 @@ export type AdvisorProfileQuestion = {
   options: string[];
 };
 
-/**
- * Option lists aligned with comparison UIs / DB display values:
- * - Security / economy: same values as leader comparison filters
- * - Haredi / Arab: כן / חלקי / לא
- */
 export const ADVISOR_SECURITY_OPTIONS = [
   "ימין",
   "מרכז ימין",
@@ -86,3 +82,95 @@ export const advisorProviderOptions = {
 };
 
 export const ADVISOR_MAX_ROUNDS = 3;
+
+export const FALLBACK_POLITICAL_BATCH: AdvisorAiQuestion[] = [
+  {
+    question: "איזה נושא ביטחוני־מדיני דחוף עבורכם ביותר?",
+    options: [
+      "התמודדות עם איראן",
+      "עזה והרצועה",
+      "הגנה על גבולות",
+      "ביטחון פנים",
+    ],
+  },
+  {
+    question: "מה עמדתכם לגבי סוגיית המשפט והרפורמה?",
+    options: [
+      "רפורמה מהירה",
+      "רפורמה מתונה",
+      "שימור מעמד בתי המשפט",
+      "לא בטוח/ת",
+    ],
+  },
+  {
+    question: "מה חשוב לכם בכלכלה?",
+    options: [
+      "הורדת יוקר המחיה",
+      "צמיחה ושוק חופשי",
+      "רווחה ומענקים",
+      "שוויון והגדלת מסים לעשירים",
+    ],
+  },
+  {
+    question: "איך אתם רואים את תפקיד המדינה בחברה?",
+    options: ["מינימלי", "מאוזן", "מעורב מאוד", "תלוי נושא"],
+  },
+  {
+    question: "מהי עדיפותכם בקשר לסוגיות חברתיות?",
+    options: ["חינוך", "בריאות", "דיור", "תחבורה"],
+  },
+];
+
+export const LLM_WEIGHT = 0.7;
+export const RULE_WEIGHT = 0.3;
+
+export const batchSchema = z.object({
+  questions: z
+    .array(
+      z.object({
+        question: z.string().min(1),
+        options: z.array(z.string().min(1)).min(3).max(4),
+      }),
+    )
+    .length(5),
+});
+
+const axisSnapshotSchema = z.object({
+  security: z.enum(ADVISOR_SECURITY_OPTIONS),
+  economy: z.enum(ADVISOR_ECONOMY_OPTIONS),
+  harediGov: z.enum(ADVISOR_GOV_INTEGRATION_OPTIONS),
+  arabGov: z.enum(ADVISOR_GOV_INTEGRATION_OPTIONS),
+});
+
+export const matchingSchema = z.object({
+  axisSnapshot: axisSnapshotSchema,
+  rankedCandidates: z
+    .array(
+      z.object({
+        candidateName: z.string().min(1),
+        reasoning: z.string().min(1),
+      }),
+    )
+    .min(3)
+    .max(5),
+  profileSummary: z.string().min(1),
+});
+
+export const AXIS_LABELS = {
+  security: "גישה ביטחונית",
+  economy: "גישה כלכלית",
+  harediGov: "שילוב חרדים בממשלה",
+  arabGov: "שילוב ערבים בממשלה",
+} as const;
+
+export const MISSING_PARAM_FALLBACK = "לא צוין";
+
+export const ADVISOR_SYSTEM_CORE_RULES = `
+כללים חשובים:
+- היה אובייקטיבי ונטול משוא פנים
+- הצג עובדות ונתונים
+- עזור למשתמש לגבש דעה משלו, אל תכפה עליו בחירה
+- דבר בעברית תקנית וידידותית
+- התמקד בנושאים פוליטיים ענייניים
+- אם אינך יודע משהו, אמור זאת
+`.trim();

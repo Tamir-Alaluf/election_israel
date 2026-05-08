@@ -5,12 +5,21 @@ import { z } from "zod";
 import {
   ADVISOR_ECONOMY_OPTIONS,
   ADVISOR_GOV_INTEGRATION_OPTIONS,
+  ADVISOR_PROFILE_QUESTIONS,
   ADVISOR_SECURITY_OPTIONS,
   advisorModel,
   advisorProviderOptions,
+  AXIS_LABELS,
+  LLM_WEIGHT,
+  RULE_WEIGHT,
+  matchingSchema,
+  batchSchema,
 } from "@/lib/constants/advisor";
 import { prisma } from "@/lib/utils/prisma";
-import { buildAdvisorElectionContext } from "@/lib/utils/advisor-context";
+import {
+  buildAdvisorElectionContext,
+  buildAdvisorFollowUpSystemContext,
+} from "@/lib/utils/advisor-context";
 import { FILTER_BASE_TOPIC_TITLES } from "@/lib/constants/parties";
 import type {
   AdvisorAiQuestion,
@@ -21,44 +30,13 @@ import type {
   AdvisorPoliticalQA,
   AdvisorProfileBase,
 } from "@/lib/types/advisor";
-const batchSchema = z.object({
-  questions: z
-    .array(
-      z.object({
-        question: z.string().min(1),
-        options: z.array(z.string().min(1)).min(3).max(4),
-      }),
-    )
-    .length(5),
-});
+import { FALLBACK_POLITICAL_BATCH } from "@/lib/constants/advisor";
 
-const axisSnapshotSchema = z.object({
-  security: z.enum(ADVISOR_SECURITY_OPTIONS),
-  economy: z.enum(ADVISOR_ECONOMY_OPTIONS),
-  harediGov: z.enum(ADVISOR_GOV_INTEGRATION_OPTIONS),
-  arabGov: z.enum(ADVISOR_GOV_INTEGRATION_OPTIONS),
-});
-
-const matchingSchema = z.object({
-  axisSnapshot: axisSnapshotSchema,
-  rankedCandidates: z
-    .array(
-      z.object({
-        candidateName: z.string().min(1),
-        reasoning: z.string().min(1),
-      }),
-    )
-    .min(3)
-    .max(5),
-  profileSummary: z.string().min(1),
-});
-
-const AXIS_LABELS = {
-  security: "גישה ביטחונית",
-  economy: "גישה כלכלית",
-  harediGov: "שילוב חרדים בממשלה",
-  arabGov: "שילוב ערבים בממשלה",
-} as const;
+function formatAdvisorProfileForPrompt(profile: AdvisorProfileBase): string {
+  return ADVISOR_PROFILE_QUESTIONS.map(
+    (q) => `${q.prompt} ${profile[q.key]}`,
+  ).join("\n");
+}
 
 function normalizeName(s: string): string {
   return s.trim().replace(/\s+/g, " ").toLowerCase();
@@ -107,8 +85,62 @@ function ruleScoreForLeader(
   return { score, matchedAxes };
 }
 
-const LLM_WEIGHT = 0.7;
-const RULE_WEIGHT = 0.3;
+export async function generateAdvisorPoliticalBatch(
+  profileBase: AdvisorProfileBase,
+  priorRounds: AdvisorPoliticalQA[],
+  batchIndex: number,
+): Promise<AdvisorAiQuestion[]> {
+  try {
+    const isFollowUpRound = batchIndex >= 1;
+    const system = isFollowUpRound
+      ? buildAdvisorFollowUpSystemContext()
+      : await buildAdvisorElectionContext();
+    const profileText = formatAdvisorProfileForPrompt(profileBase);
+    const priorJson = JSON.stringify(
+      priorRounds.map((r) => ({
+        שאלה: r.question,
+        תשובה: r.answer,
+      })),
+    );
+
+    const baseTail = `סבב שאלות מדיניות: ${batchIndex + 1} מתוך עד 3.
+
+שאלות קודמות ותשובות (אם הרשימה ריקה — אין): ${priorJson}
+
+החזר בדיוק 5 שאלות קצרות בעברית על פוליטיקה, ערכים ועמדות.
+לכל שאלה בדיוק 3 או 4 אופציות קצרות לבחירה (מחרוזות בלבד).
+אל תחזור על ניסוחים זהים לשאלות שכבר נשאלו.`;
+
+    const prompt = isFollowUpRound
+      ? `פרופיל משתמש:
+${profileText}
+
+${baseTail}
+
+הנחיות לסבב המשך (חובה):
+- רוב משקל הניסוח של כל 5 השאלות מגיע מארבעת שדות הפרופיל למעלה ומכל התשובות שכבר נתן המשתמש ברשימת השאלות הקודמות.
+- יש לחבר בין הקשר חיים (גיל, זהות דתית־חברתית, אזור מגורים, שלב חיים) לבין הדפוס שעולה מהתשובות הקודמות — למשל דיור, חינוך, ביטחון אישי או זהות חברתית רק כשזה מתאים לפרופיל ולמה שכבר נענה.
+- יש להעמיק או להבהיר פערים: נושאים שלא נכסו, ניגודים אפשריים בין תחומים, או הבחנות עדינות — לא לשכפל אותו נושא או ניסוח בלי קשר חדש לפרופיל או לשרשרת התשובות.
+- אל תציג שאלות גנריות שאינן נסמכות במפורש על שילוב של פרופיל ותשובות קודמות.`
+      : `פרופיל משתמש:
+${profileText}
+
+השתמש בפרופיל ובמידע על המפלגות והמועמדים שבמערכת כדי לנסח שאלות מותאמות אישית.
+
+${baseTail}`;
+
+    const { object } = await generateObject({
+      model: advisorModel,
+      schema: batchSchema,
+      system,
+      providerOptions: advisorProviderOptions,
+      prompt,
+    });
+    return object.questions;
+  } catch {
+    return FALLBACK_POLITICAL_BATCH;
+  }
+}
 
 function blendedPercent(
   llmRankIndex: number,
@@ -119,81 +151,6 @@ function blendedPercent(
   return Math.round(
     100 * (LLM_WEIGHT * llmFraction + RULE_WEIGHT * (ruleScore / 4)),
   );
-}
-
-const FALLBACK_POLITICAL_BATCH: AdvisorAiQuestion[] = [
-  {
-    question: "איזה נושא ביטחוני־מדיני דחוף עבורכם ביותר?",
-    options: [
-      "התמודדות עם איראן",
-      "עזה והרצועה",
-      "הגנה על גבולות",
-      "ביטחון פנים",
-    ],
-  },
-  {
-    question: "מה עמדתכם לגבי סוגיית המשפט והרפורמה?",
-    options: [
-      "רפורמה מהירה",
-      "רפורמה מתונה",
-      "שימור מעמד בתי המשפט",
-      "לא בטוח/ת",
-    ],
-  },
-  {
-    question: "מה חשוב לכם בכלכלה?",
-    options: [
-      "הורדת יוקר המחיה",
-      "צמיחה ושוק חופשי",
-      "רווחה ומענקים",
-      "שוויון והגדלת מסים לעשירים",
-    ],
-  },
-  {
-    question: "איך אתם רואים את תפקיד המדינה בחברה?",
-    options: ["מינימלי", "מאוזן", "מעורב מאוד", "תלוי נושא"],
-  },
-  {
-    question: "מהי עדיפותכם בקשר לסוגיות חברתיות?",
-    options: ["חינוך", "בריאות", "דיור", "תחבורה"],
-  },
-];
-
-export async function generateAdvisorPoliticalBatch(
-  profileBase: AdvisorProfileBase,
-  priorRounds: AdvisorPoliticalQA[],
-  batchIndex: number,
-): Promise<AdvisorAiQuestion[]> {
-  try {
-    const system = await buildAdvisorElectionContext();
-    const priorJson = JSON.stringify(
-      priorRounds.map((r) => ({
-        שאלה: r.question,
-        תשובה: r.answer,
-      })),
-    );
-    console.log("system", system);
-    console.log("priorJson", priorJson);
-    console.log("profileBase", profileBase);
-    console.log("batchIndex", batchIndex);
-    const { object } = await generateObject({
-      model: advisorModel,
-      schema: batchSchema,
-      system,
-      providerOptions: advisorProviderOptions,
-      prompt: `פרופיל משתמש (JSON): ${JSON.stringify(profileBase)}
-סבב שאלות מדיניות: ${batchIndex + 1} מתוך עד 3.
-
-שאלות קודמות ותשובות (אם ריק — אין): ${priorJson}
-
-החזר בדיוק 5 שאלות קצרות בעברית על פוליטיקה, ערכים ועמדות — מותאמות לפרופיל ולתשובות הקודמות. אל תחזור על ניסוחים זהים לשאלות שכבר נשאלו.
-לכל שאלה בדיוק 3 או 4 אופציות קצרות לבחירה (מחרוזות בלבד).`,
-    });
-    console.log("object", object);
-    return object.questions;
-  } catch {
-    return FALLBACK_POLITICAL_BATCH;
-  }
 }
 
 export async function computeAdvisorMatching(
