@@ -27,8 +27,6 @@ export const ADVISOR_ECONOMY_OPTIONS = [
   "מרכז",
 ] as const;
 
-export const ADVISOR_GOV_INTEGRATION_OPTIONS = ["כן", "חלקי", "לא"] as const;
-
 /**
  * Four fixed non-political profile questions (demographics / life context only).
  */
@@ -138,8 +136,6 @@ export const batchSchema = z.object({
 const axisSnapshotSchema = z.object({
   security: z.enum(ADVISOR_SECURITY_OPTIONS),
   economy: z.enum(ADVISOR_ECONOMY_OPTIONS),
-  harediGov: z.enum(ADVISOR_GOV_INTEGRATION_OPTIONS),
-  arabGov: z.enum(ADVISOR_GOV_INTEGRATION_OPTIONS),
 });
 
 export const matchingSchema = z.object({
@@ -159,8 +155,6 @@ export const matchingSchema = z.object({
 export const AXIS_LABELS = {
   security: "גישה ביטחונית",
   economy: "גישה כלכלית",
-  harediGov: "שילוב חרדים בממשלה",
-  arabGov: "שילוב ערבים בממשלה",
 } as const;
 
 export const MISSING_PARAM_FALLBACK = "לא צוין";

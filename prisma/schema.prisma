@@ -46,13 +46,6 @@ model Candidate {
   image            String?                 @map("image_url")
   vision           String?
   partyName        String                  @map("party_name")
-  voice_pattern    String?
-  securityApproach String?                 @map("security_approach")
-  economicApproach String?                 @map("economic_approach")
-  leadership_style String?
-  haredi_gov       String?
-  arab_gov         String?
-  likud_notes      String?
   careerActions    CandidateCareerAction[]
   education        CandidateEducation[]
   professionals    CandidateProfessional[]

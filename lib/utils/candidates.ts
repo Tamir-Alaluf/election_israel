@@ -1,3 +1,4 @@
+import { FILTER_BASE_TOPIC_TITLES } from "@/lib/constants/parties";
 import { prisma } from "@/lib/utils/prisma";
 import type {
   LeaderActionItem,
@@ -5,6 +6,18 @@ import type {
   LeaderEducationItem,
   LeaderProfessionalItem,
 } from "@/lib/types/candidates";
+
+const BLOC_BASE_TOPIC_TITLE = "גוש";
+
+function partyTopicDisplay(
+  topics: { baseTopicTitle: string; baseTopicOptionDisplayValue: string }[],
+  topicTitle: string,
+): string {
+  return (
+    topics.find((t) => t.baseTopicTitle === topicTitle)
+      ?.baseTopicOptionDisplayValue ?? "—"
+  );
+}
 
 function mapEducation(
   rows: {
@@ -82,6 +95,9 @@ export async function getLeadersForComparison(): Promise<
   const candidates = await prisma.candidate.findMany({
     where: { partyLeaderOf: { some: {} } },
     include: {
+      party: {
+        include: { baseTopics: true },
+      },
       education: { orderBy: { id: "asc" } },
       professionals: {
         include: { group: true },
@@ -111,9 +127,15 @@ export async function getLeadersForComparison(): Promise<
     careerAchievements: mapCareerItems(c.careerActions),
     recentActions: mapRecentItems(c.recentActions),
     values: {
-      securityApproach: c.securityApproach ?? "—",
-      economicApproach: c.economicApproach ?? "—",
-      bloc: "—",
+      securityApproach: partyTopicDisplay(
+        c.party.baseTopics,
+        FILTER_BASE_TOPIC_TITLES.security,
+      ),
+      economicApproach: partyTopicDisplay(
+        c.party.baseTopics,
+        FILTER_BASE_TOPIC_TITLES.economy,
+      ),
+      bloc: partyTopicDisplay(c.party.baseTopics, BLOC_BASE_TOPIC_TITLE),
     },
   }));
 }

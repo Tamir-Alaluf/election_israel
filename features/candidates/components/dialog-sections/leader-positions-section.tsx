@@ -5,9 +5,6 @@ import { SectionShell } from "@/features/parties/components/dialog-sections/sect
 const POSITIONS = [
   { id: "securityApproach", label: "גישה ביטחונית" },
   { id: "economicApproach", label: "גישה כלכלית" },
-  { id: "leadershipStyle", label: "סגנון מנהיגות" },
-  { id: "harediGov", label: "שילוב חרדים בממשלה" },
-  { id: "arabGov", label: "שילוב ערבים בממשלה" },
 ] as const;
 
 export function LeaderPositionsSection({ values }: { values: LeaderValues }) {

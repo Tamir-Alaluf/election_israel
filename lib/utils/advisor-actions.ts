@@ -1,10 +1,8 @@
 "use server";
 
 import { generateObject } from "ai";
-import { z } from "zod";
 import {
   ADVISOR_ECONOMY_OPTIONS,
-  ADVISOR_GOV_INTEGRATION_OPTIONS,
   ADVISOR_PROFILE_QUESTIONS,
   ADVISOR_SECURITY_OPTIONS,
   advisorModel,
@@ -57,30 +55,22 @@ function matchLeaderByLlmName(
   return partial ?? null;
 }
 
+const RULE_AXIS_MAX = 2;
+
 function ruleScoreForLeader(
   axis: AdvisorAxisSnapshot,
   securityVal: string | null,
   economyVal: string | null,
-  harediVal: string | null,
-  arabVal: string | null,
 ): { score: number; matchedAxes: string[] } {
   const matchedAxes: string[] = [];
   let score = 0;
   if (securityVal && axis.security === securityVal) {
-    score++;
+    score += 1;
     matchedAxes.push(AXIS_LABELS.security);
   }
   if (economyVal && axis.economy === economyVal) {
-    score++;
+    score += 1;
     matchedAxes.push(AXIS_LABELS.economy);
-  }
-  if (harediVal && axis.harediGov === harediVal) {
-    score++;
-    matchedAxes.push(AXIS_LABELS.harediGov);
-  }
-  if (arabVal && axis.arabGov === arabVal) {
-    score++;
-    matchedAxes.push(AXIS_LABELS.arabGov);
   }
   return { score, matchedAxes };
 }
@@ -149,7 +139,8 @@ function blendedPercent(
 ) {
   const llmFraction = listLen <= 1 ? 1 : (listLen - llmRankIndex) / listLen;
   return Math.round(
-    100 * (LLM_WEIGHT * llmFraction + RULE_WEIGHT * (ruleScore / 4)),
+    100 *
+      (LLM_WEIGHT * llmFraction + RULE_WEIGHT * (ruleScore / RULE_AXIS_MAX)),
   );
 }
 
@@ -214,11 +205,9 @@ ${qaLines.join("\n\n")}
 שמות ראשי המפלגות בבסיס הנתונים (בחר רק מתוך הרשימה הזו, בדיוק כפי שמופיע):
 ${leaderNamesList}
 
-1) הסק מכל התשובות צירים עקביים לארבעת הערכים הבאים — השתמש רק באחת מהאופציות המותרות לכל ציר:
+1) הסק מכל התשובות צירים עקביים לשני הערכים הבאים — השתמש רק באחת מהאופציות המותרות לכל ציר:
    - security: ${ADVISOR_SECURITY_OPTIONS.join(" | ")}
    - economy: ${ADVISOR_ECONOMY_OPTIONS.join(" | ")}
-   - harediGov: ${ADVISOR_GOV_INTEGRATION_OPTIONS.join(" | ")}
-   - arabGov: ${ADVISOR_GOV_INTEGRATION_OPTIONS.join(" | ")}
 
 2) דרג בין 3 ל-5 מועמדים מהרשימה לפי התאמה לפרופיל ולתשובות (הראשון הכי מתאים).
 
@@ -233,8 +222,6 @@ ${leaderNamesList}
     axisSnapshot = {
       security: "מרכז ימין",
       economy: "מרכז",
-      harediGov: "חלקי",
-      arabGov: "חלקי",
     };
     rankedFromLlm = leaders.slice(0, 5).map((l) => ({
       candidateName: l.name,
@@ -260,8 +247,6 @@ ${leaderNamesList}
       axisSnapshot,
       lr.securityVal,
       lr.economyVal,
-      lr.harediVal,
-      lr.arabVal,
     );
     const L = lr.leader;
     const P = lr.party;
@@ -307,8 +292,6 @@ ${leaderNamesList}
           axisSnapshot,
           lr.securityVal,
           lr.economyVal,
-          lr.harediVal,
-          lr.arabVal,
         );
         const L = lr.leader;
         const P = lr.party;
@@ -320,7 +303,7 @@ ${leaderNamesList}
           partyName: P.name,
           partyImage: P.imageUrl,
           partyMandates: P.mandates,
-          matchPercent: Math.round(100 * RULE_WEIGHT * (score / 4)),
+          matchPercent: Math.round(100 * RULE_WEIGHT * (score / RULE_AXIS_MAX)),
           ruleScore: score,
           matchedAxes,
           reasoning: "התאמה לפי צירים בנתוני המפלגה במערכת.",

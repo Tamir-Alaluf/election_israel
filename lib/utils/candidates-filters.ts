@@ -5,21 +5,6 @@ import { PROFESSIONAL_BACKGROUND_GROUPS } from "@/lib/constants/candidates";
 
 type SetStringArrayState = Dispatch<SetStateAction<string[]>>;
 
-export function getGovernmentIntegrationExclusions({
-  harediGov,
-  arabGov,
-}: {
-  harediGov: string;
-  arabGov: string;
-}): string[] {
-  const includeHaredi = harediGov === "כן" || harediGov === "חלקי";
-  const includeArab = arabGov === "כן" || arabGov === "חלקי";
-  const exclusions: string[] = [];
-  if (!includeHaredi) exclusions.push("לא משלב חרדים");
-  if (!includeArab) exclusions.push("לא משלב ערבים");
-  return exclusions;
-}
-
 export function getLeaderComparisonFilters({
   securityFilter,
   setSecurityFilter,
@@ -27,8 +12,6 @@ export function getLeaderComparisonFilters({
   setEconomyFilter,
   professionalBackgroundFilter,
   setProfessionalBackgroundFilter,
-  governmentIntegrationsFilter,
-  setGovernmentIntegrationsFilter,
   blocFilter,
   setBlocFilter,
 }: {
@@ -38,8 +21,6 @@ export function getLeaderComparisonFilters({
   setEconomyFilter: SetStringArrayState;
   professionalBackgroundFilter: string[];
   setProfessionalBackgroundFilter: SetStringArrayState;
-  governmentIntegrationsFilter: string[];
-  setGovernmentIntegrationsFilter: SetStringArrayState;
   blocFilter: string[];
   setBlocFilter: SetStringArrayState;
 }) {
@@ -79,17 +60,6 @@ export function getLeaderComparisonFilters({
         value: group,
         label: group,
       })),
-    },
-    {
-      key: "governmentIntegrations",
-      values: governmentIntegrationsFilter,
-      onValuesChange: setGovernmentIntegrationsFilter,
-      placeholder: "שילובים בממשלה",
-      multiSelect: true as const,
-      options: [
-        { value: "לא משלב חרדים", label: "לא משלב חרדים" },
-        { value: "לא משלב ערבים", label: "לא משלב ערבים" },
-      ],
     },
     {
       key: "bloc",

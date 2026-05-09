@@ -2,10 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { LeaderComparisonRow } from "@/lib/types/candidates";
-import {
-  getGovernmentIntegrationExclusions,
-  getLeaderComparisonFilters,
-} from "@/lib/utils/candidates-filters";
+import { getLeaderComparisonFilters } from "@/lib/utils/candidates-filters";
 
 export function useLeaderComparisonFilters(
   searchQuery: string,
@@ -14,8 +11,6 @@ export function useLeaderComparisonFilters(
   const [securityFilter, setSecurityFilter] = useState<string[]>([]);
   const [economyFilter, setEconomyFilter] = useState<string[]>([]);
   const [professionalBackgroundFilter, setProfessionalBackgroundFilter] =
-    useState<string[]>([]);
-  const [governmentIntegrationsFilter, setGovernmentIntegrationsFilter] =
     useState<string[]>([]);
   const [blocFilter, setBlocFilter] = useState<string[]>([]);
 
@@ -52,19 +47,6 @@ export function useLeaderComparisonFilters(
       ) {
         return false;
       }
-      const governmentIntegrationExclusions =
-        getGovernmentIntegrationExclusions({
-          harediGov: leader.values.harediGov,
-          arabGov: leader.values.arabGov,
-        });
-      if (
-        governmentIntegrationsFilter.length > 0 &&
-        !governmentIntegrationsFilter.some((filterValue) =>
-          governmentIntegrationExclusions.includes(filterValue),
-        )
-      ) {
-        return false;
-      }
       if (blocFilter.length > 0 && !blocFilter.includes(leader.values.bloc)) {
         return false;
       }
@@ -75,7 +57,6 @@ export function useLeaderComparisonFilters(
     securityFilter,
     economyFilter,
     professionalBackgroundFilter,
-    governmentIntegrationsFilter,
     blocFilter,
     leaders,
   ]);
@@ -89,8 +70,6 @@ export function useLeaderComparisonFilters(
         setEconomyFilter,
         professionalBackgroundFilter,
         setProfessionalBackgroundFilter,
-        governmentIntegrationsFilter,
-        setGovernmentIntegrationsFilter,
         blocFilter,
         setBlocFilter,
       }),
@@ -98,7 +77,6 @@ export function useLeaderComparisonFilters(
       securityFilter,
       economyFilter,
       professionalBackgroundFilter,
-      governmentIntegrationsFilter,
       blocFilter,
     ],
   );

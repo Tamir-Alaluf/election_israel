@@ -25,9 +25,6 @@ export type LeaderActionItem = {
 export type LeaderValues = {
   securityApproach: string;
   economicApproach: string;
-  leadershipStyle: string;
-  harediGov: string;
-  arabGov: string;
   bloc: string;
 };
 

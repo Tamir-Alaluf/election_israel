@@ -106,6 +106,79 @@ function resolvePartyParamValue(
   return MISSING_PARAM_FALLBACK;
 }
 
+function resolveLeaderParamValue(
+  leader: CandidateWithParty,
+  label: string,
+): string {
+  const normalized = label.trim();
+  if (normalized === "חזון") {
+    return leader.vision?.trim() || MISSING_PARAM_FALLBACK;
+  }
+  if (normalized.includes("השכלה")) {
+    const lines = leader.education
+      .map((e) =>
+        [
+          e.degreeLevel,
+          e.major,
+          e.university,
+          e.startYear != null || e.endYear != null
+            ? `${e.startYear ?? "?"}–${e.endYear ?? "?"}`
+            : null,
+        ]
+          .filter(Boolean)
+          .join(", "),
+      )
+      .filter((line) => line.length > 0);
+    return listOrFallback(lines);
+  }
+  if (normalized.includes("רקע מקצועי")) {
+    return listOrFallback(
+      leader.professionals.map((p) =>
+        p.group?.name ? `${p.title} (${p.group.name})` : p.title,
+      ),
+    );
+  }
+  if (normalized.includes("הישגים במהלך הקריירה")) {
+    return listOrFallback(
+      leader.careerActions.map(
+        (c) => `${c.actionGroup.name}: ${c.title}`,
+      ),
+    );
+  }
+  if (normalized.includes("מה עשה מאז הבחירות")) {
+    return listOrFallback(
+      leader.recentActions.map(
+        (r) => `${r.actionGroup.name}: ${r.title}`,
+      ),
+    );
+  }
+  if (normalized.includes("ביטחונית")) {
+    return (
+      firstTopicValue(leader.party.baseTopics, [
+        "עמדה ביטחונית",
+        "גישה ביטחונית",
+      ]) ?? MISSING_PARAM_FALLBACK
+    );
+  }
+  if (normalized.includes("כלכלית")) {
+    return (
+      firstTopicValue(leader.party.baseTopics, [
+        "עמדה כלכלית",
+        "גישה כלכלית",
+      ]) ?? MISSING_PARAM_FALLBACK
+    );
+  }
+  if (normalized === "גוש") {
+    return firstTopicValue(leader.party.baseTopics, ["גוש"]) ?? MISSING_PARAM_FALLBACK;
+  }
+  if (normalized.includes("מנדטים")) {
+    return leader.party.mandates != null
+      ? String(leader.party.mandates)
+      : MISSING_PARAM_FALLBACK;
+  }
+  return MISSING_PARAM_FALLBACK;
+}
+
 export async function buildAdvisorElectionContext(): Promise<string> {
   //get parties and leaders
   const [parties, leaders]: [
@@ -128,7 +201,22 @@ export async function buildAdvisorElectionContext(): Promise<string> {
     }),
     prisma.candidate.findMany({
       where: { partyLeaderOf: { some: {} } },
-      include: { party: true },
+      include: {
+        party: { include: { baseTopics: true } },
+        education: { orderBy: { id: "asc" } },
+        professionals: {
+          include: { group: true },
+          orderBy: { startYear: "asc" },
+        },
+        careerActions: {
+          include: { actionGroup: true },
+          orderBy: { orderIndex: "asc" },
+        },
+        recentActions: {
+          include: { actionGroup: true },
+          orderBy: { orderIndex: "asc" },
+        },
+      },
       orderBy: { name: "asc" },
     }),
   ]);
@@ -148,14 +236,10 @@ export async function buildAdvisorElectionContext(): Promise<string> {
   //leader Information
   const leaderInfo = leaders
     .map((l) => {
-      const vals = [
-        l.securityApproach && `גישה ביטחונית: ${l.securityApproach}`,
-        l.economicApproach && `גישה כלכלית: ${l.economicApproach}`,
-        l.party?.mandates != null && `מנדטים (אומדן): ${l.party.mandates}`,
-      ]
-        .filter(Boolean)
-        .join(", ");
-      return `${l.name} (${l.partyName}): ${vals}`;
+      const paramsText = leaderParameterLabels
+        .map((label) => `${label}: ${resolveLeaderParamValue(l, label)}`)
+        .join(" | ");
+      return `${l.name} (${l.partyName}): ${paramsText}`;
     })
     .join("\n");
 

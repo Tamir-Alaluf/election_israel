@@ -33,8 +33,6 @@ export type AdvisorAiQuestion = {
 export type AdvisorAxisSnapshot = {
   security: string;
   economy: string;
-  harediGov: string;
-  arabGov: string;
 };
 
 export type AdvisorCandidateMatch = {
@@ -47,7 +45,7 @@ export type AdvisorCandidateMatch = {
   partyMandates: number | null;
   /** Blended 0–100 */
   matchPercent: number;
-  /** 0–4 from DB axes vs inferred snapshot */
+  /** 0–2 from DB axes vs inferred snapshot */
   ruleScore: number;
   /** Hebrew labels for axes that matched */
   matchedAxes: string[];
@@ -149,6 +147,22 @@ export type PartyWithAdvisorRelations = Prisma.PartyGetPayload<{
   };
 }>;
 
+/** Leader rows loaded for advisor election context (candidate + party topics + CV slices). */
 export type CandidateWithParty = Prisma.CandidateGetPayload<{
-  include: { party: true };
+  include: {
+    party: { include: { baseTopics: true } };
+    education: { orderBy: { id: "asc" } };
+    professionals: {
+      include: { group: true };
+      orderBy: { startYear: "asc" };
+    };
+    careerActions: {
+      include: { actionGroup: true };
+      orderBy: { orderIndex: "asc" };
+    };
+    recentActions: {
+      include: { actionGroup: true };
+      orderBy: { orderIndex: "asc" };
+    };
+  };
 }>;
