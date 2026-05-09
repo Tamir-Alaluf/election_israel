@@ -113,9 +113,6 @@ export async function getLeadersForComparison(): Promise<
     values: {
       securityApproach: c.securityApproach ?? "—",
       economicApproach: c.economicApproach ?? "—",
-      leadershipStyle: c.leadershipStyle ?? "—",
-      harediGov: c.harediGov ?? "—",
-      arabGov: c.arabGov ?? "—",
       bloc: "—",
     },
   }));

@@ -151,9 +151,6 @@ export async function buildAdvisorElectionContext(): Promise<string> {
       const vals = [
         l.securityApproach && `גישה ביטחונית: ${l.securityApproach}`,
         l.economicApproach && `גישה כלכלית: ${l.economicApproach}`,
-        l.leadershipStyle && `סגנון מנהיגות: ${l.leadershipStyle}`,
-        l.harediGov && `שילוב חרדים: ${l.harediGov}`,
-        l.arabGov && `שילוב ערבים: ${l.arabGov}`,
         l.party?.mandates != null && `מנדטים (אומדן): ${l.party.mandates}`,
       ]
         .filter(Boolean)

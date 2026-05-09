@@ -181,8 +181,6 @@ export async function computeAdvisorMatching(
       party,
       securityVal,
       economyVal,
-      harediVal: leader.harediGov,
-      arabVal: leader.arabGov,
     };
   });
 
