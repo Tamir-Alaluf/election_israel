@@ -8,10 +8,6 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-// ---------------------------------------------------------
-// AUTHENTICATION
-// ---------------------------------------------------------
-
 model User {
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   clerkUserId String   @unique @map("clerk_user_id")
@@ -25,53 +21,45 @@ model User {
   @@map("users")
 }
 
-// ---------------------------------------------------------
-// CORE ENTITIES: Party & Candidate
-// ---------------------------------------------------------
-
 model Party {
-  id            String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name          String  @unique
-  candidateName String? @map("candidate_name")
-  mandates      Int?
-  vision        String?
-  imageUrl      String?
-
-  // Relations
-  leader         Candidate?         @relation("PartyLeader", fields: [candidateName], references: [name])
+  id             String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name           String             @unique
+  mandates       Int?
+  vision         String?
+  imageUrl       String?
+  candidateName  String?            @map("candidate_name")
   candidates     Candidate[]        @relation("PartyCandidates")
-  members        PartyMember[]
+  leader         Candidate?         @relation("PartyLeader", fields: [candidateName], references: [name])
   baseTopics     PartyBaseTopic[]
-  legislations   PartyLegislation[]
-  recentActions  RecentAction[]
   futurePromises FuturePromise[]
+  legislations   PartyLegislation[]
+  members        PartyMember[]
+  recentActions  RecentAction[]
 
   @@index([candidateName])
   @@map("parties")
 }
 
 model Candidate {
-  id                     String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name                   String  @unique
-  partyName              String  @map("party_name")
-  image                  String? @map("image_url")
-  vision                 String?
-  voicePattern           String? @map("voice_pattern")
-  securityApproach       String? @map("security_approach")
-  economicApproach      String? @map("economic_approach")
-  leadershipStyle        String? @map("leadership_style")
-  harediGov              String? @map("haredi_gov")
-  arabGov                String? @map("arab_gov")
-  likudNotes             String? @map("likud_notes")
-
-  // Relations
-  party          Party                   @relation("PartyCandidates", fields: [partyName], references: [name])
-  partyLeaderOf  Party[]                 @relation("PartyLeader") // Reverse relation for the party they lead
-  education      CandidateEducation[]
-  professionals  CandidateProfessional[]
-  careerActions  CandidateCareerAction[]
-  recentActions  CandidateRecentAction[]
-  publicOpinions PublicOpinion[]
+  id               String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name             String                  @unique
+  image            String?                 @map("image_url")
+  vision           String?
+  partyName        String                  @map("party_name")
+  voice_pattern    String?
+  securityApproach String?                 @map("security_approach")
+  economicApproach String?                 @map("economic_approach")
+  leadership_style String?
+  haredi_gov       String?
+  arab_gov         String?
+  likud_notes      String?
+  careerActions    CandidateCareerAction[]
+  education        CandidateEducation[]
+  professionals    CandidateProfessional[]
+  recentActions    CandidateRecentAction[]
+  party            Party                   @relation("PartyCandidates", fields: [partyName], references: [name])
+  partyLeaderOf    Party[]                 @relation("PartyLeader")
+  publicOpinions   PublicOpinion[]
 
   @@index([partyName])
   @@map("candidates")
@@ -80,24 +68,18 @@ model Candidate {
 model PartyMember {
   id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name       String
-  partyName  String  @map("party_name")
   orderIndex Int     @map("order_index")
   image      String? @map("image_url")
-
-  party Party @relation(fields: [partyName], references: [name])
+  partyName  String  @map("party_name")
+  party      Party   @relation(fields: [partyName], references: [name])
 
   @@index([partyName, orderIndex])
   @@map("party_members")
 }
 
-// ---------------------------------------------------------
-// POLICY & TOPICS
-// ---------------------------------------------------------
-
 model BaseTopic {
-  id    String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title String @unique
-
+  id          String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title       String            @unique
   options     BaseTopicOption[]
   partyTopics PartyBaseTopic[]
 
@@ -105,12 +87,11 @@ model BaseTopic {
 }
 
 model BaseTopicOption {
-  id                 String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  baseTopicTitle     String @map("base_topic_title")
-  optionDisplayValue String @map("option_display_value")
-
-  baseTopic   BaseTopic        @relation(fields: [baseTopicTitle], references: [title])
-  partyTopics PartyBaseTopic[]
+  id                 String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  optionDisplayValue String           @map("option_display_value")
+  baseTopicTitle     String           @map("base_topic_title")
+  baseTopic          BaseTopic        @relation(fields: [baseTopicTitle], references: [title])
+  partyTopics        PartyBaseTopic[]
 
   @@unique([baseTopicTitle, optionDisplayValue])
   @@index([baseTopicTitle])
@@ -118,15 +99,14 @@ model BaseTopicOption {
 }
 
 model PartyBaseTopic {
-  id                          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  partyName                   String  @map("party_name")
-  baseTopicTitle              String  @map("base_topic_title")
-  baseTopicOptionDisplayValue String  @map("base_topic_option_display_value")
+  id                          String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   description                 String?
-
-  party  Party           @relation(fields: [partyName], references: [name])
-  topic  BaseTopic       @relation(fields: [baseTopicTitle], references: [title])
-  option BaseTopicOption @relation(fields: [baseTopicTitle, baseTopicOptionDisplayValue], references: [baseTopicTitle, optionDisplayValue])
+  baseTopicOptionDisplayValue String          @map("base_topic_option_display_value")
+  baseTopicTitle              String          @map("base_topic_title")
+  partyName                   String          @map("party_name")
+  option                      BaseTopicOption @relation(fields: [baseTopicTitle, baseTopicOptionDisplayValue], references: [baseTopicTitle, optionDisplayValue])
+  topic                       BaseTopic       @relation(fields: [baseTopicTitle], references: [title])
+  party                       Party           @relation(fields: [partyName], references: [name])
 
   @@index([partyName])
   @@index([baseTopicTitle])
@@ -134,49 +114,41 @@ model PartyBaseTopic {
   @@map("party_base_topics")
 }
 
-// ---------------------------------------------------------
-// LEGISLATION (LAWS)
-// ---------------------------------------------------------
-
 model LegislationGroup {
-  id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name String @unique
-
+  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name         String        @unique
   legislations Legislation[]
 
   @@map("legislation_groups")
 }
 
 model Legislation {
-  id                   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title                String @unique
-  legislationGroupName String @map("legislation_group_name")
-
-  group             LegislationGroup   @relation(fields: [legislationGroupName], references: [name])
-  partyLegislations PartyLegislation[]
+  id                   String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title                String             @unique
+  legislationGroupName String             @map("legislation_group_name")
+  group                LegislationGroup   @relation(fields: [legislationGroupName], references: [name])
+  partyLegislations    PartyLegislation[]
 
   @@index([legislationGroupName])
   @@map("legislations")
 }
 
 model LegislationOption {
-  id           String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  displayValue String @unique @map("display_value")
-
+  id                String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  displayValue      String             @unique @map("display_value")
   partyLegislations PartyLegislation[]
 
   @@map("legislation_options")
 }
 
 model PartyLegislation {
-  id                 String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  partyName          String @map("party_name")
-  legislationTitle   String @map("legislation_title")
-  optionDisplayValue String @map("option_display_value")
-
-  party       Party             @relation(fields: [partyName], references: [name])
-  legislation Legislation       @relation(fields: [legislationTitle], references: [title])
-  option      LegislationOption @relation(fields: [optionDisplayValue], references: [displayValue])
+  id                 String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  legislationTitle   String            @map("legislation_title")
+  optionDisplayValue String            @map("option_display_value")
+  partyName          String            @map("party_name")
+  legislation        Legislation       @relation(fields: [legislationTitle], references: [title])
+  option             LegislationOption @relation(fields: [optionDisplayValue], references: [displayValue])
+  party              Party             @relation(fields: [partyName], references: [name])
 
   @@index([partyName])
   @@index([legislationTitle])
@@ -184,32 +156,26 @@ model PartyLegislation {
   @@map("party_legislations")
 }
 
-// ---------------------------------------------------------
-// ACTIONS & PROMISES
-// ---------------------------------------------------------
-
 model ActionGroup {
-  id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name String @unique
-
-  recentActions          RecentAction[]
-  futurePromises         FuturePromise[]
+  id                     String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                   String                  @unique
   candidateCareerActions CandidateCareerAction[]
   candidateRecentActions CandidateRecentAction[]
+  futurePromises         FuturePromise[]
+  recentActions          RecentAction[]
 
   @@map("action_groups")
 }
 
 model RecentAction {
-  id              String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  partyName       String  @map("party_name")
+  id              String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  partyName       String      @map("party_name")
   title           String
-  actionGroupName String  @map("action_group_name")
+  actionGroupName String      @map("action_group_name")
   description     String?
-  orderIndex      Int?    @map("order_index")
-
-  party       Party       @relation(fields: [partyName], references: [name])
-  actionGroup ActionGroup @relation(fields: [actionGroupName], references: [name])
+  orderIndex      Int?        @map("order_index")
+  actionGroup     ActionGroup @relation(fields: [actionGroupName], references: [name])
+  party           Party       @relation(fields: [partyName], references: [name])
 
   @@index([partyName, orderIndex])
   @@index([actionGroupName])
@@ -217,61 +183,53 @@ model RecentAction {
 }
 
 model FuturePromise {
-  id              String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  partyName       String  @map("party_name")
+  id              String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  partyName       String      @map("party_name")
   title           String
-  actionGroupName String  @map("action_group_name")
+  actionGroupName String      @map("action_group_name")
   description     String?
-  orderIndex      Int?    @map("order_index")
-
-  party       Party       @relation(fields: [partyName], references: [name])
-  actionGroup ActionGroup @relation(fields: [actionGroupName], references: [name])
+  orderIndex      Int?        @map("order_index")
+  actionGroup     ActionGroup @relation(fields: [actionGroupName], references: [name])
+  party           Party       @relation(fields: [partyName], references: [name])
 
   @@index([partyName, orderIndex])
   @@index([actionGroupName])
   @@map("party_future_promises")
 }
 
-// ---------------------------------------------------------
-// CANDIDATE BACKGROUND & OPINION
-// ---------------------------------------------------------
-
 model CandidateEducation {
-  id            String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  candidateName String  @map("candidate_name")
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   major         String?
-  startYear     Int?    @map("start_year")
-  endYear       Int?    @map("end_year")
-  degreeLevel   String? @map("degree_level")
+  startYear     Int?      @map("start_year")
+  endYear       Int?      @map("end_year")
+  degreeLevel   String?   @map("degree_level")
   university    String?
   description   String?
-
-  candidate Candidate @relation(fields: [candidateName], references: [name])
+  candidateName String    @map("candidate_name")
+  candidate     Candidate @relation(fields: [candidateName], references: [name])
 
   @@index([candidateName])
   @@map("candidate_educations")
 }
 
 model ProfessionalGroup {
-  id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name String @unique
-
+  id            String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String                  @unique
   professionals CandidateProfessional[]
 
   @@map("professional_groups")
 }
 
 model CandidateProfessional {
-  id            String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  candidateName String  @map("candidate_name")
+  id            String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title         String
-  startYear     Int?    @map("start_year")
-  endYear       Int?    @map("end_year")
+  startYear     Int?              @map("start_year")
+  endYear       Int?              @map("end_year")
   description   String?
-  groupName     String  @map("group_name")
-
-  candidate Candidate         @relation(fields: [candidateName], references: [name])
-  group     ProfessionalGroup @relation(fields: [groupName], references: [name])
+  candidateName String            @map("candidate_name")
+  groupName     String            @map("group_name")
+  candidate     Candidate         @relation(fields: [candidateName], references: [name])
+  group         ProfessionalGroup @relation(fields: [groupName], references: [name])
 
   @@index([candidateName])
   @@index([groupName])
@@ -279,15 +237,14 @@ model CandidateProfessional {
 }
 
 model CandidateCareerAction {
-  id              String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  candidateName   String  @map("candidate_name")
+  id              String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title           String
-  actionGroupName String  @map("action_group_name")
   description     String?
-  orderIndex      Int?    @map("order_index")
-
-  candidate   Candidate   @relation(fields: [candidateName], references: [name])
-  actionGroup ActionGroup @relation(fields: [actionGroupName], references: [name])
+  orderIndex      Int?        @map("order_index")
+  actionGroupName String      @map("action_group_name")
+  candidateName   String      @map("candidate_name")
+  actionGroup     ActionGroup @relation(fields: [actionGroupName], references: [name])
+  candidate       Candidate   @relation(fields: [candidateName], references: [name])
 
   @@index([candidateName, orderIndex])
   @@index([actionGroupName])
@@ -295,15 +252,14 @@ model CandidateCareerAction {
 }
 
 model CandidateRecentAction {
-  id              String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  candidateName   String  @map("candidate_name")
+  id              String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title           String
-  actionGroupName String  @map("action_group_name")
   description     String?
-  orderIndex      Int?    @map("order_index")
-
-  candidate   Candidate   @relation(fields: [candidateName], references: [name])
-  actionGroup ActionGroup @relation(fields: [actionGroupName], references: [name])
+  orderIndex      Int?        @map("order_index")
+  actionGroupName String      @map("action_group_name")
+  candidateName   String      @map("candidate_name")
+  actionGroup     ActionGroup @relation(fields: [actionGroupName], references: [name])
+  candidate       Candidate   @relation(fields: [candidateName], references: [name])
 
   @@index([candidateName, orderIndex])
   @@index([actionGroupName])
@@ -311,38 +267,31 @@ model CandidateRecentAction {
 }
 
 model PublicOpinion {
-  id            String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  candidateName String  @map("candidate_name")
-  sentiment     String // e.g. "Positive", "Negative", or change to Int if it's a score
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sentiment     String
   description   String?
-  orderIndex    Int?    @map("order_index")
-
-  candidate Candidate @relation(fields: [candidateName], references: [name])
+  orderIndex    Int?      @map("order_index")
+  candidateName String    @map("candidate_name")
+  candidate     Candidate @relation(fields: [candidateName], references: [name])
 
   @@index([candidateName, orderIndex])
   @@map("public_opinions")
 }
 
-// ---------------------------------------------------------
-// GLOSSARY
-// ---------------------------------------------------------
-
 model GlossaryCategory {
-  id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name String @unique
-
+  id    String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name  String         @unique
   terms GlossaryTerm[]
 
   @@map("glossary_categories")
 }
 
 model GlossaryTerm {
-  id                   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id                   String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title                String
-  glossaryCategoryName String @map("glossary_category_name")
   definition           String
-
-  category GlossaryCategory @relation(fields: [glossaryCategoryName], references: [name])
+  glossaryCategoryName String           @map("glossary_category_name")
+  category             GlossaryCategory @relation(fields: [glossaryCategoryName], references: [name])
 
   @@index([glossaryCategoryName])
   @@map("glossary_terms")

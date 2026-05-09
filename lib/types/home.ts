@@ -21,3 +21,23 @@ export type MandatesChartData = {
   parties: MandatesChartParty[];
   blocs: MandatesBlocSummary[];
 };
+
+export type MandatesChartProps = {
+  data: MandatesChartParty[];
+  blocs?: MandatesBlocSummary[];
+  lastUpdatedAt?: Date;
+};
+
+export type MandatesChartRowProps = {
+  party: MandatesChartParty;
+  maxMandates: number;
+  index: number;
+};
+
+export type BlocsGaugeProps = {
+  blocs: MandatesBlocSummary[];
+};
+
+export type BlocTileProps = {
+  bloc: MandatesBlocSummary;
+};

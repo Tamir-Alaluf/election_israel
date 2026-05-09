@@ -16,7 +16,7 @@ export type PageHeaderNavItem = {
 
 export const pageHeaderNavItems: PageHeaderNavItem[] = [
   { href: "/", label: "ראשי", icon: Home },
-  { href: "/parties", label: "מפלגות", icon: Users },
+  // { href: "/parties", label: "מפלגות", icon: Users },
   { href: "/candidates", label: "מועמדים", icon: UserCircle },
   { href: "/glossary", label: "מילון בחירות", icon: BookOpen },
   {

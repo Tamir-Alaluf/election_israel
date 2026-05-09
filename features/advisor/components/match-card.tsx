@@ -89,7 +89,7 @@ export function AdvisorMatchCard({
 
       <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
         <Button variant="outline" size="sm" className="rounded-xl" asChild>
-          <Link href="/parties">פרטי מפלגה</Link>
+          <Link href="/candidates">פרטי מועמד</Link>
         </Button>
         <Button
           type="button"

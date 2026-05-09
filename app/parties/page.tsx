@@ -1,5 +1,6 @@
-import { PartyComparisonGrid } from "@/features/parties/components/party-comparison-grid";
-import { getPartyPageData } from "@/lib/utils/parties";
+// import { PartyComparisonGrid } from "@/features/parties/components/party-comparison-grid";
+// import { getPartyPageData } from "@/lib/utils/parties";
+import { notFound } from "next/navigation";
 
 export const metadata = {
   title: "השוואת מפלגות | בחירות 2026",
@@ -9,13 +10,14 @@ export const metadata = {
 export const dynamic = "force-static";
 
 export default async function PartiesPage() {
-  const { parties, filterMeta } = await getPartyPageData();
+  // const { parties, filterMeta } = await getPartyPageData();
 
-  return (
-    <div className="min-h-screen relative">
-      <main className="max-w-md mx-auto px-5 py-8">
-        <PartyComparisonGrid parties={parties} filterMeta={filterMeta} />
-      </main>
-    </div>
-  );
+  // return (
+  //   <div className="min-h-screen relative">
+  //     <main className="max-w-md mx-auto px-5 py-8">
+  //       <PartyComparisonGrid parties={parties} filterMeta={filterMeta} />
+  //     </main>
+  //   </div>
+  // );
+  return notFound();
 }

@@ -99,3 +99,13 @@ export async function getMandatesChartData(): Promise<MandatesChartData> {
 
   return { parties, blocs };
 }
+
+export function formatHebrewDate(date: Date) {
+  return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+}
+
+export function getInitials(name: string) {
+  const cleaned = name.trim();
+  if (!cleaned) return "";
+  return cleaned.slice(0, 2);
+}

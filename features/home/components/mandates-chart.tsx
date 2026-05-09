@@ -17,26 +17,12 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils/utils";
 import type {
-  MandatesBlocSummary,
-  MandatesChartParty,
+  BlocTileProps,
+  BlocsGaugeProps,
+  MandatesChartProps,
+  MandatesChartRowProps,
 } from "@/lib/types/home";
-
-type MandatesChartProps = {
-  data: MandatesChartParty[];
-  blocs?: MandatesBlocSummary[];
-  /** When the poll was last updated. Defaults to today. */
-  lastUpdatedAt?: Date;
-};
-
-function formatHebrewDate(date: Date) {
-  return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
-}
-
-function getInitials(name: string) {
-  const cleaned = name.trim();
-  if (!cleaned) return "";
-  return cleaned.slice(0, 2);
-}
+import { formatHebrewDate, getInitials } from "@/lib/utils/home";
 
 export function MandatesChart({
   data,
@@ -68,6 +54,7 @@ export function MandatesChart({
         חלוקת מנדטים לפי סקרים
       </p>
 
+      {/* on hover, show the party name and the number of mandates in hebrew */}
       <ul className="sr-only">
         {data.map((d) => (
           <li key={`sr-${d.key}`}>
@@ -78,7 +65,7 @@ export function MandatesChart({
       </ul>
 
       <TooltipProvider>
-        <ol className="flex flex-col gap-2.5" aria-hidden="true">
+        <ol className="flex w-full flex-col gap-2.5" aria-hidden="true">
           {data.map((party, index) => (
             <MandatesChartRow
               key={party.key}
@@ -99,12 +86,6 @@ export function MandatesChart({
   );
 }
 
-type MandatesChartRowProps = {
-  party: MandatesChartParty;
-  maxMandates: number;
-  index: number;
-};
-
 function MandatesChartRow({
   party,
   maxMandates,
@@ -116,20 +97,24 @@ function MandatesChartRow({
     : `${party.name}: ${party.mandates} מנדטים`;
 
   return (
-    <li>
+    <li className="w-full">
       <Tooltip>
         <TooltipTrigger asChild>
           <div
             tabIndex={0}
             role="img"
             aria-label={ariaLabel}
+            dir="ltr"
             className={cn(
-              "grid items-center gap-2.5 rounded-md outline-none",
-              "grid-cols-[minmax(7rem,10rem)_2.25rem_1fr]",
+              "flex w-full items-center rounded-md outline-none",
               "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
             )}
           >
-            <div className="text-right text-[11px] sm:text-xs font-medium leading-tight text-foreground/90">
+            {/*party name and leader name*/}
+            <div
+              dir="ltr"
+              className="w-[26%] shrink-0 text-right text-[11px] font-medium leading-tight text-foreground/90 sm:text-xs px-2"
+            >
               <span className="block">{party.name}</span>
               {party.leader ? (
                 <span className="block text-muted-foreground">
@@ -138,13 +123,14 @@ function MandatesChartRow({
               ) : null}
             </div>
 
-            <div className="relative h-9 w-9 overflow-hidden rounded-md border border-border bg-muted">
+            {/* leader image */}
+            <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-md border border-border bg-muted">
               {party.leaderImage ? (
                 <Image
                   src={party.leaderImage}
                   alt=""
                   fill
-                  sizes="36px"
+                  sizes="44px"
                   className="object-cover"
                 />
               ) : (
@@ -157,21 +143,33 @@ function MandatesChartRow({
               )}
             </div>
 
-            <div className="flex h-7 items-center" role="presentation">
-              <motion.div
-                className="h-full rounded-md"
-                style={{ backgroundColor: "var(--primary)" }}
-                initial={{ width: 0 }}
-                animate={{ width: `${widthPct}%` }}
-                transition={{
-                  duration: 0.7,
-                  ease: "easeOut",
-                  delay: 0.05 * index,
-                }}
-              />
-              <span className="px-2 text-sm font-semibold tabular-nums text-foreground">
+            {/* mandates bar */}
+            <div
+              className="ms-2 flex min-w-0 flex-1 items-center gap-2.5"
+              role="presentation"
+              dir="ltr"
+            >
+              {/* mandates bar background */}
+              <div className="relative h-7 flex-1 overflow-hidden  bg-primary/0">
+                {/* mandates bar progress */}
+                <motion.div
+                  className="h-full  bg-primary"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${widthPct}%` }}
+                  transition={{
+                    duration: 0.7,
+                    ease: "easeOut",
+                    delay: 0.05 * index,
+                  }}
+                />
+              </div>
+
+              {/* mandates number */}
+              <span className="w-8 shrink-0 text-sm font-semibold tabular-nums text-foreground">
                 {party.mandates}
               </span>
+
+              {/* end of div */}
             </div>
           </div>
         </TooltipTrigger>
@@ -182,10 +180,6 @@ function MandatesChartRow({
     </li>
   );
 }
-
-type BlocsGaugeProps = {
-  blocs: MandatesBlocSummary[];
-};
 
 function BlocsGauge({ blocs }: BlocsGaugeProps) {
   if (blocs.length === 0) return null;
@@ -284,10 +278,6 @@ function BlocsGauge({ blocs }: BlocsGaugeProps) {
     </section>
   );
 }
-
-type BlocTileProps = {
-  bloc: MandatesBlocSummary;
-};
 
 function BlocTile({ bloc }: BlocTileProps) {
   return (
