@@ -1,0 +1,216 @@
+{
+  "parties": [
+    {
+      "name": "חד״ש-תע״ל",
+      "mandates": 5,
+      "vision": "רשימה יהודית-ערבית סוציאליסטית הדוגלת בשוויון אזרחי ולאומי מלא, סיום הכיבוש, הקמת מדינה פלסטינית לצד ישראל, וצדק חברתי וסביבתי.",
+      "imageUrl": "/parties/hadash-taal.svg",
+      "candidateName": "איימן עודה"
+    }
+  ],
+  "candidates": [
+    {
+      "name": "איימן עודה",
+      "partyName": "חד״ש-תע״ל",
+      "vision": "הובלת מאבק משותף ליהודים וערבים נגד הגזענות והאפליה, חתירה לשלום צודק וקידום זכויות העובדים והשכבות המוחלשות.",
+      "image": "/candidates/ayman_odeh.png"
+    }
+  ],
+  "partyMembers": [
+    {
+      "name": "איימן עודה",
+      "orderIndex": 0,
+      "partyName": "חד״ש-תע״ל"
+    },
+    {
+      "name": "אחמד טיבי",
+      "orderIndex": 1,
+      "partyName": "חד״ש-תע״ל"
+    },
+    {
+      "name": "עופר כסיף",
+      "orderIndex": 2,
+      "partyName": "חד״ש-תע״ל"
+    }
+  ],
+  "partyBaseTopics": [
+    {
+      "partyName": "חד״ש-תע״ל",
+      "baseTopicTitle": "סוג מפלגה",
+      "baseTopicOptionDisplayValue": "ערבית",
+      "description": "רשימה המורכבת ממפלגה קומוניסטית יהודית-ערבית (חד\"ש) ומפלגה לאומית ערבית (תע\"ל)."
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "baseTopicTitle": "גישה ביטחונית",
+      "baseTopicOptionDisplayValue": "שמאל",
+      "description": "התנגדות עקרונית לכיבוש, דרישה לנסיגה מלאה לקווי 67' ופירוק התנחלויות."
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "baseTopicTitle": "גישה כלכלית",
+      "baseTopicOptionDisplayValue": "שמאל כלכלי",
+      "description": "אידיאולוגיה סוציאליסטית המקדמת הלאמת משאבים, חיזוק איגודי עובדים ומיסוי כבד על העשירון העליון."
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "baseTopicTitle": "שילוב חרדים בממשלה",
+      "baseTopicOptionDisplayValue": "לא",
+      "description": "התנגדות לישיבה בממשלה המקדמת מדיניות ימין או כפייה דתית."
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "baseTopicTitle": "שילוב ערבים בממשלה",
+      "baseTopicOptionDisplayValue": "לא",
+      "description": "נמנעת היסטורית מהצטרפות לקואליציות ציוניות, פועלת מהאופוזיציה או דרך תמיכה מבחוץ (גוש חוסם)."
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "baseTopicTitle": "גוש",
+      "baseTopicOptionDisplayValue": "חד״ש-תע״ל ורע״מ",
+      "description": "מפלגה עצמאית המהווה ציר נפרד מהגושים הציוניים המרכזיים."
+    }
+  ],
+  "partyLegislations": [
+    {
+      "partyName": "חד״ש-תע״ל",
+      "legislationTitle": "חוק סבסוד השכלה גבוהה / תואר ראשון חינם",
+      "optionDisplayValue": "בעד"
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "legislationTitle": "חוק החמץ בבתי חולים",
+      "optionDisplayValue": "נגד"
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "legislationTitle": "העלאת שכר המינימום ל-7,000 ש\"ח",
+      "optionDisplayValue": "בעד"
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "legislationTitle": "חוק חינוך חינם מגיל 0-3",
+      "optionDisplayValue": "בעד"
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "legislationTitle": "תחבורה ציבורית בשבת",
+      "optionDisplayValue": "בעד"
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "legislationTitle": "חוק העמותות",
+      "optionDisplayValue": "נגד"
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "legislationTitle": "פסקת ההתגברות",
+      "optionDisplayValue": "נגד"
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "legislationTitle": "חוק פיצול תפקיד היועמ\"ש",
+      "optionDisplayValue": "נגד"
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "legislationTitle": "חוק עונש מוות למחבלים",
+      "optionDisplayValue": "נגד"
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "legislationTitle": "החלת ריבונות ביו\"ש (סיפוח)",
+      "optionDisplayValue": "נגד"
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "legislationTitle": "ביטול עילת הסבירות",
+      "optionDisplayValue": "נגד"
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "legislationTitle": "חוק הגיוס",
+      "optionDisplayValue": "נגד"
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "legislationTitle": "חוק גירוש משפחות מחבלים",
+      "optionDisplayValue": "נגד"
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "legislationTitle": "חוק פיקוח על שכר הדירה",
+      "optionDisplayValue": "בעד"
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "legislationTitle": "חוק נישואין אזרחיים / ברית הזוגיות",
+      "optionDisplayValue": "בעד"
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "legislationTitle": "חוק השידורים",
+      "optionDisplayValue": "נגד"
+    }
+  ],
+  "recentActions": [
+    {
+      "partyName": "חד״ש-תע״ל",
+      "actionGroupName": "ביטחון ומדיניות",
+      "title": "הצגת תוכנית לסיום המלחמה",
+      "description": "קידום יוזמות בינלאומיות להפסקת אש מיידית וחילופי שבויים ואסירים.",
+      "orderIndex": 0
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "actionGroupName": "חברה וכלכלה",
+      "title": "מאבק בתקציב המדינה",
+      "description": "הובלת התנגדות לקיצוצים בשירותים החברתיים ולתוספות התקציב להתנחלויות.",
+      "orderIndex": 1
+    }
+  ],
+  "futurePromises": [
+    {
+      "partyName": "חד״ש-תע״ל",
+      "actionGroupName": "חברה וכלכלה",
+      "title": "חוק שוויון לאומי",
+      "description": "חקיקת חוק יסוד המעגן את השוויון המלא בין כל אזרחי המדינה וביטול חוק הלאום.",
+      "orderIndex": 0
+    },
+    {
+      "partyName": "חד״ש-תע״ל",
+      "actionGroupName": "משפט וממשל",
+      "title": "מיגור הפשיעה והנשק הלא חוקי",
+      "description": "דרישה לתוכנית חירום ממשלתית לאיסוף נשק ופירוק משפחות הפשע בחברה הערבית.",
+      "orderIndex": 1
+    }
+  ],
+  "candidateProfessionals": [
+    {
+      "candidateName": "איימן עודה",
+      "groupName": "מגזר פרטי",
+      "title": "עורך דין",
+      "startYear": 2001,
+      "endYear": 2006,
+      "description": "עסק בעריכת דין בטרם נבחר למועצת העיר חיפה ולאחר מכן לכנסת."
+    }
+  ],
+  "candidateCareerActions": [
+    {
+      "candidateName": "איימן עודה",
+      "actionGroupName": "חברה וכלכלה",
+      "title": "הובלת 'הרשימה המשותפת'",
+      "description": "איחוד המפלגות הערביות והובלתן להישג היסטורי של 15 מנדטים.",
+      "orderIndex": 0
+    }
+  ],
+  "candidateRecentActions": [
+    {
+      "candidateName": "איימן עודה",
+      "actionGroupName": "משפט וממשל",
+      "title": "מאבק נגד הגזענות",
+      "description": "הובלת צעדות ומחאות נגד אפליה ממסדית ואלימות משטרתית כלפי אזרחים ערבים.",
+      "orderIndex": 0
+    }
+  ]
+}

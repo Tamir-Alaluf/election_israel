@@ -1,4 +1,4 @@
-import { FILTER_BASE_TOPIC_TITLES } from "@/lib/constants/parties";
+import { BASE_TOPIC } from "@/lib/constants/parties";
 import { prisma } from "@/lib/utils/prisma";
 import type {
   LeaderActionItem,
@@ -129,11 +129,11 @@ export async function getLeadersForComparison(): Promise<
     values: {
       securityApproach: partyTopicDisplay(
         c.party.baseTopics,
-        FILTER_BASE_TOPIC_TITLES.security,
+        BASE_TOPIC.security,
       ),
       economicApproach: partyTopicDisplay(
         c.party.baseTopics,
-        FILTER_BASE_TOPIC_TITLES.economy,
+        BASE_TOPIC.economy,
       ),
       bloc: partyTopicDisplay(c.party.baseTopics, BLOC_BASE_TOPIC_TITLE),
     },

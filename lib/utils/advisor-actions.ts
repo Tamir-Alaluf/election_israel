@@ -18,7 +18,7 @@ import {
   buildAdvisorElectionContext,
   buildAdvisorFollowUpSystemContext,
 } from "@/lib/utils/advisor-context";
-import { FILTER_BASE_TOPIC_TITLES } from "@/lib/constants/parties";
+import { BASE_TOPIC } from "@/lib/constants/parties";
 import type {
   AdvisorAiQuestion,
   AdvisorAxisSnapshot,
@@ -160,13 +160,11 @@ export async function computeAdvisorMatching(
   const leaderRows = leaders.map((leader) => {
     const party = leader.party;
     const securityVal =
-      party.baseTopics.find(
-        (t) => t.baseTopicTitle === FILTER_BASE_TOPIC_TITLES.security,
-      )?.baseTopicOptionDisplayValue ?? null;
+      party.baseTopics.find((t) => t.baseTopicTitle === BASE_TOPIC.security)
+        ?.baseTopicOptionDisplayValue ?? null;
     const economyVal =
-      party.baseTopics.find(
-        (t) => t.baseTopicTitle === FILTER_BASE_TOPIC_TITLES.economy,
-      )?.baseTopicOptionDisplayValue ?? null;
+      party.baseTopics.find((t) => t.baseTopicTitle === BASE_TOPIC.economy)
+        ?.baseTopicOptionDisplayValue ?? null;
     return {
       leader,
       party,

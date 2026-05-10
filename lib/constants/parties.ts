@@ -19,29 +19,69 @@ export const partyComparisonParameterLabels: string[] = [
  * Base topic titles in the DB that power the three primary comparison filters.
  * They must match `BaseTopic.title` values in Postgres.
  */
-export const FILTER_BASE_TOPIC_TITLES = {
+export const BASE_TOPIC = {
   type: "סוג מפלגה",
   security: "גישה ביטחונית",
   economy: "גישה כלכלית",
+  arabs: "שילוב ערבים בממשלה",
+  jews: "שילוב חרדים בממשלה",
+  bloc: "גוש",
+} as const;
+
+export const BASE_TOPICS_OPTIONS_BY_TITLE = {
+  [BASE_TOPIC.type]: ["חילונית", "חרדית", "ערבית"],
+  [BASE_TOPIC.security]: ["ימין", "מרכז ימין", "מרכז שמאל", "שמאל"],
+  [BASE_TOPIC.economy]: ["ימין כלכלי", "מרכז", "שמאל כלכלי"],
+  [BASE_TOPIC.arabs]: ["כן", "לא", "חלקי"],
+  [BASE_TOPIC.jews]: ["כן", "לא", "חלקי"],
+  [BASE_TOPIC.bloc]: ["גוש נתניהו", "גוש אופוזיציה", "חד״ש-תע״ל ורע״מ"],
 } as const;
 
 /** Order for the "מאפייני מפלגה" table (extended attributes follow). */
 export const ATTRIBUTE_BASE_TOPIC_ORDER: string[] = [
-  FILTER_BASE_TOPIC_TITLES.type,
-  FILTER_BASE_TOPIC_TITLES.security,
-  FILTER_BASE_TOPIC_TITLES.economy,
-  "שילוב חרדים בממשלה",
-  "שילוב ערבים בממשלה",
+  BASE_TOPIC.type,
+  BASE_TOPIC.security,
+  BASE_TOPIC.economy,
+  BASE_TOPIC.jews,
+  BASE_TOPIC.arabs,
+  BASE_TOPIC.bloc,
 ];
 
+export const ACTION_GROUP_NAMES = {
+  security: "ביטחון ומדיניות",
+  economy: "חברה וכלכלה",
+  judiciary: "משפט וממשל",
+  religion: "דת ומדינה",
+} as const;
+
+export const PARTY_LEGISLATION = [
+  "חוק סבסוד השכלה גבוהה / תואר ראשון חינם",
+  "חוק החמץ בבתי חולים",
+  'העלאת שכר המינימום ל-7,000 ש"ח',
+  "חוק חינוך חינם מגיל 0-3",
+  "תחבורה ציבורית בשבת",
+  "חוק העמותות",
+  "פסקת ההתגברות",
+  'חוק פיצול תפקיד היועמ"ש',
+  "חוק עונש מוות למחבלים",
+  'החלת ריבונות ביו"ש (סיפוח)',
+  "ביטול עילת הסבירות",
+  "חוק הגיוס",
+  "חוק גירוש משפחות מחבלים",
+  "חוק פיקוח על שכר הדירה",
+  "חוק נישואין אזרחיים / ברית הזוגיות",
+  "חוק השידורים",
+];
+export const PARTY_LEGISLATION_OPTIONS = ["בעד", "נגד"] as const;
+
 const partyRecentActionCategoryBadgeClass: Record<string, string> = {
-  "ביטחון ומדיניות":
+  [ACTION_GROUP_NAMES.security]:
     "border-sky-500/35 bg-sky-500/10 text-sky-950 dark:text-sky-100",
-  "חברה וכלכלה":
+  [ACTION_GROUP_NAMES.economy]:
     "border-emerald-500/35 bg-emerald-500/10 text-emerald-950 dark:text-emerald-100",
-  "משפט וממשל":
+  [ACTION_GROUP_NAMES.judiciary]:
     "border-violet-500/35 bg-violet-500/10 text-violet-950 dark:text-violet-100",
-  "דת ומדינה":
+  [ACTION_GROUP_NAMES.religion]:
     "border-amber-500/40 bg-amber-500/10 text-amber-950 dark:text-amber-100",
 };
 

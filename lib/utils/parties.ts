@@ -3,7 +3,7 @@ import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/utils/prisma";
 import {
   ATTRIBUTE_BASE_TOPIC_ORDER,
-  FILTER_BASE_TOPIC_TITLES,
+  BASE_TOPIC,
 } from "@/lib/constants/parties";
 import type {
   PartyComparisonRow,
@@ -126,18 +126,9 @@ async function getPartyFilterMetadata(): Promise<PartyPageFilterMeta> {
     }),
   ]);
 
-  const typeBaseTopic = blockForTitle(
-    FILTER_BASE_TOPIC_TITLES.type,
-    baseTopicRows,
-  );
-  const securityBaseTopic = blockForTitle(
-    FILTER_BASE_TOPIC_TITLES.security,
-    baseTopicRows,
-  );
-  const economyBaseTopic = blockForTitle(
-    FILTER_BASE_TOPIC_TITLES.economy,
-    baseTopicRows,
-  );
+  const typeBaseTopic = blockForTitle(BASE_TOPIC.type, baseTopicRows);
+  const securityBaseTopic = blockForTitle(BASE_TOPIC.security, baseTopicRows);
+  const economyBaseTopic = blockForTitle(BASE_TOPIC.economy, baseTopicRows);
 
   const attributeTopics = sortAttributeTopics(
     baseTopicRows.map((t) => t.title),
