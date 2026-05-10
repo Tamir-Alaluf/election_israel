@@ -1,6 +1,7 @@
 "use client";
 
 import type { Dispatch, SetStateAction } from "react";
+import { BLOC_DEFINITIONS, BLOC_ORDER } from "@/lib/constants/blocs";
 import { PROFESSIONAL_BACKGROUND_GROUPS } from "@/lib/constants/candidates";
 
 type SetStringArrayState = Dispatch<SetStateAction<string[]>>;
@@ -67,11 +68,10 @@ export function getLeaderComparisonFilters({
       onValuesChange: setBlocFilter,
       placeholder: "גוש",
       multiSelect: true as const,
-      options: [
-        { value: "גוש נתניהו", label: "גוש נתניהו" },
-        { value: "גוש אופוזיציה", label: "גוש אופוזיציה" },
-        { value: "מפלגות ערביות", label: "מפלגות ערביות" },
-      ],
+      options: BLOC_ORDER.map((key) => ({
+        value: BLOC_DEFINITIONS[key].value,
+        label: BLOC_DEFINITIONS[key].label,
+      })),
     },
   ];
 }

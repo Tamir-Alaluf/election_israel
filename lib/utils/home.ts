@@ -1,30 +1,16 @@
 import {
   BLOC_BASE_TOPIC_TITLE,
   BLOC_META,
-  MANDATES_CHART_PALETTE,
-} from "@/lib/constants/style";
+  BLOC_ORDER,
+  blocKeyFromDisplayValue,
+} from "@/lib/constants/blocs";
+import { MANDATES_CHART_PALETTE } from "@/lib/constants/style";
 import type {
   MandatesBlocSummary,
   MandatesChartData,
   MandatesChartParty,
 } from "@/lib/types/home";
 import { prisma } from "@/lib/utils/prisma";
-
-function mapBlocKey(value: string): MandatesBlocSummary["key"] | null {
-  const normalized = value.trim();
-  if (!normalized) return null;
-  if (normalized === "גוש נתניהו") return "netanyahu";
-  if (normalized === "גוש אופוזיציה" || normalized === "אופוזיציה")
-    return "opposition";
-  if (
-    normalized === "מפלגות ערביות" ||
-    normalized === "חד״ש-תע״ל ורע״ם" ||
-    normalized === 'חד"ש-תע"ל ורע"ם'
-  ) {
-    return "arabParties";
-  }
-  return null;
-}
 
 function pickBlocValue(
   topics: { baseTopicTitle: string; baseTopicOptionDisplayValue: string }[],
@@ -34,7 +20,7 @@ function pickBlocValue(
   );
   if (blocTopic) return blocTopic.baseTopicOptionDisplayValue;
   const fallback = topics.find((topic) =>
-    mapBlocKey(topic.baseTopicOptionDisplayValue),
+    blocKeyFromDisplayValue(topic.baseTopicOptionDisplayValue),
   );
   return fallback?.baseTopicOptionDisplayValue ?? null;
 }
@@ -61,6 +47,7 @@ export async function getMandatesChartData(): Promise<MandatesChartData> {
     .filter((r): r is typeof r & { mandates: number } => r.mandates != null)
     .sort((a, b) => b.mandates - a.mandates);
 
+  /** map the sorted rows to MandatesChartParty */
   const parties: MandatesChartParty[] = sorted.map((r, i) => ({
     key: r.id,
     name: r.name,
@@ -70,23 +57,24 @@ export async function getMandatesChartData(): Promise<MandatesChartData> {
     color: MANDATES_CHART_PALETTE[i % MANDATES_CHART_PALETTE.length],
   }));
 
+  // calculate the total mandates for each bloc
   const blocTotals: Record<MandatesBlocSummary["key"], number> = {
     netanyahu: 0,
     opposition: 0,
     arabParties: 0,
   };
 
+  /** calculate the total mandates for each bloc */
   for (const row of sorted) {
     const blocValue = pickBlocValue(row.baseTopics);
     if (!blocValue) continue;
-    const blocKey = mapBlocKey(blocValue);
+    const blocKey = blocKeyFromDisplayValue(blocValue);
     if (!blocKey) continue;
     blocTotals[blocKey] += row.mandates;
   }
 
-  const blocs: MandatesBlocSummary[] = (
-    Object.keys(BLOC_META) as MandatesBlocSummary["key"][]
-  ).map((key) => {
+  /** map the blocs to MandatesBlocSummary */
+  const blocs: MandatesBlocSummary[] = BLOC_ORDER.map((key) => {
     const mandates = blocTotals[key];
     return {
       key,

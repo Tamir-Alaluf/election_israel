@@ -1,5 +1,9 @@
-import { cn } from "@/lib/utils/utils";
+import {
+  BLOC_BASE_TOPIC_TITLE,
+  BLOC_DB_VALUES_ORDERED,
+} from "@/lib/constants/blocs";
 import { comparisonBadgeClassName } from "@/lib/constants/style";
+import { cn } from "@/lib/utils/utils";
 
 export const partyComparisonParameterLabels: string[] = [
   "סוג מפלגה",
@@ -25,7 +29,7 @@ export const BASE_TOPIC = {
   economy: "גישה כלכלית",
   arabs: "שילוב ערבים בממשלה",
   jews: "שילוב חרדים בממשלה",
-  bloc: "גוש",
+  bloc: BLOC_BASE_TOPIC_TITLE,
 } as const;
 
 export const BASE_TOPICS_OPTIONS_BY_TITLE = {
@@ -34,7 +38,7 @@ export const BASE_TOPICS_OPTIONS_BY_TITLE = {
   [BASE_TOPIC.economy]: ["ימין כלכלי", "מרכז", "שמאל כלכלי"],
   [BASE_TOPIC.arabs]: ["כן", "לא", "חלקי"],
   [BASE_TOPIC.jews]: ["כן", "לא", "חלקי"],
-  [BASE_TOPIC.bloc]: ["גוש נתניהו", "גוש אופוזיציה", "חד״ש-תע״ל ורע״מ"],
+  [BASE_TOPIC.bloc]: BLOC_DB_VALUES_ORDERED,
 } as const;
 
 /** Order for the "מאפייני מפלגה" table (extended attributes follow). */

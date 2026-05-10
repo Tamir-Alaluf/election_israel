@@ -1,6 +1,5 @@
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils/utils";
-import type { MandatesBlocSummary } from "@/lib/types/home";
 
 export const MANDATES_CHART_PALETTE = [
   "#0066cc",
@@ -11,17 +10,6 @@ export const MANDATES_CHART_PALETTE = [
   "#000080",
   "#64748b",
 ] as const;
-
-export const BLOC_BASE_TOPIC_TITLE = "גוש";
-
-export const BLOC_META: Record<
-  MandatesBlocSummary["key"],
-  { label: string; color: string }
-> = {
-  netanyahu: { label: "גוש נתניהו", color: "#004B8D" },
-  opposition: { label: "אופוזיציה", color: "#F59E0B" },
-  arabParties: { label: "חד״ש-תע״ל ורע״ם", color: "#BFD8FF" },
-};
 
 /**
  * צבעי תג ערך: לשעבר אדום → כחול, לשעבר ירוק → סגול, צהוב נשאר צהוב.

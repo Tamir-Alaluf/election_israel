@@ -25,11 +25,11 @@ import type {
 import { formatHebrewDate, getInitials } from "@/lib/utils/home";
 
 export function MandatesChart({
-  data,
+  data: parties,
   blocs = [],
   lastUpdatedAt,
 }: MandatesChartProps) {
-  if (data.length === 0) {
+  if (parties.length === 0) {
     return (
       <div className="glass-card rounded-2xl p-5">
         <h2 className="text-base font-semibold text-foreground mb-1 text-center">
@@ -42,7 +42,7 @@ export function MandatesChart({
     );
   }
 
-  const maxMandates = Math.max(...data.map((d) => d.mandates));
+  const maxMandates = Math.max(...parties.map((d) => d.mandates));
   const updatedAt = lastUpdatedAt ?? new Date();
 
   return (
@@ -56,7 +56,7 @@ export function MandatesChart({
 
       {/* on hover, show the party name and the number of mandates in hebrew */}
       <ul className="sr-only">
-        {data.map((d) => (
+        {parties.map((d) => (
           <li key={`sr-${d.key}`}>
             {d.name}
             {d.leader ? ` בראשות ${d.leader}` : ""}: {d.mandates} מנדטים
@@ -66,7 +66,7 @@ export function MandatesChart({
 
       <TooltipProvider>
         <ol className="flex w-full flex-col gap-2.5" aria-hidden="true">
-          {data.map((party, index) => (
+          {parties.map((party, index) => (
             <MandatesChartRow
               key={party.key}
               party={party}

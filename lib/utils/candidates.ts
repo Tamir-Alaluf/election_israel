@@ -1,3 +1,5 @@
+import { inspect } from "node:util";
+
 import { BASE_TOPIC } from "@/lib/constants/parties";
 import { prisma } from "@/lib/utils/prisma";
 import type {
@@ -6,8 +8,7 @@ import type {
   LeaderEducationItem,
   LeaderProfessionalItem,
 } from "@/lib/types/candidates";
-
-const BLOC_BASE_TOPIC_TITLE = "גוש";
+import { CandidateWithParty } from "../types/advisor";
 
 function partyTopicDisplay(
   topics: { baseTopicTitle: string; baseTopicOptionDisplayValue: string }[],
@@ -115,7 +116,23 @@ export async function getLeadersForComparison(): Promise<
     orderBy: { name: "asc" },
   });
 
-  return candidates.map((c) => ({
+  candidates.forEach(printCandidate);
+  return candidates.map((c) => mapCandidate(c));
+}
+function printCandidate(c: CandidateWithParty): void {
+  console.log(
+    inspect(c, {
+      depth: null,
+      colors: true,
+      compact: false,
+      maxArrayLength: null,
+      maxStringLength: null,
+    }),
+  );
+}
+
+function mapCandidate(c: CandidateWithParty): LeaderComparisonRow {
+  return {
     id: c.id,
     name: c.name,
     party: c.partyName,
@@ -135,9 +152,9 @@ export async function getLeadersForComparison(): Promise<
         c.party.baseTopics,
         BASE_TOPIC.economy,
       ),
-      bloc: partyTopicDisplay(c.party.baseTopics, BLOC_BASE_TOPIC_TITLE),
+      bloc: partyTopicDisplay(c.party.baseTopics, BASE_TOPIC.bloc),
     },
-  }));
+  };
 }
 
 export function getLeaderPartyOptions(

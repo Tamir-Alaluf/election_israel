@@ -7,7 +7,9 @@ export type MandatesChartParty = {
   color: string;
 };
 
-export type MandatesBlocKey = "netanyahu" | "opposition" | "arabParties";
+import type { MandatesBlocKey } from "@/lib/constants/blocs";
+
+export type { MandatesBlocKey };
 
 export type MandatesBlocSummary = {
   key: MandatesBlocKey;
