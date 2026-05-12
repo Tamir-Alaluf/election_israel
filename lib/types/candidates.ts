@@ -23,15 +23,33 @@ export type LeaderActionItem = {
 };
 
 export type LeaderValues = {
+  type: string;
   securityApproach: string;
   economicApproach: string;
+  arabs: string;
+  jews: string;
   bloc: string;
+};
+
+export type LeaderLegislationItem = {
+  legislation: {
+    title: string;
+    group: string;
+  };
+  option: string;
+};
+
+export type LeaderFuturePromiseItem = {
+  title: string;
+  description: string | null;
+  category: string;
+  orderIndex: number | null;
 };
 
 export type LeaderComparisonRow = {
   id: string;
   name: string;
-  party: string;
+  partyName: string;
   image: string | null;
   color: string | null;
   vision: string | null;
@@ -40,4 +58,6 @@ export type LeaderComparisonRow = {
   careerAchievements: LeaderActionItem[];
   recentActions: LeaderActionItem[];
   values: LeaderValues;
+  legislations: LeaderLegislationItem[];
+  futurePromises: LeaderFuturePromiseItem[];
 };

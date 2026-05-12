@@ -21,7 +21,7 @@ export function LeaderDialog({
       onClose={onClose}
       image={leader.image ?? ""}
       title={leader.name}
-      subtitle={leader.party}
+      subtitle={leader.partyName}
     >
       <LeaderDialogSections leader={leader} />
     </ComparisonDialogShell>

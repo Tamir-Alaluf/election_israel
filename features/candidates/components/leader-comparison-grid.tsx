@@ -32,7 +32,7 @@ export function LeaderComparisonGrid({ leaders }: LeaderComparisonGridProps) {
       filteredLeaders.map((leader) => ({
         id: leader.id,
         title: leader.name,
-        subtitle: leader.party,
+        subtitle: leader.partyName,
         image: leader.image ?? "",
         onClick: () => openLeader(leader),
       })),

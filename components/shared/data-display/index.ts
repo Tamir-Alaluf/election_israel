@@ -14,4 +14,4 @@ export { ComparisonFilters } from "./comparison-filters";
 export { ComparisonGrid } from "./comparison-grid";
 export { ComparisonEmptyState } from "./comparison-empty-state";
 export { ComparisonScaffold } from "./comparison-scaffold";
-export { useComparisonState } from "./use-comparison-state";
+export { useComparisonState } from "../../../lib/hooks/use-comparison-state";

@@ -1,10 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import {
-  PARTY_LAW_ISSUE_GROUPS,
-  type PartyPageFilterMeta,
-} from "@/lib/types/parties";
+import { PARTY_LAW_ISSUE_GROUPS } from "@/lib/constants/parties";
+import type { PartyPageFilterMeta } from "@/lib/types/parties";
 import { ValueBadge } from "@/lib/constants/style";
 import {
   type CarouselApi,

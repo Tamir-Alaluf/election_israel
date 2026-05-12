@@ -20,7 +20,7 @@ export function useLeaderComparisonFilters(
         const query = searchQuery.toLowerCase();
         if (
           !leader.name.toLowerCase().includes(query) &&
-          !leader.party.toLowerCase().includes(query)
+          !leader.partyName.toLowerCase().includes(query)
         ) {
           return false;
         }
@@ -73,12 +73,7 @@ export function useLeaderComparisonFilters(
         blocFilter,
         setBlocFilter,
       }),
-    [
-      securityFilter,
-      economyFilter,
-      professionalBackgroundFilter,
-      blocFilter,
-    ],
+    [securityFilter, economyFilter, professionalBackgroundFilter, blocFilter],
   );
 
   return { filteredLeaders, leaderFilterConfigs };

@@ -33,10 +33,3 @@ export type PartyPageFilterMeta = {
   attributesSectionTitle: string;
   issuesSectionTitle: string;
 };
-
-export const PARTY_LAW_ISSUE_GROUPS = [
-  "משפט וממשל",
-  "ביטחון ומדיניות",
-  "חברה וכלכלה",
-  "דת ומדינה",
-] as const;

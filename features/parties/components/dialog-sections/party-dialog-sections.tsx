@@ -6,7 +6,7 @@ import type {
 } from "@/lib/types/parties";
 import { SectionShell } from "@/features/parties/components/dialog-sections/section-shell";
 import { VisionSection } from "@/features/parties/components/dialog-sections/vision-section";
-import { RecentActionsSection } from "@/features/parties/components/dialog-sections/recent-actions-section";
+import { RecentActionsSection } from "@/components/shared/data-display/recent-actions-section";
 import { FuturePromisesSection } from "@/features/parties/components/dialog-sections/future-promises-section";
 import { MembersSection } from "@/features/parties/components/dialog-sections/members-section";
 import { AttributesSection } from "@/features/parties/components/dialog-sections/attributes-section";

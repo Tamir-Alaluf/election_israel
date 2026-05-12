@@ -58,6 +58,13 @@ export const ACTION_GROUP_NAMES = {
   religion: "דת ומדינה",
 } as const;
 
+export const PARTY_LAW_ISSUE_GROUPS = [
+  ACTION_GROUP_NAMES.judiciary,
+  ACTION_GROUP_NAMES.security,
+  ACTION_GROUP_NAMES.economy,
+  ACTION_GROUP_NAMES.religion,
+] as const;
+
 export const PARTY_LEGISLATION = [
   "חוק סבסוד השכלה גבוהה / תואר ראשון חינם",
   "חוק החמץ בבתי חולים",

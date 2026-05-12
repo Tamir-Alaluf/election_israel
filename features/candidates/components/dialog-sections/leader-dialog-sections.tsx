@@ -3,7 +3,7 @@ import { LeaderEducationSection } from "@/features/candidates/components/dialog-
 import { LeaderPositionsSection } from "@/features/candidates/components/dialog-sections/leader-positions-section";
 import { LeaderProfessionalSection } from "@/features/candidates/components/dialog-sections/leader-professional-section";
 import { LeaderVisionSection } from "@/features/candidates/components/dialog-sections/leader-vision-section";
-import { RecentActionsSection } from "@/features/parties/components/dialog-sections/recent-actions-section";
+import { RecentActionsSection } from "@/components/shared/data-display/recent-actions-section";
 
 export function LeaderDialogSections({
   leader,
@@ -12,7 +12,7 @@ export function LeaderDialogSections({
 }) {
   return (
     <>
-      <LeaderVisionSection vision={leader.vision} />
+      {/* <LeaderVisionSection vision={leader.vision} /> */}
 
       <LeaderEducationSection
         leaderId={leader.id}

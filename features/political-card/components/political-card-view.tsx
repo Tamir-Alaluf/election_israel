@@ -6,14 +6,22 @@ import { PoliticalCardShareable } from "./political-card-shareable";
 
 export type PoliticalCardViewProps = {
   priorities: PoliticalPriority[];
+  /** שם מועמד לטקסט שיתוף (אופציונלי) */
+  candidateLabel?: string;
 };
 
-export function PoliticalCardView({ priorities }: PoliticalCardViewProps) {
+export function PoliticalCardView({
+  priorities,
+  candidateLabel,
+}: PoliticalCardViewProps) {
   const sharePriorities = priorities.map(({ id, label }) => ({ id, label }));
 
   return (
     <div className="space-y-10 pt-16 pb-14">
-      <PoliticalCardShareable priorities={sharePriorities} />
+      <PoliticalCardShareable
+        priorities={sharePriorities}
+        candidateLabel={candidateLabel}
+      />
 
       <div className="space-y-5">
         <Button
