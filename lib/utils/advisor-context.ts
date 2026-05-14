@@ -140,16 +140,12 @@ function resolveLeaderParamValue(
   }
   if (normalized.includes("הישגים במהלך הקריירה")) {
     return listOrFallback(
-      leader.careerActions.map(
-        (c) => `${c.actionGroup.name}: ${c.title}`,
-      ),
+      leader.careerActions.map((c) => `${c.actionGroup.name}: ${c.title}`),
     );
   }
   if (normalized.includes("מה עשה מאז הבחירות")) {
     return listOrFallback(
-      leader.recentActions.map(
-        (r) => `${r.actionGroup.name}: ${r.title}`,
-      ),
+      leader.recentActions.map((r) => `${r.actionGroup.name}: ${r.title}`),
     );
   }
   if (normalized.includes("ביטחונית")) {
@@ -169,7 +165,10 @@ function resolveLeaderParamValue(
     );
   }
   if (normalized === "גוש") {
-    return firstTopicValue(leader.party.baseTopics, ["גוש"]) ?? MISSING_PARAM_FALLBACK;
+    return (
+      firstTopicValue(leader.party.baseTopics, ["גוש"]) ??
+      MISSING_PARAM_FALLBACK
+    );
   }
   if (normalized.includes("מנדטים")) {
     return leader.party.mandates != null

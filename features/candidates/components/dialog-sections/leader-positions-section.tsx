@@ -1,4 +1,4 @@
-import type { LeaderValues } from "@/lib/types/candidates";
+import type { BaseParameters } from "@/lib/types/candidates";
 import { AttributesSection } from "@/features/parties/components/dialog-sections/attributes-section";
 import { SectionShell } from "@/features/parties/components/dialog-sections/section-shell";
 
@@ -7,7 +7,7 @@ const POSITIONS = [
   { id: "economicApproach", label: "גישה כלכלית" },
 ] as const;
 
-export function LeaderPositionsSection({ values }: { values: LeaderValues }) {
+export function LeaderPositionsSection({ values }: { values: BaseParameters }) {
   return (
     <SectionShell title="עמדות" withSurface={false}>
       <AttributesSection

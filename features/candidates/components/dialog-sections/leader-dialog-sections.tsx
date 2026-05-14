@@ -1,4 +1,4 @@
-import type { LeaderComparisonRow } from "@/lib/types/candidates";
+import type { CandidateComparisonRow } from "@/lib/types/candidates";
 import { LeaderEducationSection } from "@/features/candidates/components/dialog-sections/leader-education-section";
 import { LeaderPositionsSection } from "@/features/candidates/components/dialog-sections/leader-positions-section";
 import { LeaderProfessionalSection } from "@/features/candidates/components/dialog-sections/leader-professional-section";
@@ -8,7 +8,7 @@ import { RecentActionsSection } from "@/components/shared/data-display/recent-ac
 export function LeaderDialogSections({
   leader,
 }: {
-  leader: LeaderComparisonRow;
+  leader: CandidateComparisonRow;
 }) {
   return (
     <>

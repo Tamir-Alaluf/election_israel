@@ -1,6 +1,6 @@
 "use client";
 
-import type { LeaderComparisonRow } from "@/lib/types/candidates";
+import type { CandidateComparisonRow } from "@/lib/types/candidates";
 import { ComparisonDialogShell } from "@/components/shared/data-display";
 import { LeaderDialogSections } from "@/features/candidates/components/dialog-sections";
 
@@ -9,7 +9,7 @@ export function LeaderDialog({
   open,
   onClose,
 }: {
-  leader: LeaderComparisonRow | null;
+  leader: CandidateComparisonRow | null;
   open: boolean;
   onClose: () => void;
 }) {

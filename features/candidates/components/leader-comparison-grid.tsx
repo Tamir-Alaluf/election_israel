@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import type { LeaderComparisonRow } from "@/lib/types/candidates";
+import type { CandidateComparisonRow } from "@/lib/types/candidates";
 import {
   ComparisonScaffold,
   type ComparisonGridRow,
@@ -11,7 +11,7 @@ import { LeaderDialog } from "@/features/candidates/components/dialog";
 import { useLeaderComparisonFilters } from "@/lib/hooks/use-leader-comparison-filters";
 
 type LeaderComparisonGridProps = {
-  leaders: LeaderComparisonRow[];
+  leaders: CandidateComparisonRow[];
 };
 
 export function LeaderComparisonGrid({ leaders }: LeaderComparisonGridProps) {
@@ -21,7 +21,7 @@ export function LeaderComparisonGrid({ leaders }: LeaderComparisonGridProps) {
     selectedItem: selectedLeader,
     openItem: openLeader,
     closeItem: closeLeader,
-  } = useComparisonState<LeaderComparisonRow>();
+  } = useComparisonState<CandidateComparisonRow>();
   const { filteredLeaders, leaderFilterConfigs } = useLeaderComparisonFilters(
     searchQuery,
     leaders,

@@ -3,14 +3,17 @@ import { inspect } from "node:util";
 import { BASE_TOPIC } from "@/lib/constants/parties";
 import { prisma } from "@/lib/utils/prisma";
 import type {
-  LeaderActionItem,
-  LeaderFuturePromiseItem,
-  LeaderComparisonRow,
-  LeaderEducationItem,
-  LeaderLegislationItem,
-  LeaderProfessionalItem,
+  CandidateComparisonRow,
+  CandidateRawPayload,
 } from "@/lib/types/candidates";
-import { CandidateWithParty } from "../types/advisor";
+import type {
+  ActionItem,
+  FuturePromiseItem,
+  EducationItem,
+  LegislationItem,
+  ProfessionalItem,
+} from "@/lib/types/shared";
+import { candidateComparisonInclude } from "@/lib/constants/candidates";
 
 function partyTopicDisplay(
   topics: { baseTopicTitle: string; baseTopicOptionDisplayValue: string }[],
@@ -31,7 +34,7 @@ function mapEducation(
     startYear: number | null;
     endYear: number | null;
   }[],
-): LeaderEducationItem[] {
+): EducationItem[] {
   return rows.map((e) => ({
     major: e.major,
     university: e.university,
@@ -50,7 +53,7 @@ function mapProfessionals(
     description: string | null;
     group: { name: string };
   }[],
-): LeaderProfessionalItem[] {
+): ProfessionalItem[] {
   return rows.map((p) => ({
     title: p.title,
     groupName: p.group?.name ?? null,
@@ -67,7 +70,7 @@ function mapCareerItems(
     orderIndex: number | null;
     actionGroup: { name: string };
   }[],
-): LeaderActionItem[] {
+): ActionItem[] {
   return rows.map((c) => ({
     category: c.actionGroup.name,
     title: c.title,
@@ -83,7 +86,7 @@ function mapRecentItems(
     orderIndex: number | null;
     actionGroup: { name: string };
   }[],
-): LeaderActionItem[] {
+): ActionItem[] {
   return rows.map((r) => ({
     category: r.actionGroup.name,
     title: r.title,
@@ -94,14 +97,14 @@ function mapRecentItems(
 
 function mapLegislations(
   rows: {
-    legislation: { id: string; title: string; group: string };
+    legislation: { id: string; title: string; group: { name: string } };
     option: string;
   }[],
-): LeaderLegislationItem[] {
+): LegislationItem[] {
   return rows.map((l) => ({
     legislation: {
       title: l.legislation.title,
-      group: l.legislation.group,
+      group: l.legislation.group.name,
     },
     option: l.option,
   }));
@@ -114,7 +117,7 @@ function mapFuturePromises(
     orderIndex: number | null;
     actionGroup: { name: string };
   }[],
-): LeaderFuturePromiseItem[] {
+): FuturePromiseItem[] {
   return rows.map((f) => ({
     title: f.title,
     description: f.description,
@@ -123,47 +126,18 @@ function mapFuturePromises(
   }));
 }
 export async function getLeadersForComparison(): Promise<
-  LeaderComparisonRow[]
+  CandidateComparisonRow[]
 > {
   const candidates = await prisma.candidate.findMany({
     where: { partyLeaderOf: { some: {} } },
-    include: {
-      party: {
-        include: {
-          baseTopics: true,
-          legislations: {
-            include: {
-              legislation: { include: { group: true } },
-              option: true,
-            },
-          },
-          futurePromises: {
-            include: { actionGroup: true },
-            orderBy: { orderIndex: "asc" },
-          },
-          members: true,
-        },
-      },
-      education: { orderBy: { id: "asc" } },
-      professionals: {
-        include: { group: true },
-        orderBy: { startYear: "asc" },
-      },
-      careerActions: {
-        include: { actionGroup: true },
-        orderBy: { orderIndex: "asc" },
-      },
-      recentActions: {
-        include: { actionGroup: true },
-        orderBy: { orderIndex: "asc" },
-      },
-    },
+    include: candidateComparisonInclude,
     orderBy: { name: "asc" },
   });
 
   return candidates.map((c) => mapCandidate(c));
 }
-function printCandidate(c: CandidateWithParty): void {
+
+function printCandidate(c: CandidateRawPayload): void {
   console.log(
     inspect(c, {
       depth: null,
@@ -175,7 +149,7 @@ function printCandidate(c: CandidateWithParty): void {
   );
 }
 
-function mapCandidate(c: CandidateWithParty): LeaderComparisonRow {
+function mapCandidate(c: CandidateRawPayload): CandidateComparisonRow {
   return {
     id: c.id,
     name: c.name,
@@ -201,13 +175,23 @@ function mapCandidate(c: CandidateWithParty): LeaderComparisonRow {
       jews: partyTopicDisplay(c.party.baseTopics, BASE_TOPIC.jews),
       bloc: partyTopicDisplay(c.party.baseTopics, BASE_TOPIC.bloc),
     },
-    legislations: mapLegislations(c.party.legislations),
+    legislations: mapLegislations(
+      c.party.legislations.map((l) => ({
+        legislation: {
+          id: l.legislation.id,
+          title: l.legislation.title,
+          group: { name: l.legislation.group.name },
+        },
+        option: l.optionDisplayValue,
+      })),
+    ),
     futurePromises: mapFuturePromises(c.party.futurePromises),
+    members: c.party.members.map((m) => m.name),
   };
 }
 
 export function getLeaderPartyOptions(
-  leaders: LeaderComparisonRow[],
+  leaders: CandidateComparisonRow[],
 ): { value: string; label: string }[] {
   const seen = new Set<string>();
   const out: { value: string; label: string }[] = [];

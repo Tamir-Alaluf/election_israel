@@ -1,4 +1,4 @@
-import type { LeaderEducationItem } from "@/lib/types/candidates";
+import type { EducationItem } from "@/lib/types/candidates";
 import { formatYearRange } from "@/features/candidates/components/dialog-sections/format-year-range";
 import { SectionShell } from "@/features/parties/components/dialog-sections/section-shell";
 
@@ -7,7 +7,7 @@ export function LeaderEducationSection({
   education,
 }: {
   leaderId: string;
-  education: LeaderEducationItem[];
+  education: EducationItem[];
 }) {
   const sortedEducation = [...education].sort((a, b) => {
     if (a.startYear === null && b.startYear === null) return 0;

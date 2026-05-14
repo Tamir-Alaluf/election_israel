@@ -1,4 +1,4 @@
-import type { LeaderProfessionalItem } from "@/lib/types/candidates";
+import type { ProfessionalItem } from "@/lib/types/candidates";
 import { formatYearRange } from "@/features/candidates/components/dialog-sections/format-year-range";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils/utils";
@@ -13,7 +13,7 @@ export function LeaderProfessionalSection({
   professionalBackground,
 }: {
   leaderId: string;
-  professionalBackground: LeaderProfessionalItem[];
+  professionalBackground: ProfessionalItem[];
 }) {
   const sortedProfessionalBackground = [...professionalBackground].sort(
     (a, b) => {

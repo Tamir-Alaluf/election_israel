@@ -1,3 +1,5 @@
+import { FuturePromiseItem, ActionItem, LegislationItem } from "./shared";
+
 export type PartyComparisonRow = {
   id: string;
   name: string;
@@ -32,4 +34,12 @@ export type PartyPageFilterMeta = {
   lawIssues: { id: string; label: string; group: string }[];
   attributesSectionTitle: string;
   issuesSectionTitle: string;
+};
+export type PartyWithAdvisorRelations = {
+  baseTopics: { baseTopicTitle: string; baseTopicOptionDisplayValue: string }[];
+  legislations: LegislationItem[];
+  members: string[];
+  recentActions: ActionItem[];
+  futurePromises: FuturePromiseItem[];
+  leader: string | null;
 };

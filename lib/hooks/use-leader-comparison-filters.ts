@@ -1,12 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { LeaderComparisonRow } from "@/lib/types/candidates";
+import type { CandidateComparisonRow } from "@/lib/types/candidates";
 import { getLeaderComparisonFilters } from "@/lib/utils/candidates-filters";
 
 export function useLeaderComparisonFilters(
   searchQuery: string,
-  leaders: LeaderComparisonRow[],
+  leaders: CandidateComparisonRow[],
 ) {
   const [securityFilter, setSecurityFilter] = useState<string[]>([]);
   const [economyFilter, setEconomyFilter] = useState<string[]>([]);
