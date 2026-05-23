@@ -1,3 +1,6 @@
+// Dialog replaced by /candidates/[name] — full implementation kept below for easy restore.
+
+/*
 "use client";
 
 import type { CandidateComparisonRow } from "@/lib/types/candidates";
@@ -27,3 +30,4 @@ export function LeaderDialog({
     </ComparisonDialogShell>
   );
 }
+*/

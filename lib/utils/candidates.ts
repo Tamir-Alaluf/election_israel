@@ -137,6 +137,21 @@ export async function getLeadersForComparison(): Promise<
   return candidates.map((c) => mapCandidate(c));
 }
 
+export async function getLeaderByName(
+  name: string,
+): Promise<CandidateComparisonRow | null> {
+  const decodedName = decodeURIComponent(name);
+  const candidate = await prisma.candidate.findFirst({
+    where: {
+      name: decodedName,
+      partyLeaderOf: { some: {} },
+    },
+    include: candidateComparisonInclude,
+  });
+
+  return candidate ? mapCandidate(candidate) : null;
+}
+
 function mapCandidate(c: CandidateRawPayload): CandidateComparisonRow {
   return {
     id: c.id,

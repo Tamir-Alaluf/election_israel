@@ -1,13 +1,15 @@
 "use client";
 
 import { useMemo } from "react";
+import { useRouter } from "next/navigation";
 import type { CandidateComparisonRow } from "@/lib/types/candidates";
 import {
   ComparisonScaffold,
   type ComparisonGridRow,
   useComparisonState,
 } from "@/components/shared/data-display";
-import { LeaderDialog } from "@/features/candidates/components/dialog";
+// Dialog replaced by /candidates/[name] — kept for easy restore
+// import { LeaderDialog } from "@/features/candidates/components/dialog";
 import { useLeaderComparisonFilters } from "@/lib/hooks/use-leader-comparison-filters";
 
 type LeaderComparisonGridProps = {
@@ -15,13 +17,9 @@ type LeaderComparisonGridProps = {
 };
 
 export function LeaderComparisonGrid({ leaders }: LeaderComparisonGridProps) {
-  const {
-    searchQuery,
-    setSearchQuery,
-    selectedItem: selectedLeader,
-    openItem: openLeader,
-    closeItem: closeLeader,
-  } = useComparisonState<CandidateComparisonRow>();
+  const router = useRouter();
+  const { searchQuery, setSearchQuery } =
+    useComparisonState<CandidateComparisonRow>();
   const { filteredLeaders, leaderFilterConfigs } = useLeaderComparisonFilters(
     searchQuery,
     leaders,
@@ -34,9 +32,12 @@ export function LeaderComparisonGrid({ leaders }: LeaderComparisonGridProps) {
         title: leader.name,
         subtitle: leader.partyName,
         image: leader.image ?? "",
-        onClick: () => openLeader(leader),
+        onClick: () =>
+          router.push(
+            `/candidates/${encodeURIComponent(leader.name)}`,
+          ),
       })),
-    [filteredLeaders, openLeader],
+    [filteredLeaders, router],
   );
 
   return (
@@ -51,11 +52,13 @@ export function LeaderComparisonGrid({ leaders }: LeaderComparisonGridProps) {
         rows={rows}
       />
 
+      {/*
       <LeaderDialog
         leader={selectedLeader}
         open={!!selectedLeader}
         onClose={closeLeader}
       />
+      */}
     </>
   );
 }
