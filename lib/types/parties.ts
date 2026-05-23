@@ -1,4 +1,4 @@
-import { FuturePromiseItem, ActionItem, LegislationItem } from "./shared";
+import type { Prisma } from "@prisma/client";
 
 export type PartyComparisonRow = {
   id: string;
@@ -35,11 +35,17 @@ export type PartyPageFilterMeta = {
   attributesSectionTitle: string;
   issuesSectionTitle: string;
 };
-export type PartyWithAdvisorRelations = {
-  baseTopics: { baseTopicTitle: string; baseTopicOptionDisplayValue: string }[];
-  legislations: LegislationItem[];
-  members: string[];
-  recentActions: ActionItem[];
-  futurePromises: FuturePromiseItem[];
-  leader: string | null;
-};
+/** Party rows loaded for advisor election context (full comparison slices). */
+export type PartyWithAdvisorRelations = Prisma.PartyGetPayload<{
+  include: {
+    baseTopics: true;
+    legislations: { include: { legislation: true } };
+    members: { orderBy: { orderIndex: "asc" } };
+    recentActions: {
+      include: { actionGroup: true };
+      orderBy: { orderIndex: "asc" };
+    };
+    futurePromises: { orderBy: { orderIndex: "asc" } };
+    leader: true;
+  };
+}>;

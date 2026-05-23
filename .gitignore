@@ -23,6 +23,7 @@ node_modules
 
 # Cursor/local agent artifacts
 .agents/
+.claude/
 skills-lock.json
 
 # clerk configuration (can include secrets)

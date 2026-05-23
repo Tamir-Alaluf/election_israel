@@ -1,8 +1,6 @@
 import { prisma } from "@/lib/utils/prisma";
-import type {
-  PartyWithAdvisorRelations,
-  CandidateWithParty,
-} from "@/lib/types/advisor";
+import type { CandidateWithParty } from "@/lib/types/candidates";
+import type { PartyWithAdvisorRelations } from "@/lib/types/parties";
 import { leaderParameterLabels } from "@/lib/constants/candidates";
 import { partyComparisonParameterLabels } from "@/lib/constants/parties";
 import { MISSING_PARAM_FALLBACK } from "@/lib/constants/advisor";

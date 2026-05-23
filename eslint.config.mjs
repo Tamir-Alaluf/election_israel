@@ -2,6 +2,17 @@ import nextVitals from "eslint-config-next/core-web-vitals";
 import tseslint from "@typescript-eslint/eslint-plugin";
 
 const config = [
+  {
+    ignores: [
+      "**/node_modules/**",
+      "**/.next/**",
+      "**/.claude/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/.vercel/**",
+      "**/lib/generated/**",
+    ],
+  },
   ...nextVitals,
   {
     plugins: {

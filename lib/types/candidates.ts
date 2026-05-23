@@ -44,3 +44,21 @@ export type CandidateComparisonRow = {
 export type CandidateRawPayload = Prisma.CandidateGetPayload<{
   include: typeof candidateComparisonInclude;
 }>;
+export type CandidateWithParty = Prisma.CandidateGetPayload<{
+  include: {
+    party: { include: { baseTopics: true } };
+    education: { orderBy: { id: "asc" } };
+    professionals: {
+      include: { group: true };
+      orderBy: { startYear: "asc" };
+    };
+    careerActions: {
+      include: { actionGroup: true };
+      orderBy: { orderIndex: "asc" };
+    };
+    recentActions: {
+      include: { actionGroup: true };
+      orderBy: { orderIndex: "asc" };
+    };
+  };
+}>;

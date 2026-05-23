@@ -131,5 +131,3 @@ export type AdvisorResultScreenProps = {
 };
 
 export type AdvisorRoundsRef = AdvisorPoliticalQA[];
-
-
