@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { LeaderDetailView } from "@/features/candidates/components/leader-detail-view";
+import { LeaderDetailView } from "@/features/candidates/components/candidate-detail-view";
 import {
   getLeaderByName,
   getLeadersForComparison,

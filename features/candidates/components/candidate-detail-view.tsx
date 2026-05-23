@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import type { CandidateComparisonRow } from "@/lib/types/candidates";
 import { ComparisonImage } from "@/components/shared/data-display/comparison-image";
 import { Button } from "@/components/ui/button";
-import { LeaderDialogSections } from "@/features/candidates/components/dialog-sections";
+import { LeaderDetailSections } from "@/features/candidates/components/candidate-detail-sections";
 
 export function LeaderDetailView({
   leader,
@@ -31,8 +31,8 @@ export function LeaderDetailView({
         </div>
       </header>
 
-      <div className="mt-4 min-w-0 space-y-4">
-        <LeaderDialogSections leader={leader} />
+      <div className="mt-6 min-w-0">
+        <LeaderDetailSections leader={leader} />
       </div>
     </>
   );

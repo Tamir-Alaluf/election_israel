@@ -12,16 +12,22 @@ const POSITIONS = [
   { id: "bloc", label: BASE_TOPIC.bloc },
 ] as const;
 
+export function LeaderPositionsContent({ values }: { values: BaseParameters }) {
+  return (
+    <AttributesSection
+      attributes={POSITIONS.map((position) => ({
+        id: position.id,
+        label: position.label,
+      }))}
+      valuesById={values}
+    />
+  );
+}
+
 export function LeaderPositionsSection({ values }: { values: BaseParameters }) {
   return (
     <SectionShell title="עמדות" withSurface={false}>
-      <AttributesSection
-        attributes={POSITIONS.map((position) => ({
-          id: position.id,
-          label: position.label,
-        }))}
-        valuesById={values}
-      />
+      <LeaderPositionsContent values={values} />
     </SectionShell>
   );
 }

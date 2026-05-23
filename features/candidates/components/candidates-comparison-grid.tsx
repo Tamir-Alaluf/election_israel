@@ -33,9 +33,7 @@ export function LeaderComparisonGrid({ leaders }: LeaderComparisonGridProps) {
         subtitle: leader.partyName,
         image: leader.image ?? "",
         onClick: () =>
-          router.push(
-            `/candidates/${encodeURIComponent(leader.name)}`,
-          ),
+          router.push(`/candidates/${encodeURIComponent(leader.name)}`),
       })),
     [filteredLeaders, router],
   );
@@ -43,7 +41,7 @@ export function LeaderComparisonGrid({ leaders }: LeaderComparisonGridProps) {
   return (
     <>
       <ComparisonScaffold
-        searchPlaceholder="חיפוש לפי שם מועמד או מפלגה..."
+        searchPlaceholder="חיפוש לפי שם מועמד, מפלגה, חבר מפלגה..."
         searchValue={searchQuery}
         onSearchChange={setSearchQuery}
         filters={leaderFilterConfigs}

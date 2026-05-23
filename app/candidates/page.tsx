@@ -1,4 +1,4 @@
-import { LeaderComparisonGrid } from "@/features/candidates/components/leader-comparison-grid";
+import { LeaderComparisonGrid } from "@/features/candidates/components/candidates-comparison-grid";
 import { getLeadersForComparison } from "@/lib/utils/candidates";
 
 export const metadata = {

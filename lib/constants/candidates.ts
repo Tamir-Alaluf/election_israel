@@ -11,6 +11,49 @@ export const leaderParameterLabels: string[] = [
   "מספר מנדטים בבחירות האחרונות",
 ];
 
+export const LEADER_DETAIL_CATEGORIES = [
+  { id: "vision_positions", label: "חזון ועמדות" },
+  { id: "background", label: "רקע וקריירה" },
+  { id: "activity", label: "פעילות והבטחות" },
+  { id: "party", label: "מפלגה" },
+] as const;
+
+export const LEADER_DETAIL_SECTION_DEFS = [
+  { id: "vision", title: "חזון", categoryId: "vision_positions" },
+  { id: "positions", title: "עמדות", categoryId: "vision_positions" },
+  {
+    id: "legislations",
+    title: "עמדות בחוקים",
+    categoryId: "vision_positions",
+  },
+  {
+    id: "education",
+    title: "השכלה אקדמאית",
+    categoryId: "background",
+  },
+  {
+    id: "professional",
+    title: "רקע מקצועי",
+    categoryId: "background",
+  },
+  {
+    id: "career",
+    title: "הישגים בקריירה",
+    categoryId: "background",
+  },
+  {
+    id: "recent",
+    title: "מה נעשה מאז הבחירות הקודמות",
+    categoryId: "activity",
+  },
+  {
+    id: "promises",
+    title: "הבטחות לשנים הקרובות",
+    categoryId: "activity",
+  },
+  { id: "members", title: "חברי מפלגה", categoryId: "party" },
+] as const;
+
 export const PROFESSIONAL_BACKGROUND_GROUPS = [
   "כלכלי",
   "מגזר הפרטי",

@@ -1,9 +1,9 @@
 import type { CandidateComparisonRow } from "@/lib/types/candidates";
-import { LeaderEducationSection } from "@/features/candidates/components/dialog-sections/leader-education-section";
-import { LeaderPositionsSection } from "@/features/candidates/components/dialog-sections/leader-positions-section";
-import { LeaderProfessionalSection } from "@/features/candidates/components/dialog-sections/leader-professional-section";
-import { LeaderVisionSection } from "@/features/candidates/components/dialog-sections/leader-vision-section";
-import { LeaderLegislationsSection } from "@/features/candidates/components/dialog-sections/leader-legislations-section";
+import { LeaderEducationSection } from "@/features/candidates/components/dialog-sections/candidate-education-section";
+import { LeaderPositionsSection } from "@/features/candidates/components/dialog-sections/candidate-positions-section";
+import { LeaderProfessionalSection } from "@/features/candidates/components/dialog-sections/candidate-professional-section";
+import { LeaderVisionSection } from "@/features/candidates/components/dialog-sections/candidate-vision-section";
+import { LeaderLegislationsSection } from "@/features/candidates/components/dialog-sections/candidate-legislations-section";
 import { RecentActionsSection } from "@/components/shared/data-display/recent-actions-section";
 import { SectionShell } from "@/features/parties/components/dialog-sections/section-shell";
 import { MembersSection } from "@/features/parties/components/dialog-sections/members-section";
