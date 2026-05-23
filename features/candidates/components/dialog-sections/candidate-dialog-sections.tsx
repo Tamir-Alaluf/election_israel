@@ -29,13 +29,13 @@ export function LeaderDialogSections({
 
       <RecentActionsSection
         itemId={`${leader.id}-career`}
-        title="הישגים בקריירה"
+        title="הישגים"
         recentItems={leader.careerAchievements}
       />
 
       <RecentActionsSection
         itemId={`${leader.id}-recent`}
-        title="מה נעשה מאז הבחירות הקודמות"
+        title="הישגים מאז הבחירות הקודמות"
         recentItems={leader.recentActions}
       />
 

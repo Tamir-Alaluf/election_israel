@@ -20,7 +20,9 @@ export function LeaderLegislationsContent({
   const [api, setApi] = useState<CarouselApi | null>(null);
 
   if (legislations.length === 0) {
-    return <p className="text-sm text-muted-foreground">אין מידע להצגה כרגע.</p>;
+    return (
+      <p className="text-sm text-muted-foreground">אין מידע להצגה כרגע.</p>
+    );
   }
 
   const groups = new Map<string, LegislationItem[]>();
@@ -77,7 +79,7 @@ export function LeaderLegislationsSection({
   legislations: LegislationItem[];
 }) {
   return (
-    <SectionShell title="עמדות בחוקים" withSurface={false}>
+    <SectionShell title="עמדות בסוגיות" withSurface={false}>
       <LeaderLegislationsContent legislations={legislations} />
     </SectionShell>
   );

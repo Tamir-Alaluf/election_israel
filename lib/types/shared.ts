@@ -22,17 +22,18 @@ export type ActionItem = {
   orderIndex: number | null;
 };
 
-export type BaseParameters = {
-  type: string;
-  securityApproach: string;
-  economicApproach: string;
-  arabs: string;
-  jews: string;
-  bloc: string;
-};
-export type BaseParameterItem = {
-  title: string;
+export type BaseParameterField = {
+  value: string;
   description: string | null;
+};
+
+export type BaseParameters = {
+  type: BaseParameterField;
+  securityApproach: BaseParameterField;
+  economicApproach: BaseParameterField;
+  arabs: BaseParameterField;
+  jews: BaseParameterField;
+  bloc: BaseParameterField;
 };
 
 export type LegislationItem = {

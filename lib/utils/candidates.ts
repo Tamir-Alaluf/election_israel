@@ -8,6 +8,7 @@ import type {
 } from "@/lib/types/candidates";
 import type {
   ActionItem,
+  BaseParameterField,
   FuturePromiseItem,
   EducationItem,
   LegislationItem,
@@ -15,14 +16,19 @@ import type {
 } from "@/lib/types/shared";
 import { candidateComparisonInclude } from "@/lib/constants/candidates";
 
-function partyTopicDisplay(
-  topics: { baseTopicTitle: string; baseTopicOptionDisplayValue: string }[],
+function partyTopicField(
+  topics: {
+    baseTopicTitle: string;
+    baseTopicOptionDisplayValue: string;
+    description: string | null;
+  }[],
   topicTitle: string,
-): string {
-  return (
-    topics.find((t) => t.baseTopicTitle === topicTitle)
-      ?.baseTopicOptionDisplayValue ?? "—"
-  );
+): BaseParameterField {
+  const topic = topics.find((t) => t.baseTopicTitle === topicTitle);
+  return {
+    value: topic?.baseTopicOptionDisplayValue ?? "—",
+    description: topic?.description ?? null,
+  };
 }
 
 function mapEducation(
@@ -164,18 +170,18 @@ function mapCandidate(c: CandidateRawPayload): CandidateComparisonRow {
     careerAchievements: mapCareerItems(c.careerActions),
     recentActions: mapRecentItems(c.recentActions),
     values: {
-      type: partyTopicDisplay(c.party.baseTopics, BASE_TOPIC.type),
-      securityApproach: partyTopicDisplay(
+      type: partyTopicField(c.party.baseTopics, BASE_TOPIC.type),
+      securityApproach: partyTopicField(
         c.party.baseTopics,
         BASE_TOPIC.security,
       ),
-      economicApproach: partyTopicDisplay(
+      economicApproach: partyTopicField(
         c.party.baseTopics,
         BASE_TOPIC.economy,
       ),
-      arabs: partyTopicDisplay(c.party.baseTopics, BASE_TOPIC.arabs),
-      jews: partyTopicDisplay(c.party.baseTopics, BASE_TOPIC.jews),
-      bloc: partyTopicDisplay(c.party.baseTopics, BASE_TOPIC.bloc),
+      arabs: partyTopicField(c.party.baseTopics, BASE_TOPIC.arabs),
+      jews: partyTopicField(c.party.baseTopics, BASE_TOPIC.jews),
+      bloc: partyTopicField(c.party.baseTopics, BASE_TOPIC.bloc),
     },
     legislations: mapLegislations(
       c.party.legislations.map((l) => ({

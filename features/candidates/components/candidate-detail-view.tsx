@@ -26,7 +26,9 @@ export function LeaderDetailView({
           sizeClassName="w-16 h-16"
         />
         <div>
-          <h1 className="text-lg font-semibold text-foreground">{leader.name}</h1>
+          <h1 className="text-lg font-semibold text-foreground">
+            {leader.name}
+          </h1>
           <p className="text-sm text-muted-foreground">{leader.partyName}</p>
         </div>
       </header>

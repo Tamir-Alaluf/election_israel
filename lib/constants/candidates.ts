@@ -12,19 +12,19 @@ export const leaderParameterLabels: string[] = [
 ];
 
 export const LEADER_DETAIL_CATEGORIES = [
-  { id: "vision_positions", label: "חזון ועמדות" },
-  { id: "background", label: "רקע וקריירה" },
+  { id: "background", label: "רקע" },
   { id: "activity", label: "פעילות והבטחות" },
+  { id: "issues", label: "עמדות בסוגיות" },
   { id: "party", label: "מפלגה" },
 ] as const;
 
 export const LEADER_DETAIL_SECTION_DEFS = [
-  { id: "vision", title: "חזון", categoryId: "vision_positions" },
-  { id: "positions", title: "עמדות", categoryId: "vision_positions" },
+  { id: "vision", title: "חזון", categoryId: "background" },
+  { id: "positions", title: "עמדות", categoryId: "background" },
   {
     id: "legislations",
-    title: "עמדות בחוקים",
-    categoryId: "vision_positions",
+    title: "עמדות בסוגיות",
+    categoryId: "issues",
   },
   {
     id: "education",
@@ -38,12 +38,12 @@ export const LEADER_DETAIL_SECTION_DEFS = [
   },
   {
     id: "career",
-    title: "הישגים בקריירה",
-    categoryId: "background",
+    title: "הישגים",
+    categoryId: "activity",
   },
   {
     id: "recent",
-    title: "מה נעשה מאז הבחירות הקודמות",
+    title: "הישגים מאז הבחירות הקודמות",
     categoryId: "activity",
   },
   {

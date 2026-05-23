@@ -40,12 +40,12 @@ const badgeTone = valueBadgeToneClasses;
 const valueToTone: Record<string, keyof typeof badgeTone> = {
   // חיובי / תמיכה / עדיפות גבוהה
   בעד: "positive",
-  כן: "positive",
+  כן: "neutral",
   "עדיפות גבוהה": "positive",
 
   // שלילי / התנגדות / מחוץ לסדר יום
   נגד: "negative",
-  לא: "negative",
+  לא: "neutral",
   "לא בסדר יום": "negative",
 
   // ביניים / קטגורי
@@ -57,13 +57,13 @@ const valueToTone: Record<string, keyof typeof badgeTone> = {
   מעורב: "neutral",
 
   // צירים אידיאולוגיים לפי כלל צבעים: ימין=כחול, שמאל=סגול, מרכז=צהוב
-  ימין: "negative",
+  ימין: "neutral",
   "מרכז ימין": "neutral",
   מרכז: "neutral",
   "מרכז שמאל": "neutral",
-  שמאל: "positive",
-  "ימין כלכלי": "negative",
-  "שמאל כלכלי": "positive",
+  שמאל: "neutral",
+  "ימין כלכלי": "neutral",
+  "שמאל כלכלי": "neutral",
   משילות: "neutral",
   דמוקרטיה: "neutral",
   חרדית: "neutral",

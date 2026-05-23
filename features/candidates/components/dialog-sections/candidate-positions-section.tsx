@@ -19,7 +19,15 @@ export function LeaderPositionsContent({ values }: { values: BaseParameters }) {
         id: position.id,
         label: position.label,
       }))}
-      valuesById={values}
+      valuesById={Object.fromEntries(
+        POSITIONS.map((position) => [position.id, values[position.id].value]),
+      )}
+      descriptionsById={Object.fromEntries(
+        POSITIONS.map((position) => [
+          position.id,
+          values[position.id].description,
+        ]),
+      )}
     />
   );
 }

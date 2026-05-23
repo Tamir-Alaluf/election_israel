@@ -5,7 +5,6 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger,
 } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils/utils";
 import {
@@ -94,6 +93,8 @@ export function LeaderDetailSections({
     [categoryId],
   );
 
+  const openSectionIds = useMemo(() => filtered.map((s) => s.id), [filtered]);
+
   return (
     <div className="space-y-5">
       <div
@@ -118,28 +119,26 @@ export function LeaderDetailSections({
         ))}
       </div>
 
-      <Accordion type="multiple" className="glass-card rounded-xl px-1">
-        {filtered.map((section) => {
-          const cat = LEADER_DETAIL_CATEGORIES.find(
-            (c) => c.id === section.categoryId,
-          );
-          return (
-            <AccordionItem key={section.id} value={section.id} className="px-3">
-              <AccordionTrigger className="py-4 text-start hover:no-underline">
-                <span className="flex flex-col items-start gap-1 pe-2">
-                  <span className="font-semibold text-foreground">
-                    {section.title}
-                  </span>
-                </span>
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="space-y-2 pb-1 leading-relaxed text-muted-foreground">
-                  {renderSectionContent(section.id, leader)}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          );
-        })}
+      <Accordion
+        type="multiple"
+        value={openSectionIds}
+        onValueChange={() => {}}
+        className="glass-card rounded-xl px-1"
+      >
+        {filtered.map((section) => (
+          <AccordionItem key={section.id} value={section.id} className="px-3">
+            <div className="py-4 text-start">
+              <span className="font-semibold text-foreground">
+                {section.title}
+              </span>
+            </div>
+            <AccordionContent>
+              <div className="space-y-2 pb-1 leading-relaxed text-muted-foreground">
+                {renderSectionContent(section.id, leader)}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        ))}
       </Accordion>
     </div>
   );

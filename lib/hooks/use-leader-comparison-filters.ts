@@ -27,13 +27,13 @@ export function useLeaderComparisonFilters(
       }
       if (
         securityFilter.length > 0 &&
-        !securityFilter.includes(leader.values.securityApproach)
+        !securityFilter.includes(leader.values.securityApproach.value)
       ) {
         return false;
       }
       if (
         economyFilter.length > 0 &&
-        !economyFilter.includes(leader.values.economicApproach)
+        !economyFilter.includes(leader.values.economicApproach.value)
       ) {
         return false;
       }
@@ -47,7 +47,10 @@ export function useLeaderComparisonFilters(
       ) {
         return false;
       }
-      if (blocFilter.length > 0 && !blocFilter.includes(leader.values.bloc)) {
+      if (
+        blocFilter.length > 0 &&
+        !blocFilter.includes(leader.values.bloc.value)
+      ) {
         return false;
       }
       return true;
