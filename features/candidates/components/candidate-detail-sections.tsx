@@ -97,7 +97,7 @@ export function LeaderDetailSections({
   return (
     <div className="space-y-5">
       <div
-        className="flex flex-wrap gap-2"
+        className="flex flex-wrap justify-center gap-2"
         role="group"
         aria-label="סינון לפי קטגוריה"
       >
