@@ -14,7 +14,6 @@ export type CandidateComparisonRow = {
   name: string;
   partyName: string;
   image: string | null;
-  color: string | null;
   vision: string | null;
   education: EducationItem[];
   professionalBackground: ProfessionalItem[];

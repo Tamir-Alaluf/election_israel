@@ -1,4 +1,4 @@
-import type { EducationItem } from "@/lib/types/candidates";
+import type { EducationItem } from "@/lib/types/shared";
 import { formatYearRange } from "@/features/candidates/components/dialog-sections/format-year-range";
 import { SectionShell } from "@/features/parties/components/dialog-sections/section-shell";
 

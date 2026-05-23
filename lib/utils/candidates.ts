@@ -137,25 +137,12 @@ export async function getLeadersForComparison(): Promise<
   return candidates.map((c) => mapCandidate(c));
 }
 
-function printCandidate(c: CandidateRawPayload): void {
-  console.log(
-    inspect(c, {
-      depth: null,
-      colors: true,
-      compact: false,
-      maxArrayLength: null,
-      maxStringLength: null,
-    }),
-  );
-}
-
 function mapCandidate(c: CandidateRawPayload): CandidateComparisonRow {
   return {
     id: c.id,
     name: c.name,
     partyName: c.partyName,
     image: c.image,
-    color: null,
     vision: c.vision,
     education: mapEducation(c.education),
     professionalBackground: mapProfessionals(c.professionals),

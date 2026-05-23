@@ -1,4 +1,4 @@
-import type { ProfessionalItem } from "@/lib/types/candidates";
+import type { ProfessionalItem } from "@/lib/types/shared";
 import { formatYearRange } from "@/features/candidates/components/dialog-sections/format-year-range";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils/utils";
