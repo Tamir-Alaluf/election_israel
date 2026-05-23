@@ -14,7 +14,7 @@ export default async function HomePage() {
     <div className="min-h-screen relative">
       <main className="max-w-md mx-auto px-5 pt-20 pb-10">
         <HomePageTitle />
-        <HomeAdvisorCta />
+        {/* <HomeAdvisorCta /> */}
         <CountdownTimer />
         <HomeMandatesSection data={data} />
         <HomeFooterNote />

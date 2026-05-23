@@ -124,7 +124,7 @@ function MandatesChartRow({
             </div>
 
             {/* leader image */}
-            <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-md border border-border bg-muted">
+            <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-[6px] border border-border bg-muted">
               {party.leaderImage ? (
                 <Image
                   src={party.leaderImage}
@@ -150,10 +150,10 @@ function MandatesChartRow({
               dir="ltr"
             >
               {/* mandates bar background */}
-              <div className="relative h-7 flex-1 overflow-hidden  bg-primary/0">
+              <div className="relative h-8 rounded-[6px] flex-1 overflow-hidden  bg-primary/0">
                 {/* mandates bar progress */}
                 <motion.div
-                  className="h-full  bg-primary"
+                  className="h-full  bg-primary rounded-[6px]"
                   initial={{ width: 0 }}
                   animate={{ width: `${widthPct}%` }}
                   transition={{
