@@ -61,6 +61,7 @@ export type ElectionImportCandidate = {
 
 export type ElectionImportPartyMember = {
   name: string;
+  description?: string | null;
   orderIndex: number;
   image?: string | null;
   partyName: string;
@@ -186,6 +187,7 @@ export const electionImportCandidateSchema = z.object({
 
 export const electionImportPartyMemberSchema = z.object({
   name: z.string().min(1),
+  description: nullableString,
   orderIndex: z.number().int(),
   image: nullableString,
   partyName: z.string().min(1),

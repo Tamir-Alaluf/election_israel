@@ -50,3 +50,8 @@ export type FuturePromiseItem = {
   category: string;
   orderIndex: number | null;
 };
+
+export type PartyMemberItem = {
+  name: string;
+  description: string | null;
+};

@@ -194,7 +194,7 @@ function mapCandidate(c: CandidateRawPayload): CandidateComparisonRow {
       })),
     ),
     futurePromises: mapFuturePromises(c.party.futurePromises),
-    members: c.party.members.map((m) => m.name),
+    members: c.party.members,
   };
 }
 

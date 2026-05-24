@@ -283,6 +283,7 @@ export async function importElectionData(
         await tx.partyMember.createMany({
           data: payload.partyMembers.map((m) => ({
             name: m.name,
+            description: m.description ?? null,
             orderIndex: m.orderIndex,
             image: m.image ?? null,
             partyName: m.partyName,

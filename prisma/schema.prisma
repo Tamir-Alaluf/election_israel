@@ -59,12 +59,13 @@ model Candidate {
 }
 
 model PartyMember {
-  id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name       String
-  orderIndex Int     @map("order_index")
-  image      String? @map("image_url")
-  partyName  String  @map("party_name")
-  party      Party   @relation(fields: [partyName], references: [name])
+  id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String
+  description String?
+  orderIndex  Int     @map("order_index")
+  image       String? @map("image_url")
+  partyName   String  @map("party_name")
+  party       Party   @relation(fields: [partyName], references: [name])
 
   @@index([partyName, orderIndex])
   @@map("party_members")

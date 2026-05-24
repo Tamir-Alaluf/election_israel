@@ -20,7 +20,7 @@ function sortProfessionalBackground(items: ProfessionalItem[]) {
   });
 }
 
-function ProfessionalRoleCard({
+function ProfessionalBackgroundItem({
   professional,
 }: {
   professional: ProfessionalItem;
@@ -31,14 +31,13 @@ function ProfessionalRoleCard({
   );
 
   return (
-    <div className="relative flex flex-col rounded-lg border border-border/40 bg-background/70 px-4 py-4 text-right">
+    <div className="text-start">
       {professional.groupName ? (
         <Badge
           variant="outline"
           className={cn(
             comparisonBadgeClassName,
-            "max-w-none whitespace-nowrap",
-            "absolute left-1/2 top-0 z-10 -translate-x-1/2 -translate-y-1/2 shadow-sm",
+            "mb-1.5 max-w-none whitespace-nowrap",
             classForProfessionalBackgroundGroup(professional.groupName),
           )}
         >
@@ -46,22 +45,17 @@ function ProfessionalRoleCard({
         </Badge>
       ) : null}
 
-      <p
-        className={cn(
-          "text-sm font-semibold leading-tight text-foreground",
-          professional.groupName ? "pt-2" : "",
-        )}
-      >
+      <p className="text-sm font-semibold leading-tight text-foreground">
         {professional.title}
       </p>
 
       {yearRange ? (
-        <p className="mt-3 text-xs font-medium leading-relaxed text-primary/70">
+        <p className="mt-1 text-xs font-medium leading-relaxed text-primary/70">
           {yearRange}
         </p>
       ) : null}
       {professional.description ? (
-        <p className="mt-2 border-t border-border/40 pt-2 text-xs leading-relaxed text-muted-foreground">
+        <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
           {professional.description}
         </p>
       ) : null}
@@ -85,10 +79,10 @@ export function LeaderProfessionalContent({
   }
 
   return (
-    <ScrollArea className="h-[360px] w-full pe-3">
-      <div className="space-y-4 pt-1">
+    <ScrollArea className="h-[360px] w-full">
+      <div dir="rtl" className="space-y-6 pe-3 pt-1">
         {sortedProfessionalBackground.map((professional, index) => (
-          <ProfessionalRoleCard
+          <ProfessionalBackgroundItem
             key={`${leaderId}-professional-${index}`}
             professional={professional}
           />

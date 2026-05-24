@@ -23,7 +23,7 @@ export function AttributesSection({
               <ValueBadge value={valuesById[attribute.id] ?? "-"} />
             </div>
             {description ? (
-              <p className="mt-2 border-t border-border/40 pt-2 text-xs leading-relaxed text-muted-foreground">
+              <p className="mt-2 pt-2 text-xs leading-relaxed text-muted-foreground">
                 {description}
               </p>
             ) : null}

@@ -79,7 +79,7 @@ export function LeaderLegislationsSection({
   legislations: LegislationItem[];
 }) {
   return (
-    <SectionShell title="עמדות בסוגיות" withSurface={false}>
+    <SectionShell title="סוגיות" withSurface={false}>
       <LeaderLegislationsContent legislations={legislations} />
     </SectionShell>
   );

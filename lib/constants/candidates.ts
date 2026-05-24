@@ -13,27 +13,27 @@ export const leaderParameterLabels: string[] = [
 
 export const LEADER_DETAIL_CATEGORIES = [
   { id: "background", label: "רקע" },
+  { id: "issues", label: "עמדות וגישות" },
   { id: "activity", label: "פעילות והבטחות" },
-  { id: "issues", label: "עמדות בסוגיות" },
   { id: "party", label: "מפלגה" },
 ] as const;
 
 export const LEADER_DETAIL_SECTION_DEFS = [
   { id: "vision", title: "חזון", categoryId: "background" },
-  { id: "positions", title: "עמדות", categoryId: "background" },
+  { id: "positions", title: "עמדות", categoryId: "issues" },
   {
     id: "legislations",
-    title: "עמדות בסוגיות",
+    title: "סוגיות",
     categoryId: "issues",
-  },
-  {
-    id: "education",
-    title: "השכלה אקדמאית",
-    categoryId: "background",
   },
   {
     id: "professional",
     title: "רקע מקצועי",
+    categoryId: "background",
+  },
+  {
+    id: "education",
+    title: "השכלה אקדמאית",
     categoryId: "background",
   },
   {
@@ -75,7 +75,10 @@ export const candidateComparisonInclude = {
       futurePromises: {
         include: { actionGroup: true },
       },
-      members: true,
+      members: {
+        select: { name: true, description: true },
+        orderBy: { orderIndex: "asc" },
+      },
     },
   },
   education: { orderBy: { id: "asc" } },

@@ -15,7 +15,7 @@ export function LeaderDetailView({
       <Button variant="ghost" size="sm" className="mb-6 -me-2 gap-1" asChild>
         <Link href="/candidates">
           <ArrowRight className="h-4 w-4" aria-hidden />
-          חזרה להשוואת מועמדים
+          חזרה
         </Link>
       </Button>
 

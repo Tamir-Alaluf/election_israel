@@ -22,7 +22,10 @@ const partyDetailInclude = {
       option: true,
     },
   },
-  members: { orderBy: { orderIndex: "asc" as const } },
+  members: {
+    select: { name: true, description: true },
+    orderBy: { orderIndex: "asc" as const },
+  },
   recentActions: {
     include: { actionGroup: true },
     orderBy: { orderIndex: "asc" as const },
@@ -45,7 +48,7 @@ function mapParty(p: {
     legislation: { id: string };
     optionDisplayValue: string;
   }[];
-  members: { name: string }[];
+  members: { name: string; description: string | null }[];
   recentActions: {
     title: string;
     description: string | null;
@@ -69,7 +72,7 @@ function mapParty(p: {
     vision: p.vision,
     baseTopicByTitle,
     legislationById,
-    members: p.members.map((m) => m.name),
+    members: p.members,
     recentActionsItems: p.recentActions.map((r) => ({
       category: r.actionGroup.name,
       title: r.title,

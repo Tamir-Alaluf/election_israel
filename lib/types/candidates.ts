@@ -5,6 +5,7 @@ import type {
   ActionItem,
   LegislationItem,
   FuturePromiseItem,
+  PartyMemberItem,
 } from "./shared";
 import type { Prisma } from "@prisma/client";
 import {
@@ -38,7 +39,7 @@ export type CandidateComparisonRow = {
   values: BaseParameters;
   legislations: LegislationItem[];
   futurePromises: FuturePromiseItem[];
-  members: string[];
+  members: PartyMemberItem[];
 };
 
 export type CandidateRawPayload = Prisma.CandidateGetPayload<{

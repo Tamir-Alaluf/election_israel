@@ -1,4 +1,5 @@
 import type { Prisma } from "@prisma/client";
+import type { PartyMemberItem } from "@/lib/types/shared";
 
 export type PartyComparisonRow = {
   id: string;
@@ -10,7 +11,7 @@ export type PartyComparisonRow = {
   baseTopicByTitle: Record<string, string>;
   /** legislation id → option display */
   legislationById: Record<string, string>;
-  members: string[];
+  members: PartyMemberItem[];
   recentActionsItems: {
     category: string;
     title: string;
