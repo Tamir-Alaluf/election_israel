@@ -1,25 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { UserButton, useUser } from "@clerk/nextjs";
+import { SignOutButton, UserButton, useUser } from "@clerk/nextjs";
 import { LogIn } from "lucide-react";
 import { cn } from "@/lib/utils/utils";
 
 export type PageHeaderAuthControlsProps = {
-  variant: "desktop" | "mobile";
-  onSignInClick?: () => void;
+  variant: "desktop" | "mobile-bar";
 };
 
 const signInClasses = {
   desktop:
-    "hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50",
-  mobile:
-    "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50",
+    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50",
+  "mobile-bar":
+    "px-3 py-1.5 rounded-lg text-xs font-medium text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50",
 } as const;
+
+const signOutClasses =
+  "px-3 py-1.5 rounded-lg text-xs font-medium text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50";
 
 export function PageHeaderAuthControls({
   variant,
-  onSignInClick,
 }: PageHeaderAuthControlsProps) {
   const { isLoaded, isSignedIn } = useUser();
 
@@ -31,18 +32,22 @@ export function PageHeaderAuthControls({
     <div
       className={cn(
         "flex items-center",
-        variant === "mobile" ? "px-4 py-3" : "hidden md:flex",
+        variant === "mobile-bar" ? "md:hidden" : "hidden md:flex",
       )}
     >
       {isSignedIn ? (
-        <UserButton />
+        variant === "mobile-bar" ? (
+          <SignOutButton>
+            <button type="button" className={signOutClasses}>
+              התנתקות
+            </button>
+          </SignOutButton>
+        ) : (
+          <UserButton />
+        )
       ) : (
-        <Link
-          href="/sign-in"
-          onClick={onSignInClick}
-          className={signInClasses[variant]}
-        >
-          <LogIn className={variant === "mobile" ? "w-5 h-5" : "w-4 h-4"} />
+        <Link href="/sign-in" className={signInClasses[variant]}>
+          {variant === "desktop" && <LogIn className="w-4 h-4" />}
           <span>התחברות</span>
         </Link>
       )}

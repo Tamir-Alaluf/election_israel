@@ -20,40 +20,39 @@ export function PageHeaderMobileNav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="md:hidden"
-          aria-label="פתח תפריט"
+    <div className="flex items-center gap-2 md:contents">
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            aria-label="פתח תפריט"
+          >
+            <Menu className="w-5 h-5" />
+          </Button>
+        </SheetTrigger>
+        <SheetContent
+          side="right"
+          className="w-[280px] bg-background/95 backdrop-blur-xl"
         >
-          <Menu className="w-5 h-5" />
-        </Button>
-      </SheetTrigger>
-      <SheetContent
-        side="right"
-        className="w-[280px] bg-background/95 backdrop-blur-xl"
-      >
-        <SheetHeader className="text-right">
-          <SheetTitle className="text-lg">בחירות 2026</SheetTitle>
-        </SheetHeader>
-        <nav className="flex flex-col gap-2 mt-6">
-          {pageHeaderNavItems.map((item) => (
-            <PageHeaderNavLink
-              key={item.href}
-              item={item}
-              isActive={pathname === item.href}
-              variant="mobile"
-              onClick={() => setOpen(false)}
-            />
-          ))}
-          <PageHeaderAuthControls
-            variant="mobile"
-            onSignInClick={() => setOpen(false)}
-          />
-        </nav>
-      </SheetContent>
-    </Sheet>
+          <SheetHeader className="text-right">
+            <SheetTitle className="text-lg">בחירות 2026</SheetTitle>
+          </SheetHeader>
+          <nav className="flex flex-col gap-2 mt-6">
+            {pageHeaderNavItems.map((item) => (
+              <PageHeaderNavLink
+                key={item.href}
+                item={item}
+                isActive={pathname === item.href}
+                variant="mobile"
+                onClick={() => setOpen(false)}
+              />
+            ))}
+          </nav>
+        </SheetContent>
+      </Sheet>
+      <PageHeaderAuthControls variant="mobile-bar" />
+    </div>
   );
 }
