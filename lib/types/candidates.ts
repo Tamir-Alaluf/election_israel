@@ -32,6 +32,8 @@ export type CandidateComparisonRow = {
   partyName: string;
   image: string | null;
   vision: string | null;
+  positiveSentiment: string | null;
+  negativeSentiment: string | null;
   education: EducationItem[];
   professionalBackground: ProfessionalItem[];
   careerAchievements: ActionItem[];

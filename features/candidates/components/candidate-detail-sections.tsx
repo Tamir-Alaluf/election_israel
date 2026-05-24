@@ -17,6 +17,7 @@ import type {
   LeaderDetailSectionId,
 } from "@/lib/types/candidates";
 import { LeaderVisionContent } from "@/features/candidates/components/dialog-sections/candidate-vision-section";
+import { LeaderSentimentContent } from "@/features/candidates/components/dialog-sections/candidate-sentiment-section";
 import { LeaderEducationContent } from "@/features/candidates/components/dialog-sections/candidate-education-section";
 import { LeaderProfessionalContent } from "@/features/candidates/components/dialog-sections/candidate-professional-section";
 import { LeaderPositionsContent } from "@/features/candidates/components/dialog-sections/candidate-positions-section";
@@ -31,6 +32,13 @@ function renderSectionContent(
   switch (sectionId) {
     case "vision":
       return <LeaderVisionContent vision={leader.vision} />;
+    case "sentiment":
+      return (
+        <LeaderSentimentContent
+          positiveSentiment={leader.positiveSentiment}
+          negativeSentiment={leader.negativeSentiment}
+        />
+      );
     case "positions":
       return <LeaderPositionsContent values={leader.values} />;
     case "legislations":

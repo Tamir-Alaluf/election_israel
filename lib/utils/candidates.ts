@@ -165,6 +165,8 @@ function mapCandidate(c: CandidateRawPayload): CandidateComparisonRow {
     partyName: c.partyName,
     image: c.image,
     vision: c.vision,
+    positiveSentiment: c.positiveSentiment,
+    negativeSentiment: c.negativeSentiment,
     education: mapEducation(c.education),
     professionalBackground: mapProfessionals(c.professionals),
     careerAchievements: mapCareerItems(c.careerActions),

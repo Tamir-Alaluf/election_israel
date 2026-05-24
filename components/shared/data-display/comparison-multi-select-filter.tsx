@@ -38,33 +38,39 @@ export function ComparisonMultiSelectFilter({
               {filter.allLabel}
             </DropdownMenuItem>
           ) : null}
-          {filter.options.map((option) => (
-            <DropdownMenuItem
-              key={option.value}
-              onSelect={(event) => {
-                event.preventDefault();
-                const isSelected = filter.values.includes(option.value);
-                if (!isSelected) {
-                  filter.onValuesChange([...filter.values, option.value]);
-                  return;
-                }
-                filter.onValuesChange(
-                  filter.values.filter((value) => value !== option.value),
-                );
-              }}
-              className="max-md:focus:bg-transparent"
-            >
-              <span
-                className={`inline-flex h-8 items-center rounded-full border px-4 text-sm transition-colors ${
-                  filter.values.includes(option.value)
-                    ? "border-primary bg-primary text-primary-foreground"
-                    : "border-border bg-background text-foreground"
-                }`}
+          {filter.options.map((option) => {
+            const isSelected = filter.values.includes(option.value);
+
+            return (
+              <div
+                key={option.value}
+                className="px-2 py-1.5 flex justify-start text-right"
               >
-                {option.label}
-              </span>
-            </DropdownMenuItem>
-          ))}
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={isSelected ? "default" : "outline"}
+                  aria-pressed={isSelected}
+                  className={`h-8 rounded-full px-4 text-sm ${
+                    isSelected
+                      ? ""
+                      : "border-border bg-background text-foreground hover:bg-background hover:text-foreground"
+                  }`}
+                  onClick={() => {
+                    if (!isSelected) {
+                      filter.onValuesChange([...filter.values, option.value]);
+                      return;
+                    }
+                    filter.onValuesChange(
+                      filter.values.filter((value) => value !== option.value),
+                    );
+                  }}
+                >
+                  {option.label}
+                </Button>
+              </div>
+            );
+          })}
         </div>
       </DropdownMenuContent>
     </DropdownMenu>

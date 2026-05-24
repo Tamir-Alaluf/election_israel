@@ -56,6 +56,8 @@ export type ElectionImportCandidate = {
   name: string;
   image?: string | null;
   vision?: string | null;
+  positiveSentiment?: string | null;
+  negativeSentiment?: string | null;
   partyName: string;
 };
 
@@ -182,6 +184,8 @@ export const electionImportCandidateSchema = z.object({
   name: z.string().min(1),
   image: nullableString,
   vision: nullableString,
+  positiveSentiment: nullableString,
+  negativeSentiment: nullableString,
   partyName: z.string().min(1),
 });
 

@@ -62,16 +62,16 @@ export function getLeaderComparisonFilters({
         label: BLOC_DEFINITIONS[key].label,
       })),
     },
-    {
-      key: "professionalBackground",
-      values: professionalBackgroundFilter,
-      onValuesChange: setProfessionalBackgroundFilter,
-      placeholder: "רקע מקצועי",
-      multiSelect: true as const,
-      options: PROFESSIONAL_BACKGROUND_GROUPS.map((group) => ({
-        value: group,
-        label: group,
-      })),
-    },
+    // {
+    //   key: "professionalBackground",
+    //   values: professionalBackgroundFilter,
+    //   onValuesChange: setProfessionalBackgroundFilter,
+    //   placeholder: "רקע מקצועי",
+    //   multiSelect: true as const,
+    //   options: PROFESSIONAL_BACKGROUND_GROUPS.map((group) => ({
+    //     value: group,
+    //     label: group,
+    //   })),
+    // },
   ];
 }

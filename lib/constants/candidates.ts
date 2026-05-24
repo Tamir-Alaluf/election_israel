@@ -18,8 +18,14 @@ export const LEADER_DETAIL_CATEGORIES = [
   { id: "party", label: "מפלגה" },
 ] as const;
 
+export const LEADER_SENTIMENT_LABELS = {
+  positive: "בעיני התומכים שלו",
+  negative: "בעיני המתנגדים לו",
+} as const;
+
 export const LEADER_DETAIL_SECTION_DEFS = [
   { id: "vision", title: "חזון", categoryId: "background" },
+  { id: "sentiment", title: "תדמית", categoryId: "background" },
   { id: "positions", title: "עמדות", categoryId: "issues" },
   {
     id: "legislations",

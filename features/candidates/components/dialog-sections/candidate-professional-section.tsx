@@ -32,7 +32,7 @@ function ProfessionalBackgroundItem({
 
   return (
     <div className="text-start">
-      {professional.groupName ? (
+      {/* {professional.groupName ? (
         <Badge
           variant="outline"
           className={cn(
@@ -43,7 +43,7 @@ function ProfessionalBackgroundItem({
         >
           {professional.groupName}
         </Badge>
-      ) : null}
+      ) : null} */}
 
       <p className="text-sm font-semibold leading-tight text-foreground">
         {professional.title}

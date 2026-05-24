@@ -41,11 +41,13 @@ model Party {
 }
 
 model Candidate {
-  id               String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name             String                  @unique
-  image            String?                 @map("image_url")
-  vision           String?
-  partyName        String                  @map("party_name")
+  id                String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String                  @unique
+  image             String?                 @map("image_url")
+  vision            String?
+  positiveSentiment String?                 @map("positive_sentiment")
+  negativeSentiment String?                 @map("negative_sentiment")
+  partyName         String                  @map("party_name")
   careerActions    CandidateCareerAction[]
   education        CandidateEducation[]
   professionals    CandidateProfessional[]
