@@ -1,6 +1,7 @@
 import {
   BookOpen,
   CircleUser,
+  GitCompare,
   Home,
   MessageCircle,
   UserCircle,
@@ -25,5 +26,6 @@ export const pageHeaderNavItems: PageHeaderNavItem[] = [
   { href: "/advisor", label: "יועץ AI", icon: MessageCircle },
 
   { href: "/candidates", label: "מועמדים", icon: UserCircle },
+  { href: "/compare", label: "השוואה", icon: GitCompare },
   { href: "/glossary", label: "מילון בחירות", icon: BookOpen },
 ];
