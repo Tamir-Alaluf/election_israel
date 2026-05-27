@@ -11,7 +11,7 @@ export type PageHeaderAuthControlsProps = {
 
 const signInClasses = {
   desktop:
-    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50",
+    "flex items-center gap-2 whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground lg:px-3",
   "mobile-bar":
     "px-3 py-1.5 rounded-lg text-xs font-medium text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50",
 } as const;
@@ -32,7 +32,7 @@ export function PageHeaderAuthControls({
     <div
       className={cn(
         "flex items-center",
-        variant === "mobile-bar" ? "md:hidden" : "hidden md:flex",
+        variant === "mobile-bar" ? "" : "hidden shrink-0 md:flex md:justify-self-end",
       )}
     >
       {isSignedIn ? (

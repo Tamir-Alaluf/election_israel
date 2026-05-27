@@ -10,7 +10,7 @@ export function LeaderVisionContent({ vision }: { vision: string | null }) {
 
 export function LeaderVisionSection({ vision }: { vision: string | null }) {
   return (
-    <SectionShell title="חזון">
+    <SectionShell title="אני מאמין">
       <LeaderVisionContent vision={vision} />
     </SectionShell>
   );

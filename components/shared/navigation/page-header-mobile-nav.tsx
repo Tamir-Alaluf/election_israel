@@ -20,7 +20,7 @@ export function PageHeaderMobileNav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex items-center gap-2 md:contents">
+    <div className="flex items-center gap-2 md:hidden">
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
           <Button

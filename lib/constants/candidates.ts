@@ -1,6 +1,6 @@
 import type { Prisma } from "@prisma/client";
 export const leaderParameterLabels: string[] = [
-  "חזון",
+  "אני מאמין",
   "השכלה אקדמאית",
   "רקע מקצועי",
   "הישגים במהלך הקריירה",
@@ -24,7 +24,7 @@ export const LEADER_SENTIMENT_LABELS = {
 } as const;
 
 export const LEADER_DETAIL_SECTION_DEFS = [
-  { id: "vision", title: "חזון", categoryId: "background" },
+  { id: "vision", title: "אני מאמין", categoryId: "background" },
   { id: "sentiment", title: "תדמית", categoryId: "background" },
   { id: "positions", title: "עמדות", categoryId: "issues" },
   {

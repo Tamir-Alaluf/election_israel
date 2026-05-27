@@ -13,7 +13,7 @@ export type PageHeaderNavLinkProps = {
 
 const variantClasses = {
   desktop:
-    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors",
+    "flex items-center gap-2 whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-medium transition-colors lg:px-3",
   mobile:
     "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors",
 } as const;

@@ -1,5 +1,5 @@
 export const COMPARE_PARAMETER_DEFS = [
-  { id: "vision", label: "חזון" },
+  { id: "vision", label: "אני מאמין" },
   { id: "sentiment", label: "תדמית" },
   { id: "professional", label: "תפקידים קודמים" },
   { id: "education", label: "השכלה" },

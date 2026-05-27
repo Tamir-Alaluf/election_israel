@@ -8,7 +8,7 @@ export function PageHeaderDesktopNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="hidden md:flex items-center gap-1">
+    <nav className="hidden items-center justify-center gap-1.5 md:flex md:justify-self-center lg:gap-2">
       {pageHeaderNavItems.map((item) => (
         <PageHeaderNavLink
           key={item.href}
