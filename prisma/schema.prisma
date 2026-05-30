@@ -35,7 +35,8 @@ model VoterProfile {
   lifeStage        String?  @map("life_stage")
   employmentStatus String?  @map("employment_status")
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User                           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  matchingValues VoterMatchingParameterValue[]
 
   @@map("voter_profiles")
 }
@@ -60,20 +61,21 @@ model Party {
 }
 
 model Candidate {
-  id                String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name              String                  @unique
-  image             String?                 @map("image_url")
+  id                String                           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name              String                           @unique
+  image             String?                          @map("image_url")
   vision            String?
-  positiveSentiment String?                 @map("positive_sentiment")
-  negativeSentiment String?                 @map("negative_sentiment")
-  partyName         String                  @map("party_name")
-  careerActions    CandidateCareerAction[]
-  education        CandidateEducation[]
-  professionals    CandidateProfessional[]
-  recentActions    CandidateRecentAction[]
-  party            Party                   @relation("PartyCandidates", fields: [partyName], references: [name])
-  partyLeaderOf    Party[]                 @relation("PartyLeader")
-  publicOpinions   PublicOpinion[]
+  positiveSentiment String?                          @map("positive_sentiment")
+  negativeSentiment String?                          @map("negative_sentiment")
+  partyName         String                           @map("party_name")
+  careerActions     CandidateCareerAction[]
+  education         CandidateEducation[]
+  professionals     CandidateProfessional[]
+  recentActions     CandidateRecentAction[]
+  party             Party                            @relation("PartyCandidates", fields: [partyName], references: [name])
+  partyLeaderOf     Party[]                          @relation("PartyLeader")
+  publicOpinions    PublicOpinion[]
+  matchingValues    CandidateMatchingParameterValue[]
 
   @@index([partyName])
   @@map("candidates")
@@ -310,4 +312,84 @@ model GlossaryTerm {
 
   @@index([glossaryCategoryName])
   @@map("glossary_terms")
+}
+
+// ── Matching / AI ──────────────────────────────────────────────────────────────
+
+enum MatchingParameterType {
+  categorical
+  scale
+  semantic
+}
+
+model MatchingParameter {
+  id           String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name         String                @unique
+  type         MatchingParameterType
+  displayOrder Int                   @map("display_order")
+  showToUser   Boolean               @map("show_to_user")
+  weight       Float?
+
+  options         MatchingParameterOption[]
+  voterValues     VoterMatchingParameterValue[]
+  candidateValues CandidateMatchingParameterValue[]
+
+  @@map("matching_parameters")
+}
+
+model MatchingParameterOption {
+  id            String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  parameterName String  @map("parameter_name")
+  label         String
+  description   String?
+  numericValue  Float?  @map("numeric_value")
+  vectorValue   String? @map("vector_value")
+
+  parameter       MatchingParameter                @relation(fields: [parameterName], references: [name])
+  voterValues     VoterMatchingParameterValue[]
+  candidateValues CandidateMatchingParameterValue[]
+
+  @@unique([parameterName, label])
+  @@index([parameterName])
+  @@map("matching_parameter_options")
+}
+
+model VoterMatchingParameterValue {
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  voterProfileId String    @map("voter_profile_id") @db.Uuid
+  parameterName  String    @map("parameter_name")
+  optionLabel    String?   @map("option_label")
+  textValue      String?   @map("text_value")
+  embeddingCache Float[]   @map("embedding_cache")
+  embeddingDate  DateTime? @map("embedding_date")
+  hasOpinion     Boolean   @default(true) @map("has_opinion")
+
+  voterProfile VoterProfile             @relation(fields: [voterProfileId], references: [id], onDelete: Cascade)
+  parameter    MatchingParameter        @relation(fields: [parameterName], references: [name])
+  option       MatchingParameterOption? @relation(fields: [parameterName, optionLabel], references: [parameterName, label])
+
+  @@unique([voterProfileId, parameterName])
+  @@index([voterProfileId])
+  @@index([parameterName])
+  @@map("voters_matching_parameter_values")
+}
+
+model CandidateMatchingParameterValue {
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  candidateName  String    @map("candidate_name")
+  parameterName  String    @map("parameter_name")
+  optionLabel    String?   @map("option_label")
+  textValue      String?   @map("text_value")
+  embeddingCache Float[]   @map("embedding_cache")
+  embeddingDate  DateTime? @map("embedding_date")
+  hasOpinion     Boolean   @default(true) @map("has_opinion")
+
+  candidate  Candidate               @relation(fields: [candidateName], references: [name])
+  parameter  MatchingParameter       @relation(fields: [parameterName], references: [name])
+  option     MatchingParameterOption? @relation(fields: [parameterName, optionLabel], references: [parameterName, label])
+
+  @@unique([candidateName, parameterName])
+  @@index([candidateName])
+  @@index([parameterName])
+  @@map("candidates_matching_parameter_values")
 }

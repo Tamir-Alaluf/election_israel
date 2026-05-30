@@ -1,0 +1,9 @@
+{
+  "voter_vector": { ... },
+  "previous_answers": [ { "q_id": 12, "chosen_option": 2 } ],
+  "question_bank": [ ... ],         // כל שאלה: q_id, נוסח, 4 אופציות,
+                                    // ולכל אופציה: על איזה פרמטר משפיעה ואיזה value היא מרמזת
+  "parameters_schema": { ... },     // טיפוסים, סקלות, ערכים אפשריים
+  "uncertainty_map": { "1": 0.3, "11": 0.2 },  // אילו פרמטרים עוד עמומים
+  "instructions": "החזר JSON: updated_vector + next_questions + rationale"
+}
