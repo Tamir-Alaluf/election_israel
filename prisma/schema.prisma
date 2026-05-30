@@ -9,16 +9,35 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  clerkUserId String   @unique @map("clerk_user_id")
-  email       String?
-  firstName   String?  @map("first_name")
-  lastName    String?  @map("last_name")
-  imageUrl    String?  @map("image_url")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  clerkUserId  String        @unique @map("clerk_user_id")
+  email        String?
+  firstName    String?       @map("first_name")
+  lastName     String?       @map("last_name")
+  imageUrl     String?       @map("image_url")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  voterProfile VoterProfile?
 
   @@map("users")
+}
+
+model VoterProfile {
+  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId           String   @unique @map("user_id") @db.Uuid
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  ageGroup         String?  @map("age_group")
+  gender           String?
+  religiosity      String?
+  region           String?
+  lifeStage        String?  @map("life_stage")
+  employmentStatus String?  @map("employment_status")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("voter_profiles")
 }
 
 model Party {

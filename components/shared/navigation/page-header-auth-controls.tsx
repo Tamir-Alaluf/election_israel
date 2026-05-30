@@ -32,7 +32,9 @@ export function PageHeaderAuthControls({
     <div
       className={cn(
         "flex items-center",
-        variant === "mobile-bar" ? "" : "hidden shrink-0 md:flex md:justify-self-end",
+        variant === "mobile-bar"
+          ? ""
+          : "hidden shrink-0 md:flex md:justify-self-end",
       )}
     >
       {isSignedIn ? (
