@@ -83,6 +83,7 @@ model Candidate {
 
 model PartyMember {
   id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  counter     Int     @unique @default(dbgenerated("next_party_member_counter()")) @map("counter")
   name        String
   description String?
   orderIndex  Int     @map("order_index")
@@ -143,7 +144,7 @@ model Legislation {
   id                   String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title                String             @unique
   legislationGroupName String             @map("legislation_group_name")
-  group                LegislationGroup   @relation(fields: [legislationGroupName], references: [name])
+  group                LegislationGroup   @relation(fields: [legislationGroupName], references: [name], onDelete: Cascade)
   partyLegislations    PartyLegislation[]
 
   @@index([legislationGroupName])
@@ -163,9 +164,10 @@ model PartyLegislation {
   legislationTitle   String            @map("legislation_title")
   optionDisplayValue String            @map("option_display_value")
   partyName          String            @map("party_name")
-  legislation        Legislation       @relation(fields: [legislationTitle], references: [title])
-  option             LegislationOption @relation(fields: [optionDisplayValue], references: [displayValue])
-  party              Party             @relation(fields: [partyName], references: [name])
+  description        String?
+  legislation        Legislation       @relation(fields: [legislationTitle], references: [title], onDelete: Cascade)
+  option             LegislationOption @relation(fields: [optionDisplayValue], references: [displayValue], onDelete: Cascade)
+  party              Party             @relation(fields: [partyName], references: [name], onDelete: Cascade)
 
   @@index([partyName])
   @@index([legislationTitle])
@@ -326,8 +328,8 @@ model MatchingParameter {
   id           String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name         String                @unique
   type         MatchingParameterType
-  displayOrder Int                   @map("display_order")
-  showToUser   Boolean               @map("show_to_user")
+  displayOrder Int?                  @map("display_order")
+  showToUser   Boolean?              @map("show_to_user")
   weight       Float?
 
   options         MatchingParameterOption[]
@@ -344,12 +346,14 @@ model MatchingParameterOption {
   description   String?
   numericValue  Float?  @map("numeric_value")
   vectorValue   String? @map("vector_value")
+  position      Int     @map("position")
 
   parameter       MatchingParameter                @relation(fields: [parameterName], references: [name])
   voterValues     VoterMatchingParameterValue[]
   candidateValues CandidateMatchingParameterValue[]
 
   @@unique([parameterName, label])
+  @@unique([parameterName, position])
   @@index([parameterName])
   @@map("matching_parameter_options")
 }
